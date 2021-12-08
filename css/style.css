@@ -19,11 +19,11 @@ header {
 #top-header {
   color: rgb(6, 96, 99);
   font-weight: 700;
+  margin-bottom: 20px;
 }
 
 #second-header {
-  margin-top: 10px;
-  padding: 7px;
+  padding: 3px;
 }
 
 header img {
