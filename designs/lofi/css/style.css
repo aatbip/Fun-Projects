@@ -28,6 +28,6 @@ h1 {
   height: 95rem;
   width: 85%;
   display: block;
-  margin: 20px auto 0px auto;
+  margin: 20px auto 5px auto;
   border: 5px solid black;
 }
