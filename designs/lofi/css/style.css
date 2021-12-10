@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro&family=Bebas+Neue&family=Josefin+Sans&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: lightcyan;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+h1 {
+  text-align: center;
+  padding: 20px;
+}
+
+.image-one {
+  height: 95rem;
+  width: 85%;
+  border: 5px solid black;
+  display: block;
+  margin: 20px auto 0px auto;
+}
+
+.image-two {
+  height: 95rem;
+  width: 85%;
+  display: block;
+  margin: 20px auto 0px auto;
+  border: 5px solid black;
+}
