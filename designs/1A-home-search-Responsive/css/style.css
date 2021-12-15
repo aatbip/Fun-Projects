@@ -20,14 +20,14 @@ a {
 }
 
 .user-name {
-  font-size: 18px;
-  text-align: right;
+  font-size: 15px;
+  /* text-align: right; */
   font-weight: bold;
 }
 
 .top-header-right ul {
   display: inline-block;
-  margin-top: 4px;
+  /* margin-top: 4px; */
 }
 
 .top-header-right li {
@@ -49,13 +49,13 @@ a {
   padding-right: 0;
 }
 
-.bottom-header-left ul {
+/* .bottom-header-left ul {
   display: inline-block;
-}
+} */
 
 .bottom-header-left li:after {
   content: "";
-  margin-left: 31px;
+  margin-left: 15px;
 }
 
 .bottom-header-right ul {
@@ -192,7 +192,7 @@ a {
 }
 
 .nav-btn.active {
-  margin-left: 5px;
+  margin-left: 6px;
   margin-right: 5px;
   background-color: #2fbfd7;
 }
@@ -230,7 +230,7 @@ a {
 
 .nav-btn {
   margin: 0px 5px;
-  width: 114px;
+  width: 116px;
   background-color: #dddddd;
 }
 
@@ -288,6 +288,17 @@ a {
 }
 
 /* footer  */
+
+.footer-left-contents,
+.footer-left-contents a {
+  color: white;
+  font-size: 12px;
+}
+
+.footer-right-contents {
+  color: white;
+  font-size: 12px;
+}
 
 .footer {
   font-size: 9px;
