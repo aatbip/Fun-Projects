@@ -57,9 +57,9 @@ header img {
   background-image: radial-gradient(#bbd7e2, #5eabc9);
   width: 800px;
   margin: auto;
-  padding: 40px;
+  padding: 31px 47px 114px 47px;
   position: relative;
-  top: 100px;
+  top: 50px;
   box-shadow: 3px 1px 27px 4px rgba(0, 0, 0, 1);
 }
 
