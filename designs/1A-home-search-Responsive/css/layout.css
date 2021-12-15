@@ -1,0 +1,280 @@
+/* layout */
+
+.top-header-wrapper {
+  width: 100%;
+
+  background-color: #7dd9e8;
+  overflow: hidden;
+}
+
+.top-header-container {
+  margin: 0 auto;
+  max-width: 30em;
+  margin-top: 20px;
+  margin-bottom: 16px;
+}
+
+.header-logo {
+  background-image: url("../images/logo.jpg");
+  width: 236px;
+  height: 52px;
+  margin: 0 auto;
+}
+
+.input-wrapper {
+  margin-top: 20px;
+  display: inline;
+}
+
+.input-box {
+  background-color: #caeff7;
+  margin-top: 15px;
+  width: 13rem;
+  margin-left: 24px;
+}
+
+.input-left-border {
+  background-image: url("../images/search-bar-left-border.jpg");
+  background-position: left;
+  background-repeat: no-repeat;
+}
+
+.input-item {
+  border: transparent;
+  outline: none;
+  background: none;
+  padding: 2px 4px 2px 6px;
+  height: 20px;
+}
+
+.search-btn-item {
+  display: inline-block;
+  width: 23px;
+  height: 21.8px;
+  position: absolute;
+  margin-left: 211px;
+  top: 87px;
+}
+
+.search-btn-wrapper {
+  margin-top: 12px;
+  margin-left: 105px;
+  float: left;
+  display: inline;
+}
+
+.search-btn-left {
+  background-image: url("../images/search-btn-left.png");
+  background-position: left;
+  background-repeat: no-repeat;
+  background-color: #275056;
+}
+
+.search-btn-right {
+  background-image: url("../images/search-btn-right.png");
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.top-header-right {
+  width: 23%;
+  margin-left: 10px;
+}
+
+ul,
+li {
+  list-style-type: none;
+}
+
+.bottom-header-wrapper {
+  width: 100%;
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.bottom-header-container {
+  margin: 0 auto;
+  max-width: 30rem;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.bottom-header-left {
+  margin-left: 5px;
+  width: 100%;
+}
+
+.bottom-header-right {
+  margin-left: 10px;
+  margin-top: 15px;
+}
+
+/* body left*/
+
+.body-wrapper {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.body-container {
+  margin: 0 auto;
+  max-width: 30em;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.body-left {
+  width: 100%;
+}
+
+.body-left-content {
+  height: 100%;
+  overflow: hidden;
+}
+
+.left-top-container {
+  overflow: hidden;
+}
+
+/* body right  */
+
+.body-right {
+  overflow: hidden;
+}
+
+.middle-body-container {
+  width: 100%;
+}
+
+.body-main-upper-nav {
+  background-color: #f5f5f5;
+  overflow: hidden;
+}
+
+.all-entries {
+  background-image: url(../images/left-entries.png);
+  width: 48%;
+  float: left;
+  text-align: center;
+  background-position: left top;
+  border-right: 2px solid #ffffff;
+  padding-top: 8px;
+  background-repeat: no-repeat;
+}
+
+.nav-head {
+  text-align: center;
+}
+
+.subscribed {
+  float: right;
+  background-image: url(../images/right-entries.png);
+  padding-right: 36px;
+  padding-top: 8px;
+  padding-bottom: 14px;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+.body-main-lower-nav {
+  background-color: #f5f5f5;
+  overflow: hidden;
+  border-bottom: 2px solid #2fc1d8;
+}
+
+.lower-nav-left {
+  width: 12%;
+  border-right: 2px solid #ffffff;
+  float: left;
+  margin-bottom: -4px;
+}
+
+.nav-btn-left.active {
+  background-image: url(../images/nav-btn-left-active.jpg);
+  background-position: left;
+  background-repeat: no-repeat;
+}
+
+.nav-btn-right.active {
+  background-image: url(../images/nav-btn-right-active.jpg);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.nav-btn-left {
+  background-image: url(../images/nav-btn-left-inactive.jpg);
+  background-position: left;
+  background-repeat: no-repeat;
+}
+
+.nav-btn-right {
+  background-image: url(../images/nav-btn-right-inactive.jpg);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.lower-nav-right {
+  float: right;
+  width: 48%;
+  margin-bottom: 4px;
+  margin-left: 2px;
+}
+
+.body-items ul {
+  padding-top: 15px;
+}
+
+.items {
+  display: inline-block;
+}
+
+.item-image {
+  float: left;
+  width: 72px;
+  height: 72px;
+}
+
+.item-contents {
+  float: right;
+  margin-left: 10px;
+  width: 380px;
+}
+
+/* right box  */
+
+.side-body-container {
+  width: 100%;
+}
+
+.side-panel-body {
+  background-color: #2fc1da;
+  padding: 15px 12px 13px 12px;
+  color: white;
+}
+
+/* footer  */
+
+.footer-wrapper {
+  width: 100%;
+  padding: 15px 0px;
+  background-color: #727272;
+}
+.footer-container {
+  margin: 0 auto;
+  max-width: 30rem;
+  overflow: hidden;
+}
+
+.footer-left-contents {
+  width: 100%;
+}
+
+.footer-left-contents li:after {
+  content: "\2022";
+
+  padding-right: 7px;
+}
+.footer-left-contents li:last-child:after {
+  content: "";
+  padding-right: 0;
+}
