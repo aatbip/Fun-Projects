@@ -139,6 +139,10 @@ a {
   background-color: #ffffff;
 }
 
+.item-title:hover {
+  cursor: pointer; 
+}
+
 .left-panel-content ul {
   display: block;
   overflow: hidden;
