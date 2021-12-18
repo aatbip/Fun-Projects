@@ -1,0 +1,277 @@
+/* top header elements style  */
+
+.navbar-contents ul li {
+  list-style-type: none;
+  padding: 5px;
+}
+
+.navbar-contents ul img {
+  width: 6px;
+  height: 6px;
+}
+
+.navbar-contents a {
+  color: #0a215f;
+}
+
+.navbar-buttons img:hover {
+  opacity: 0.9;
+}
+
+/* bottom-header style  */
+
+.header-text h1 {
+  text-align: center;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  font-size: 35px;
+}
+
+.header-text p {
+  text-align: center;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 20px;
+}
+
+#button-type-one {
+  height: 36px;
+  width: 108px;
+}
+
+#button-type-two {
+  height: 40px;
+  width: 100px;
+}
+
+#button-header {
+  height: 30px; 
+  width: 85px;
+}
+
+.header-buttons img:hover {
+  opacity: 0.9;
+}
+
+/* section one  */
+
+.section-one-header h1 {
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 40px;
+  font-size: 30px;
+}
+
+.section-one-header p {
+  text-align: center;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 10px;
+}
+
+.section-one-info h3 {
+  line-height: 24px;
+  letter-spacing: -0.005em;
+}
+
+.section-one-info p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 5px;
+}
+
+/* section two */
+
+.section-two-header h3 {
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: -0.005em;
+  text-align: center;
+  padding: 12px;
+}
+
+.section-two-header p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 5px;
+  text-align: center;
+}
+
+.section-two-info p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 5px;
+}
+
+.section-two-image img {
+  padding: 14px;
+  width: 85px;
+  height: 75px;
+}
+
+/* section three  */
+
+.section-three-header h1 {
+  font-size: 35px;
+  line-height: 40px;
+  letter-spacing: -0.005em;
+  text-align: center;
+  padding-bottom: 18px;
+}
+
+.section-three-header p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 5px;
+  text-align: center;
+}
+
+.section-three-info p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 5px;
+}
+
+.section-three-image img {
+  padding: 14px;
+  width: 160px;
+  height: 120px;
+}
+
+/* section-four  */
+
+.section-four-info h1 {
+  font-size: 35px;
+  line-height: 40px;
+  letter-spacing: -0.005em;
+  text-align: center;
+  padding-bottom: 28px;
+}
+
+.section-four-info p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  padding: 0px 190px 0px 0px;
+  text-align: justify;
+}
+
+.section-four-buttons ul li {
+  list-style-type: none;
+  display: inline;
+}
+
+.section-four-buttons ul {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.section-four-buttons li {
+  text-align: center;
+}
+
+.section-four-buttons img:hover {
+  opacity: 0.9;
+}
+
+/* section-five */
+
+.section-five-header h1 {
+  font-size: 35px;
+  line-height: 24px;
+  letter-spacing: -0.005em;
+  text-align: center;
+  padding-bottom: 12px;
+}
+
+.section-five-contents p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  text-align: center;
+}
+
+#unique {
+  color: #103697;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+#button-type-three {
+  width: 120px;
+  height: 38px;
+}
+
+.section-five-button img:hover {
+  opacity: 0.9;
+}
+
+/* section-six  */
+
+.section-six-header h1 {
+  font-size: 35px;
+  line-height: 24px;
+  letter-spacing: -0.005em;
+  text-align: center;
+  padding-bottom: 12px;
+}
+
+.section-six-contents p {
+  line-height: 24px;
+  letter-spacing: 0.005em;
+  text-align: center;
+}
+
+.section-six-info hr {
+  background-color: #cccccc;
+  width: 15em;
+  margin: 0 auto;
+}
+
+.section-six-icons ul li {
+  list-style-type: none;
+  display: inline;
+}
+
+/* footer  */
+
+.footer-container ul li {
+  padding: 8px;
+}
+
+#button-type-four {
+  width: 136px;
+  height: 30px;
+  margin-left: 8px;
+}
+
+.footer {
+  color: #ffffff;
+}
+
+.left-one a,
+.left-two a,
+.right-one a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.footer-logo img {
+  width: 140px;
+  height: 35px;
+}
+
+.right-two-info h3,
+.right-two-info p {
+  padding: 10px;
+}
+
+.right-two-button img:hover {
+  opacity: 0.9;
+}
+
+.bottom-right-footer-content img:hover {
+  opacity: 0.7;
+}
