@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.square {
+  position: relative;
+  border: 5px solid black;
+  height: 20em;
+  width: 20em;
+  margin: 50px auto; 
+}

@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.square {
+  position: relative;
+  border: 5px solid black;
+  height: 20em;
+  width: 20em;
+  margin: 50px auto;
+}
+
+#circle {
+  position: absolute; 
+  border-radius: 50%;
+  height: 50px; 
+  width: 50px; 
+  margin-left: 50%; 
+  background-color: pink;
+}
