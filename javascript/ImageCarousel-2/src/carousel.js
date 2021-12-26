@@ -149,13 +149,13 @@ function Carousel() {
 }
 
 let startOne = new Carousel();
-startOne.init("carousel-2", 3, 5);
+startOne.init("carousel-2", 1, 2);
 
 let startTwo = new Carousel();
-startTwo.init("carousel-1", 3, 5);
+startTwo.init("carousel-1", 1, 2);
 
 let startThree = new Carousel();
-startThree.init("carousel-3", 3, 5);
+startThree.init("carousel-3", 1, 2);
 
 let startFour = new Carousel();
-startFour.init("carousel-4", 3, 5);
+startFour.init("carousel-4", 1, 2);
