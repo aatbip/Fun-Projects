@@ -39,6 +39,7 @@ header img {
 
 .contents-table {
   border-collapse: collapse;
+  width: 100%; 
 }
 
 .contents-table th {
@@ -55,7 +56,7 @@ header img {
 
 .background-block {
   background-image: radial-gradient(#bbd7e2, #5eabc9);
-  width: 800px;
+  width: 1024px;
   margin: auto;
   padding: 31px 47px 114px 47px;
   position: relative;
