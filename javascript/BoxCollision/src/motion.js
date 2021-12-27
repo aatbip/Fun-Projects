@@ -1,17 +1,7 @@
 function Motion() {
   this.INTERVAL_TIME = 1000 / 60;
-  this.speed = 5;
+  this.SPEED = 3;
 
-  this.colors = [
-    "purple",
-    "pink",
-    "black",
-    "green",
-    "red",
-    "blue",
-    "yellow",
-    "orange",
-  ];
   this.ballPositions = [];
   this.balls = [];
 }
@@ -74,7 +64,7 @@ Motion.prototype.init = function (
         this.ballPositions[i].x,
         this.ballPositions[i].y,
         this.radius,
-        this.colors[this.getRandomValue(8, 0)],
+        this.getRandomColor(),
         this.getRandomValue(2, 0.5)
       );
       ball.draw(this.canvas);
@@ -82,6 +72,7 @@ Motion.prototype.init = function (
     }
   }
   this.detection();
+  console.log(this.getColor());
 };
 
 Motion.prototype.detection = function () {
@@ -89,8 +80,8 @@ Motion.prototype.detection = function () {
     for (let i = 0; i < this.balls.length; i++) {
       this.detectBorderCollision(i);
       this.detectBallCollision(this.balls[i], i);
-      this.balls[i].x += this.balls[i].speed * this.balls[i].dx;
-      this.balls[i].y += this.balls[i].speed * this.balls[i].dy;
+      this.balls[i].x += this.balls[i].SPEED * this.balls[i].dx;
+      this.balls[i].y += this.balls[i].SPEED * this.balls[i].dy;
       this.balls[i].move();
     }
   }, this.INTERVAL_TIME);
@@ -133,6 +124,13 @@ Motion.prototype.detectBallCollision = function (isBall, indexes) {
       }
     }
   }
+};
+
+Motion.prototype.getRandomColor = function () {
+  let r = this.getRandomValue(0, 255);
+  let g = this.getRandomValue(0, 255);
+  let b = this.getRandomValue(0, 255);
+  return `rgb(${r}, ${g}, ${b})`;
 };
 
 Motion.prototype.getRandomValue = function (max, min) {
