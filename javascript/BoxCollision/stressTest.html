@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stress Test</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+  </head>
+  <body>
+    <div class="links-container">
+        <div class="links">
+          <ul>
+            <li>
+              <a href="index.html">Box Collision</a>
+            </li>
+            <li>
+              <a href="antSmasher.html">Ant Smasher</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <div id="main">
+      <div class="canvas" id="container"></div>
+    </div>
+
+    <script src="src/ant.js"></script>
+    <script src="src/box.js"></script>
+    <script src="src/motion.js"></script>
+    <script>
+      let motion = new Motion();
+      motion.init(1000, 800, 1000, 5, "container", false);  //width, height, totalBall, radius, containerId, isAntSmasher
+    </script>
+  </body>
+</html>

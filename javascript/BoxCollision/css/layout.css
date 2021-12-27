@@ -1,0 +1,45 @@
+body {
+  background-color: #6d6d6d;
+}
+
+.canvas {
+  background-color: rgb(236, 252, 255);
+  position: relative;
+  margin: 0 auto;
+  border: 2px solid black;
+  margin-top: 100px;
+}
+
+.ant:hover {
+  cursor: pointer;
+}
+
+.links-container {
+  width: 100%;
+  margin-top: 50px;
+}
+.links {
+  width: 50%;
+  margin: 0 auto;
+  background-color: #b9b9b9;
+}
+
+.links a {
+  text-decoration: none;
+  font-size: 30px;
+  color: black;
+}
+
+.links ul {
+  text-align: center;
+}
+
+.links li {
+  list-style-type: none;
+  display: inline;
+  margin-left: 20px;
+}
+
+.links a:hover {
+  background-color: #6d6d6d
+}
