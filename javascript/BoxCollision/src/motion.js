@@ -1,6 +1,6 @@
 function Motion() {
   this.INTERVAL_TIME = 1000 / 60;
-  this.SPEED = 3;
+  this.speed = 5;
 
   this.ballPositions = [];
   this.balls = [];
@@ -72,7 +72,6 @@ Motion.prototype.init = function (
     }
   }
   this.detection();
-  console.log(this.getColor());
 };
 
 Motion.prototype.detection = function () {
@@ -80,25 +79,25 @@ Motion.prototype.detection = function () {
     for (let i = 0; i < this.balls.length; i++) {
       this.detectBorderCollision(i);
       this.detectBallCollision(this.balls[i], i);
-      this.balls[i].x += this.balls[i].SPEED * this.balls[i].dx;
-      this.balls[i].y += this.balls[i].SPEED * this.balls[i].dy;
+      this.balls[i].x += this.balls[i].speed * this.balls[i].dx;
+      this.balls[i].y += this.balls[i].speed * this.balls[i].dy;
       this.balls[i].move();
     }
   }, this.INTERVAL_TIME);
 };
 
-Motion.prototype.detectBorderCollision = function (ind) {
+Motion.prototype.detectBorderCollision = function (indexes) {
   if (
-    this.balls[ind].x >= this.canvasWidth - this.balls[ind].width ||
-    this.balls[ind].x <= 0
+    this.balls[indexes].x >= this.canvasWidth - this.balls[indexes].width ||
+    this.balls[indexes].x <= 0
   ) {
-    this.balls[ind].dx *= -1;
+    this.balls[indexes].dx *= -1;
   }
   if (
-    this.balls[ind].y >= this.canvasHeight - this.balls[ind].height ||
-    this.balls[ind].y <= 0
+    this.balls[indexes].y >= this.canvasHeight - this.balls[indexes].height ||
+    this.balls[indexes].y <= 0
   ) {
-    this.balls[ind].dy *= -1;
+    this.balls[indexes].dy *= -1;
   }
 };
 
