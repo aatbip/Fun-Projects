@@ -49,19 +49,19 @@ Game.prototype.createScore = function () {
   this.gameScore.innerHTML = this.scoreBody;
   this.gameScore.style.position = "absolute";
   this.gameScore.style.top = "5px";
-  this.gameScore.style.right = "5px";
+  this.gameScore.style.left = "5px";
+  this.gameScore.style.fontSize = "25px";
   this.gameScore.style.color = "white";
-  this.gameScore.style.textShadow = "2px 2px 5px black";
   this.gameScore.classList.add("score-text");
 
   this.currentHighScore = document.createElement("p");
   this.highscoreBody = "High Score: " + this.highScore;
   this.currentHighScore.innerHTML = this.highscoreBody;
   this.currentHighScore.style.position = "absolute";
-  this.currentHighScore.style.top = "20px";
-  this.currentHighScore.style.right = "5px";
+  this.currentHighScore.style.top = "25px";
+  this.currentHighScore.style.left = "5px";
   this.currentHighScore.style.color = "white";
-  this.currentHighScore.style.textShadow = "2px 2px 5px black";
+  this.currentHighScore.style.fontSize = "25px";
   this.currentHighScore.classList.add("score-text");
   this.area.appendChild(this.gameScore);
   this.area.appendChild(this.currentHighScore);
