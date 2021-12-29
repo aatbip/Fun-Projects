@@ -4,7 +4,7 @@ function Player() {
   this.index = 1;
   this.lanes = 3;
   this.top = 0;
-  this.y = 500;
+  this.y = 600;
   this.positions = [95, 185, 265];
 }
 Player.prototype.init = function () {
