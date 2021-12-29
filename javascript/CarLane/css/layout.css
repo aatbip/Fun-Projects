@@ -1,0 +1,29 @@
+body {
+  background-color: #6d6d6d;
+}
+
+.main {
+  margin-top: 20px;
+  overflow: hidden;
+}
+.score-text {
+  font-size: 20px;
+}
+
+.game-area {
+  margin: 0 auto;
+  background-size: contain;
+  border: 2px solid black;
+  position: relative;
+}
+
+.start-text {
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}
+
+.end-text {
+  font-size: 50px;
+  margin-top: 100px;
+}
