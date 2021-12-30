@@ -219,9 +219,9 @@ Main.prototype.detectBirdCollision = function (enemy) {
     clearInterval(this.animate);
     this.player.stopAnimation();
 
-    if (this.score > this.highScore) {
+    if (this.score > this.bestScore) {
       localStorage.setItem("bestscore-flappy", this.score);
-      this.highScore = this.score;
+      this.bestScore = this.score;
     }
     this.GameOverScreen();
   }
