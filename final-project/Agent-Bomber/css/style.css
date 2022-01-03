@@ -1,0 +1,42 @@
+/* GAME ENVIRONMENT */
+
+#main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#game {
+  position: relative;
+  display: inline-grid;
+}
+
+.grid {
+  display: block;
+}
+
+.top-wall {
+  background-image: url("../images/top-wall.png");
+}
+
+.side-wall {
+  background-image: url("../images/side-wall.png");
+}
+
+.background-wall {
+  background-image: url("../images/background-wall.png");
+}
+
+.metal-wall {
+  background-image: url("../images/top-wall.png");
+}
+
+.brick-wall {
+  background-image: url("../images/brick-wall.png");
+}
+
+.movable-wall {
+  background-image: url("../images/movable-wall.png");
+}
