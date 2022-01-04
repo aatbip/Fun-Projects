@@ -40,3 +40,29 @@
 .movable-wall {
   background-image: url("../images/movable-wall.png");
 }
+
+/* DISPLAY BOX  */
+
+#display-box-wrapper {
+  margin-top: 50px;
+  margin-bottom: 10px;
+  display: flex;
+  width: 40em;
+}
+
+#score-box {
+  border: 5px solid #969799;
+  flex: 30%;
+  height: 60px;
+  padding: 10px;
+  margin-right: 30px;
+  background-color: #c9cacc;
+}
+
+#power-ups-box {
+  border: 5px solid #969799;
+  flex: 70%;
+  height: 60px;
+  padding: 10px;
+  background-color: #c9cacc;
+}
