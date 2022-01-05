@@ -5,9 +5,10 @@ const GRID_TYPE = {
   topWall: "top-wall",
   sideWall: "side-wall",
   backgroundWall: "background-wall",
-  metalWall: "metal-wall", //topWall
+  metalWall: "metal-wall", //same image as topWall
   brickWall: "brick-wall",
   movableWall: "movable-wall",
+  agent: "agent"
 };
 
 const GRID_LIST = [
@@ -17,6 +18,7 @@ const GRID_LIST = [
   GRID_TYPE.metalWall, //3
   GRID_TYPE.brickWall, //4
   GRID_TYPE.movableWall, //5
+  GRID_TYPE.agent
 ];
 
 //prettier-ignore
