@@ -21,42 +21,24 @@ const agent = new Agent();
 function init() {
   gameEnv.createGameEnvironment(ENVIRONMENT);
 
-  agent.addAgent(game); //add agent to its initial position
+  gameEnv.addAgent(game); //add agent to its initial position
 
   window.addEventListener("keydown", (event) => {
     switch (event.key) {
       case "d":
-        if (gameEnv.detectAgentGridCollisionRight()) {
-          agent.toRight();
-        } else {
-          console.log("no way out right");
-        }
+        gameEnv.toRight();
         break;
 
       case "s":
-        if (gameEnv.detectAgentGridCollisionBottom()) {
-          agent.toBottom();
-          console.log("exe");
-        } else {
-          console.log("no way out bottom");
-        }
-
+        gameEnv.toBottom();
         break;
 
       case "a":
-        if (gameEnv.detectAgentGridCollisionLeft()) {
-          agent.toLeft();
-        } else {
-          console.log("no way left");
-        }
+        gameEnv.toLeft();
         break;
 
       case "w":
-        if (gameEnv.detectAgentGridCollisionTop()) {
-          agent.toTop();
-        } else {
-          console.log("no way out top");
-        }
+        gameEnv.toTop();
         break;
     }
   });

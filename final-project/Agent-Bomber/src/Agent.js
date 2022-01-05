@@ -7,19 +7,21 @@ import {
   ENVIRONMENT,
 } from "./setup.js";
 
+
+
 //constants
 // let INITIAL_POSITION_X = 50; //left: 750px max
 // let INITIAL_POSITION_Y = 50; //top: 450px max
 
 class Agent {
   constructor() {
-
     this.agent = document.createElement("div");
     this.INITIAL_POSITION_X = 50; //left: 750px max
     this.INITIAL_POSITION_Y = 50;
 
     //prettier-ignore
     this.gridPositions = [
+      
       [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32], 
       [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49], 
       [52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66], 
@@ -64,21 +66,28 @@ class Agent {
   }
 
   toBottom() {
-    var that = this;
-    that.INITIAL_POSITION_Y += 50;
-    that.agent.style.cssText = `top: ${that.INITIAL_POSITION_Y}px; left: ${that.INITIAL_POSITION_X}px`;
-    that.agentPosX++;
-    that.agentPosition = that.gridPositions[that.agentPosX][that.agentPosY];
-    console.log("toBottomAgentPos", that.agentPosition);
-    console.log("toBottomY", that.agentPosY);
-    console.log("toBottomX", that.agentPosX);
-    console.log("bottom after ini", that.INITIAL_POSITION_Y);
-    return {
-      agentPosXnew: that.agentPosX,
-      agentPositionNew: that.agentPosition,
-      agentPosYnew: that.agentPosY,
-      initialPosYNew: that.INITIAL_POSITION_Y,
-    };
+    // var that = this;
+    this.INITIAL_POSITION_Y += 50;
+    this.agentPosX++;
+    this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
+    console.log(this.agentPosX, this.agentPosY)
+    console.log(this.agentPosition)
+    console.log(this.gridArray[this.agentPosition])
+    if (
+      this.gridArray[this.agentPosition].classList.contains("background-wall")
+    ) {
+      this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px`;
+    }
+    // console.log("toBottomAgentPos", that.agentPosition);
+    // console.log("toBottomY", that.agentPosY);
+    // console.log("toBottomX", that.agentPosX);
+    // console.log("bottom after ini", that.INITIAL_POSITION_Y);
+    // return {
+    //   agentPosXnew: that.agentPosX,
+    //   agentPositionNew: that.agentPosition,
+    //   agentPosYnew: that.agentPosY,
+    //   initialPosYNew: that.INITIAL_POSITION_Y,
+    // };
   }
 
   toLeft() {
