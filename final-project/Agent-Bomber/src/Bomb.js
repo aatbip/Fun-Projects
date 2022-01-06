@@ -77,8 +77,13 @@ class Bomb {
         this.explosion.remove();
       }
     }, 400);
-    if (!this.gridArray[this.agentPosition].classList.contains("metal-wall")) {
+    if (
+      !this.gridArray[this.bombPlantPosition - 1].classList.contains(
+        "metal-wall"
+      )
+    ) {
       gameEnv.removeGrid(this.bombPlantPosition - 1);
+      console.log("hello");
     }
   }
 }
