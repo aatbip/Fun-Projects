@@ -76,7 +76,7 @@
   background-image: url(../images/agent-sprite.png);
 }
 
-/* bomb */
+/* bomb and explosion*/
 
 .bomb {
   position: absolute; 
@@ -84,3 +84,12 @@
   height: 50px; 
   background-image: url('../images/bomb-sprite.png');
 }
+
+.left-explosion {
+  position: absolute; 
+  width: 100px; 
+  height: 50px;
+  background-image: url('../images/bomb-blast-sprite.png');
+  transform: rotate(180deg);
+}
+
