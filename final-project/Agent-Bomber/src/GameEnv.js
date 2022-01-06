@@ -49,10 +49,10 @@ class GameEnv {
     });
   }
 
-  addAgent(gameDiv) {
+  addAgent(gameDiv, agentView) {
     this.gameDiv = gameDiv;
     // const agent = document.createElement("div");
-    this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px`;
+    this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px; background-position: 0px -${agentView}px`;
     this.agent.classList.add(`${GRID_TYPE.agent}`);
     this.gameDiv.append(this.agent);
   }
