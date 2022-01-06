@@ -80,10 +80,9 @@ class Bomb {
     if (
       !this.gridArray[this.bombPlantPosition - 1].classList.contains(
         "metal-wall"
-      )
+      ) && !this.gridArray[this.bombPlantPosition -1].classList.contains("side-wall")
     ) {
       gameEnv.removeGrid(this.bombPlantPosition - 1);
-      console.log("hello");
     }
   }
 }
