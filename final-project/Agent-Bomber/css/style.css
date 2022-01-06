@@ -35,6 +35,7 @@
 
 .brick-wall {
   background-image: url("../images/brick-wall.png");
+  z-index: 2; 
 }
 
 .movable-wall {

@@ -10,7 +10,6 @@ class GameEnv {
   constructor(gameDiv) {
     this.gameDiv = gameDiv;
     this.gridArray = [];
-    console.log(this.gridArray);
 
     ///from agent///
     this.agent = document.createElement("div");
@@ -47,6 +46,16 @@ class GameEnv {
       this.gameDiv.appendChild(grids);
       this.gridArray.push(grids);
     });
+  }
+
+  removeGrid(posAgent) {
+    setTimeout(() => {
+      this.toRemove = this.gameDiv.childNodes[posAgent];
+      console.log(this.gameDiv.childNodes[posAgent]);
+      this.toRemove.classList.remove("movable-wall");
+      this.toRemove.classList.remove("brick-wall");
+      this.toRemove.classList.add(`${GRID_TYPE.backgroundWall}`);
+    }, 50);
   }
 
   addAgent(gameDiv, agentView) {
