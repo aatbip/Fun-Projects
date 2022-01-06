@@ -57,10 +57,14 @@ function init() {
 
         break;
 
-      case ' ':
-
+      case " ":
         bomb.bombPlant(gameEnv.CURRENT_POSITION_X, gameEnv.CURRENT_POSITION_Y);
-        bomb.animateBomb(); 
+        bomb.animateBomb();
+
+        window.setTimeout(
+          bomb.bombBlast(gameEnv.agentPosition, gameEnv.gridArray),
+          5000
+        );
         break;
     }
   });
