@@ -36,7 +36,6 @@ function init() {
       case "d":
         gameEnv.toRight();
         gameEnv.addAgent(game, AGENT_SPRITE.rightView);
-
         break;
 
       case "s":
@@ -48,7 +47,6 @@ function init() {
       case "a":
         gameEnv.toLeft();
         gameEnv.addAgent(game, AGENT_SPRITE.leftView);
-
         break;
 
       case "w":
@@ -58,13 +56,14 @@ function init() {
         break;
 
       case " ":
-        bomb.bombPlant(gameEnv.CURRENT_POSITION_X, gameEnv.CURRENT_POSITION_Y);
+        bomb.bombPlant(gameEnv.CURRENT_POSITION_X, gameEnv.CURRENT_POSITION_Y, gameEnv.agentPosition);
         bomb.animateBomb();
 
-        window.setTimeout(
-          bomb.bombBlast(gameEnv.agentPosition, gameEnv.gridArray),
-          5000
-        );
+        setTimeout(() => {
+          bomb.bombBlast(gameEnv.gridArray);
+        }, 2000);
+        
+
         break;
     }
   });
