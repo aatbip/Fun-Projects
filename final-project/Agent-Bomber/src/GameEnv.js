@@ -14,8 +14,8 @@ class GameEnv {
 
     ///from agent///
     this.agent = document.createElement("div");
-    this.INITIAL_POSITION_X = 50; //left: 750px max
-    this.INITIAL_POSITION_Y = 50;
+    this.CURRENT_POSITION_X = 50; //left: 750px max
+    this.CURRENT_POSITION_Y = 50;
 
     //prettier-ignore
     this.gridPositions = [
@@ -49,16 +49,16 @@ class GameEnv {
     });
   }
 
-  addAgent(gameDiv) {
+  addAgent(gameDiv, agentView) {
     this.gameDiv = gameDiv;
     // const agent = document.createElement("div");
-    this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px`;
+    this.agent.style.cssText = `top: ${this.CURRENT_POSITION_Y}px; left: ${this.CURRENT_POSITION_X}px; background-position: 0px -${agentView}px`;
     this.agent.classList.add(`${GRID_TYPE.agent}`);
     this.gameDiv.append(this.agent);
   }
 
   toBottom() {
-    this.INITIAL_POSITION_Y += 50;
+    this.CURRENT_POSITION_Y += 50;
     this.agentPosX++;
 
     if (this.agentPosX < 9) {
@@ -67,23 +67,23 @@ class GameEnv {
 
     if (this.agentPosX > 8) {
       this.agentPosX -= 1;
-      this.INITIAL_POSITION_Y -= 50;
+      this.CURRENT_POSITION_Y -= 50;
 
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     } else if (
       this.gridArray[this.agentPosition].classList.contains("background-wall")
     ) {
-      this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px`;
+      this.agent.style.cssText = `top: ${this.CURRENT_POSITION_Y}px; left: ${this.CURRENT_POSITION_X}px`;
     } else {
       this.agentPosX -= 1;
-      this.INITIAL_POSITION_Y -= 50;
+      this.CURRENT_POSITION_Y -= 50;
 
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     }
   }
 
   toTop() {
-    this.INITIAL_POSITION_Y -= 50;
+    this.CURRENT_POSITION_Y -= 50;
     this.agentPosX--;
     if (this.agentPosX > -1) {
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
@@ -91,22 +91,22 @@ class GameEnv {
 
     if (this.agentPosX < 0) {
       this.agentPosX++;
-      this.INITIAL_POSITION_Y += 50;
+      this.CURRENT_POSITION_Y += 50;
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     } else if (
       this.gridArray[this.agentPosition].classList.contains("background-wall")
     ) {
-      this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px`;
+      this.agent.style.cssText = `top: ${this.CURRENT_POSITION_Y}px; left: ${this.CURRENT_POSITION_X}px`;
     } else {
       this.agentPosX++;
-      this.INITIAL_POSITION_Y += 50;
+      this.CURRENT_POSITION_Y += 50;
 
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     }
   }
 
   toRight() {
-    this.INITIAL_POSITION_X += 50;
+    this.CURRENT_POSITION_X += 50;
     this.agentPosY++;
     if (this.agentPosY < 15) {
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
@@ -114,21 +114,21 @@ class GameEnv {
 
     if (this.agentPosY > 14) {
       this.agentPosY--;
-      this.INITIAL_POSITION_X -= 50;
+      this.CURRENT_POSITION_X -= 50;
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     } else if (
       this.gridArray[this.agentPosition].classList.contains("background-wall")
     ) {
-      this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px`;
+      this.agent.style.cssText = `top: ${this.CURRENT_POSITION_Y}px; left: ${this.CURRENT_POSITION_X}px`;
     } else {
       this.agentPosY--;
-      this.INITIAL_POSITION_X -= 50;
+      this.CURRENT_POSITION_X -= 50;
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     }
   }
 
   toLeft() {
-    this.INITIAL_POSITION_X -= 50;
+    this.CURRENT_POSITION_X -= 50;
     this.agentPosY--;
     if (this.agentPosY > -1) {
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
@@ -136,15 +136,15 @@ class GameEnv {
 
     if (this.agentPosY < 0) {
       this.agentPosY++;
-      this.INITIAL_POSITION_X += 50;
+      this.CURRENT_POSITION_X += 50;
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     } else if (
       this.gridArray[this.agentPosition].classList.contains("background-wall")
     ) {
-      this.agent.style.cssText = `top: ${this.INITIAL_POSITION_Y}px; left: ${this.INITIAL_POSITION_X}px`;
+      this.agent.style.cssText = `top: ${this.CURRENT_POSITION_Y}px; left: ${this.CURRENT_POSITION_X}px`;
     } else {
       this.agentPosY++;
-      this.INITIAL_POSITION_X += 50;
+      this.CURRENT_POSITION_X += 50;
       this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
     }
   }
