@@ -19,20 +19,19 @@ const game = document.querySelector("#game");
 
 //import class
 import { GameEnv } from "./GameEnv.js";
-import { Agent } from "./Agent.js";
+import { Bomb } from "./Bomb.js";
 
 //DOM elements
 
 //initialize classes
 const gameEnv = new GameEnv(game);
-const agent = new Agent();
+const bomb = new Bomb(game);
 
 function init() {
   gameEnv.createGameEnvironment(ENVIRONMENT);
-
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
 
-  window.addEventListener("keydown", (event) => {
+  document.addEventListener("keydown", (event) => {
     switch (event.key) {
       case "d":
         gameEnv.toRight();
@@ -56,6 +55,12 @@ function init() {
         gameEnv.toTop();
         gameEnv.addAgent(game, AGENT_SPRITE.backView);
 
+        break;
+
+      case ' ':
+
+        bomb.bombPlant(gameEnv.CURRENT_POSITION_X, gameEnv.CURRENT_POSITION_Y);
+        bomb.animateBomb(); 
         break;
     }
   });
