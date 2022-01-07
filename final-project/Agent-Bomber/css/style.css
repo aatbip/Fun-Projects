@@ -88,9 +88,19 @@
 
 .left-explosion {
   position: absolute; 
-  width: 100px; 
+  width: 150px; 
   height: 50px;
   background-image: url('../images/bomb-blast-sprite.png');
   transform: rotate(180deg);
 }
+
+.top-explosion {
+  position: absolute; 
+  width: 150px; 
+  height: 50px;
+  background-image: url('../images/bomb-blast-sprite.png');
+  transform: rotate(270deg);
+}
+
+
 

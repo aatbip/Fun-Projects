@@ -48,14 +48,12 @@ class GameEnv {
     });
   }
 
-  removeGrid(posAgent) {
-    setTimeout(() => {
-      this.toRemove = this.gameDiv.childNodes[posAgent];
-      console.log(this.gameDiv.childNodes[posAgent]);
-      this.toRemove.classList.remove("movable-wall");
-      this.toRemove.classList.remove("brick-wall");
-      this.toRemove.classList.add(`${GRID_TYPE.backgroundWall}`);
-    }, 50);
+  blastGrid(gridsToBlast) {
+    this.gridsToBlast = gridsToBlast;
+    this.toRemove = this.gameDiv.childNodes[this.gridsToBlast];
+    this.toRemove.classList.remove("movable-wall");
+    this.toRemove.classList.remove("brick-wall");
+    this.toRemove.classList.add(`${GRID_TYPE.backgroundWall}`);
   }
 
   addAgent(gameDiv, agentView) {
