@@ -14,6 +14,8 @@ import {
 import { GameEnv } from "./GameEnv.js";
 const gameEnv = new GameEnv(game);
 
+import { GameOverScreen } from "./GameOverScreen.js";
+
 class Bomb {
   constructor(gameDiv) {
     this.gameDiv = gameDiv;
@@ -56,7 +58,8 @@ class Bomb {
     }, 100);
   }
 
-  bombBlast(gridArray) {
+  bombBlast(gridArray, agentPosition) {
+    this.agentPosition = agentPosition;
     this.newBomb.remove();
     this.gridArray = gridArray;
     this.posX = 50;
@@ -114,14 +117,24 @@ class Bomb {
 
       this.bombBlastTargetsVertical.forEach((targets) => {
         gameEnv.blastGrid(targets);
-        console.log(this.gridArray[targets]);
       });
 
       this.bombBlastTargetsHorizontal.forEach((targets) => {
         gameEnv.blastGrid(targets);
-        console.log(this.gridArray[targets]);
-        console.log(targets);
       });
+
+      //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
+      if (
+        this.bombPlantPosition - 1 == this.agentPosition ||
+        this.bombPlantPosition + 1 == this.agentPosition ||
+        this.bombPlantPosition - 17 == this.agentPosition ||
+        this.bombPlantPosition + 17 == this.agentPosition
+      ) {
+        const gameOverScreen = new GameOverScreen();
+        gameOverScreen.gameOver(this.gameDiv);
+      }
+
+      //******************************************************//
     }
   }
 }

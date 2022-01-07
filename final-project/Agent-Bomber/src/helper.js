@@ -52,14 +52,14 @@ const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
 const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   bombBlastTargetsVertical = [];
   if (
-    gridArray[bombPlantPosition - 17].classList.contains("metal-wall") &&
+    gridArray[bombPlantPosition - 17].classList.contains("top-wall") &&
     gridArray[bombPlantPosition + 17].classList.contains("metal-wall")
   ) {
     return;
   }
   if (
-    gridArray[bombPlantPosition - 17].classList.contains("top-wall") &&
-    gridArray[bombPlantPosition + 17].classList.contains("metal-wall")
+    gridArray[bombPlantPosition - 17].classList.contains("metal-wall") &&
+    gridArray[bombPlantPosition + 17].classList.contains("top-wall")
   ) {
     return;
   }
@@ -72,7 +72,6 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
 
   if (gridArray[bombPlantPosition - 17].classList.contains("top-wall")) {
     bombBlastTargetsVertical.push(bombPlantPosition + 17);
-    console.log("hello");
   }
 
   if (gridArray[bombPlantPosition + 17].classList.contains("top-wall")) {
