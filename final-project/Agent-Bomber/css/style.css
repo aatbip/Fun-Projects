@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+* {
+  font-family: "Press Start 2P", cursive;
+}
+
 /* GAME ENVIRONMENT */
 
 #main {
@@ -63,7 +69,7 @@
 #power-ups-box {
   border: 5px solid #969799;
   flex: 70%;
-  height: 60px;
+  /* height: 60px; */
   padding: 10px;
   background-color: #c9cacc;
 }
@@ -103,8 +109,8 @@
 }
 
 .bomb-power-up {
-   position: absolute; 
-   width: 50px; 
-   height: 50px; 
-   background-image: url("../images/bomb-power-up.png"); 
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-image: url("../images/bomb-power-up.png");
 }

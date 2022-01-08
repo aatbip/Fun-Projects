@@ -15,7 +15,10 @@ const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
   ) {
     return;
   }
-  if (gridArray[bombPlantPosition - 1].classList.contains("metal-wall")) {
+  if (
+    gridArray[bombPlantPosition - 1].classList.contains("metal-wall") &&
+    !gridArray[bombPlantPosition + 1].classList.contains("background-wall")
+  ) {
     bombBlastTargetsHorizontal.push(bombPlantPosition + 1);
   }
   if (gridArray[bombPlantPosition + 1].classList.contains("metal-wall")) {
@@ -99,59 +102,42 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   if (gridArray[bombPlantPosition + 17].classList.contains("brick-wall")) {
     bombBlastTargetsVertical.push(bombPlantPosition + 17);
   }
+
   return bombBlastTargetsVertical;
 };
 
 // bomb power-ups append position
 
-let bombAppendPositionArray = [];
-const bombAppendPosition = (
-  bombPlantPosition,
-  bombBlastTargetsHorizontal,
-  bombBlastTargetsVertical,
-  bombPlantPositionX,
-  bombPlantPositionY
-) => {
-  bombAppendPositionArray = [];
-
-  if (bombPlantPosition - bombBlastTargetsHorizontal[0] <= 1) {
-    bombAppendPositionArray.push(bombPlantPositionX + 50);
-    bombAppendPositionArray.push(bombPlantPositionY);
-  }
-  if (bombPlantPosition - bombBlastTargetsHorizontal[1] <= 1) {
-    bombAppendPositionArray.push(bombPlantPositionX - 50);
-    bombAppendPositionArray.push(bombPlantPositionY);
-  }
-
-  if (bombPlantPosition - bombBlastTargetsVertical[0] < -2) {
-    bombAppendPositionArray.push(bombPlantPositionX);
-    bombAppendPositionArray.push(bombPlantPositionY - 50);
-  }
-
-  if (bombPlantPosition - bombBlastTargetsVertical[0] > 1) {
-    bombAppendPositionArray.push(bombPlantPositionX);
-    bombAppendPositionArray.push(bombPlantPositionY + 50);
-  }
-
-  bombAppendPositionArray = bombAppendPositionArray.map(function (val, i) {
-    return val === 0 ? 50 : val;
-  });
-
-  return bombAppendPositionArray;
+const bombPowerUpAppendPosition = () => {
+  const bombPowerUpTargets = [
+    {
+      bombPowerUpPosition: 19,
+      position_X: 100,
+      position_Y: 50,
+    },
+    {
+      bombPowerUpPosition: 54,
+      position_X: 150,
+      position_Y: 150,
+    },
+    {
+      bombPowerUpPosition: 111,
+      position_X: 450,
+      position_Y: 300,
+    },
+  ];
+  return bombPowerUpTargets;
 };
-
-
-
 
 // Random number generator
 
 const rand = () => {
-  return Math.random(); 
-}
+  return Math.random();
+};
 
 export {
   findBombBlastTargetHorizontal,
   findBombBlastTargetVertical,
-  bombAppendPosition,
-  rand
+  bombPowerUpAppendPosition,
+  rand,
 };

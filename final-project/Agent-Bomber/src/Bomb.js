@@ -9,7 +9,7 @@ import {
 import {
   findBombBlastTargetVertical,
   findBombBlastTargetHorizontal,
-  bombAppendPosition,
+  bombPowerUpAppendPosition,
   rand,
 } from "./helper.js";
 
@@ -26,7 +26,11 @@ class Bomb {
     this.newBomb = document.createElement("div");
     this.explosion = document.createElement("div");
     this.explosion1 = document.createElement("div");
+    this.bombPowerUp = document.createElement("div");
+    this.bombPowerUpDisplay = document.createElement("p");
+
     this.bombCount = 3;
+    this.bombPowerUpCount = 0;
   }
 
   bombPlant(agentPositionX, agentPositionY, agentPosition) {
@@ -34,6 +38,7 @@ class Bomb {
     this.agentPositionY = agentPositionY;
     this.bombPlantPosition = agentPosition;
     this.bombPlanted = false;
+    this.bombPowerUpsExist = false;
 
     clearInterval(this.bombAnimationInterval);
     if (this.bombCount >= 1) {
@@ -130,7 +135,8 @@ class Bomb {
         this.bombPlantPosition - 1 == this.agentPosition ||
         this.bombPlantPosition + 1 == this.agentPosition ||
         this.bombPlantPosition - 17 == this.agentPosition ||
-        this.bombPlantPosition + 17 == this.agentPosition
+        this.bombPlantPosition + 17 == this.agentPosition ||
+        this.bombPlantPosition == this.agentPosition
       ) {
         const gameOverScreen = new GameOverScreen();
         gameOverScreen.gameOver(this.gameDiv);
@@ -140,60 +146,32 @@ class Bomb {
     }
   }
 
-  bombPowerUps(
-    gridArray,
-    bombPlantPositionX,
-    bombPlantPositionY,
-    agentPosition,
-    gridPositions
-  ) {
+  bombPowerUps(gridArray) {
     this.gridArray = gridArray;
-    this.bombPlantPositionX = bombPlantPositionX;
-    this.bombPlantPositionY = bombPlantPositionY;
-    this.agentPosition = agentPosition;
-    this.gridPositions = gridPositions;
     this.posX1 = 50;
     this.widthOfSheet1 = 400;
-
     if (this.bombPlanted == true) {
-      this.bombPowerUp = document.createElement("div");
-
-      this._bombBlastTargetsVertical = findBombBlastTargetVertical(
-        this.gridArray,
-        this.bombPlantPosition
-      );
-      this._bombBlastTargetsHorizontal = findBombBlastTargetHorizontal(
-        this.gridArray,
-        this.bombPlantPosition
-      );
-      this.bombBlastTargetsVertical = [
-        ...new Set(this._bombBlastTargetsVertical),
-      ];
-      this.bombBlastTargetsHorizontal = [
-        ...new Set(this._bombBlastTargetsHorizontal),
-      ];
-
-      this.bombAppendPositionArray = bombAppendPosition(
-        this.bombPlantPosition,
-        this.bombBlastTargetsHorizontal,
-        this.bombBlastTargetsVertical,
-        this.bombPlantPositionX,
-        this.bombPlantPositionY
-      );
-
       this.bombPowerUp.classList.add("bomb-power-up");
 
-      this.randomBombPowerup = rand();
-      if (this.bombAppendPositionArray.length !== 0) {
-        if (this.randomBombPowerup >= 0.7) {
-          this.bombPowerUp.style.cssText = `left: ${this.bombAppendPositionArray[0]}px; top: ${this.bombAppendPositionArray[1]}px`;
-        } else if (this.randomBombPowerup < 0.4) {
-          return;
-        }
-      } else {
-        return;
-      }
-      this.gameDiv.append(this.bombPowerUp);
+      this.bombPowerUpTargets1 = bombPowerUpAppendPosition();
+      setTimeout(() => {
+        this.bombPowerUpTargets1.map((targets, index) => {
+          if (
+            this.gridArray[targets.bombPowerUpPosition].classList.contains(
+              "background-wall"
+            )
+          ) {
+            if (this.bombPowerUpCount <= 2) {
+              this.bombPowerUp.style.cssText = `left: ${targets.position_X}px; top: ${targets.position_Y}px`;
+              this.gameDiv.append(this.bombPowerUp);
+              this.bombPowerUpCount++;
+              this.bombPowerUpsExist = true;
+              this.bombPowerUpTargets1.splice(index, 1);
+              console.log(this.bombPowerUpTargets1);
+            }
+          }
+        });
+      }, 3000);
 
       //******animation of bomb power up****////
       this.bombPowerupIntervalTime = 0;
@@ -213,30 +191,32 @@ class Bomb {
     }
   }
 
-  collectBombPowerUps(agentPostion) {
+  collectBombPowerUps(agentPostion, gridArray) {
     this.agentPosition = agentPostion;
-    this.xPosition = this.bombAppendPositionArray[0];
-    this.yPosition = this.bombAppendPositionArray[1];
-    console.log(this.xPosition, this.yPosition)
-    if (this.bombAppendPositionArray.length !== 0) {
-      console.log("hello"); 
-      console.log(
-        this.agentPosition,
-        this.gridPositions[this.xPosition / 50 - 1][this.yPosition / 50 - 1]
-      );
-      ///*******collect bomb power ups*******////
-      if (
-        this.agentPosition ==
-        this.gridPositions[this.xPosition / 50 - 1][this.yPosition / 50 - 1]
-      ) {
-        this.bombCount++;
-        this.bombPowerUp.remove();
-        console.log(this.bombCount);
-       
-      }
+    this.gridArray = gridArray;
+    this.bombPowerUpTargets = bombPowerUpAppendPosition();
 
-      /////**********////////////
-    }
+    this.bombPowerUpTargets.forEach((targets) => {
+      if (
+        this.gridArray[this.agentPosition] ==
+          this.gameDiv.childNodes[targets.bombPowerUpPosition] &&
+        this.bombPowerUpsExist == true
+      ) {
+        this.bombPowerUp.remove();
+        this.bombCount += 3;
+        this.bombPowerUpsExist = false;
+      }
+    });
+
+    this.bombPowerUpDisplay.innerHTML = `${this.bombCount}`;
+    this.powerUpsBox.append(this.bombPowerUpDisplay);
+  }
+
+  bombPowerUpCountDisplay(powerUpsBox) {
+    this.powerUpsBox = powerUpsBox;
+
+    this.bombPowerUpDisplay.innerHTML = `${this.bombCount}`;
+    this.powerUpsBox.append(this.bombPowerUpDisplay);
   }
 }
 
