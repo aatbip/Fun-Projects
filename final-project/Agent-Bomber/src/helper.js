@@ -52,6 +52,12 @@ const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
 const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   bombBlastTargetsVertical = [];
   if (
+    gridArray[bombPlantPosition - 17].classList.contains("metal-wall") &&
+    gridArray[bombPlantPosition + 17].classList.contains("metal-wall")
+  ) {
+    return;
+  }
+  if (
     gridArray[bombPlantPosition - 17].classList.contains("top-wall") &&
     gridArray[bombPlantPosition + 17].classList.contains("metal-wall")
   ) {
@@ -96,4 +102,56 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   return bombBlastTargetsVertical;
 };
 
-export { findBombBlastTargetHorizontal, findBombBlastTargetVertical };
+// bomb power-ups append position
+
+let bombAppendPositionArray = [];
+const bombAppendPosition = (
+  bombPlantPosition,
+  bombBlastTargetsHorizontal,
+  bombBlastTargetsVertical,
+  bombPlantPositionX,
+  bombPlantPositionY
+) => {
+  bombAppendPositionArray = [];
+
+  if (bombPlantPosition - bombBlastTargetsHorizontal[0] <= 1) {
+    bombAppendPositionArray.push(bombPlantPositionX + 50);
+    bombAppendPositionArray.push(bombPlantPositionY);
+  }
+  if (bombPlantPosition - bombBlastTargetsHorizontal[1] <= 1) {
+    bombAppendPositionArray.push(bombPlantPositionX - 50);
+    bombAppendPositionArray.push(bombPlantPositionY);
+  }
+
+  if (bombPlantPosition - bombBlastTargetsVertical[0] < -2) {
+    bombAppendPositionArray.push(bombPlantPositionX);
+    bombAppendPositionArray.push(bombPlantPositionY - 50);
+  }
+
+  if (bombPlantPosition - bombBlastTargetsVertical[0] > 1) {
+    bombAppendPositionArray.push(bombPlantPositionX);
+    bombAppendPositionArray.push(bombPlantPositionY + 50);
+  }
+
+  bombAppendPositionArray = bombAppendPositionArray.map(function (val, i) {
+    return val === 0 ? 50 : val;
+  });
+
+  return bombAppendPositionArray;
+};
+
+
+
+
+// Random number generator
+
+const rand = () => {
+  return Math.random(); 
+}
+
+export {
+  findBombBlastTargetHorizontal,
+  findBombBlastTargetVertical,
+  bombAppendPosition,
+  rand
+};
