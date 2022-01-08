@@ -14,6 +14,11 @@ const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
     gridArray[bombPlantPosition + 1].classList.contains("metal-wall")
   ) {
     return;
+  } else if (
+    gridArray[bombPlantPosition - 1].classList.contains("metal-wall") &&
+    gridArray[bombPlantPosition + 1].classList.contains("side-wall")
+  ) {
+    return;
   }
   if (
     gridArray[bombPlantPosition - 1].classList.contains("metal-wall") &&
@@ -124,6 +129,11 @@ const bombPowerUpAppendPosition = () => {
       bombPowerUpPosition: 111,
       position_X: 450,
       position_Y: 300,
+    },
+    {
+      bombPowerUpPosition: 151,
+      position_X: 750,
+      position_Y: 400,
     },
   ];
   return bombPowerUpTargets;
