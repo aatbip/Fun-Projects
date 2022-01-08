@@ -153,21 +153,59 @@ class Bomb {
     if (this.bombPlanted == true) {
       this.bombPowerUp.classList.add("bomb-power-up");
 
+      /////////////**************/////////////////
+
+      this._bombBlastTargetsVertical = findBombBlastTargetVertical(
+        this.gridArray,
+        this.bombPlantPosition
+      );
+      this._bombBlastTargetsHorizontal = findBombBlastTargetHorizontal(
+        this.gridArray,
+        this.bombPlantPosition
+      );
+      this.bombBlastTargetsVertical = [
+        ...new Set(this._bombBlastTargetsVertical),
+      ];
+      this.bombBlastTargetsHorizontal = [
+        ...new Set(this._bombBlastTargetsHorizontal),
+      ];
+      this.ups = [];
+      this.bombBlastTargetsVertical.forEach((targets) => {
+        this.ups.push(targets);
+      });
+
+      this.bombBlastTargetsHorizontal.forEach((targets) => {
+        this.ups.push(targets);
+      });
+      console.log(this.ups);
+
+      const targetPowerUps = {
+        19: {
+          position_X: 100,
+          position_Y: 50,
+        },
+
+        54: {
+          position_X: 150,
+          position_Y: 150,
+        },
+
+        111: {
+          position_X: 450,
+          position_Y: 300,
+        },
+      };
+
+      ///////////////////*************////////////////////
       this.bombPowerUpTargets1 = bombPowerUpAppendPosition();
       setTimeout(() => {
-        this.bombPowerUpTargets1.map((targets, index) => {
-          if (
-            this.gridArray[targets.bombPowerUpPosition].classList.contains(
-              "background-wall"
-            )
-          ) {
+        this.ups.map((targets) => {
+          if (targetPowerUps[targets]) {
             if (this.bombPowerUpCount <= 2) {
-              this.bombPowerUp.style.cssText = `left: ${targets.position_X}px; top: ${targets.position_Y}px`;
+              this.bombPowerUp.style.cssText = `left: ${targetPowerUps[targets].position_X}px; top: ${targetPowerUps[targets].position_Y}px`;
               this.gameDiv.append(this.bombPowerUp);
               this.bombPowerUpCount++;
               this.bombPowerUpsExist = true;
-              this.bombPowerUpTargets1.splice(index, 1);
-              console.log(this.bombPowerUpTargets1);
             }
           }
         });
