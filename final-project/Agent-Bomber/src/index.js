@@ -56,7 +56,6 @@ function init() {
         break;
 
       case " ":
-        
         bomb.bombPlant(
           gameEnv.CURRENT_POSITION_X,
           gameEnv.CURRENT_POSITION_Y,
@@ -65,8 +64,22 @@ function init() {
         bomb.animateBomb();
 
         setTimeout(() => {
-          bomb.bombBlast(gameEnv.gridArray);
+          bomb.bombBlast(gameEnv.gridArray, gameEnv.agentPosition);
         }, 2000);
+
+        bomb.bombPowerUps(
+          gameEnv.gridArray,
+          gameEnv.CURRENT_POSITION_X,
+          gameEnv.CURRENT_POSITION_Y,
+          gameEnv.agentPosition,
+          gameEnv.gridPositions
+        );
+
+        bomb.collectBombPowerUps(gameEnv.agentPosition); 
+
+        // setTimeout(() => {
+        //   bomb.bombPowerUps(gameEnv.gridArray);
+        // }, 3000);
 
         break;
     }
