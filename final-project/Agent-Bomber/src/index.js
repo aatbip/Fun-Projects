@@ -36,6 +36,8 @@ function init() {
         bomb.collectBombPowerUps(gameEnv.agentPosition + 1, gameEnv.gridArray);
         gameEnv.toRight();
         gameEnv.addAgent(game, AGENT_SPRITE.rightView);
+        bomb.powerW(); 
+
 
         break;
 
@@ -43,6 +45,8 @@ function init() {
         bomb.collectBombPowerUps(gameEnv.agentPosition + 17, gameEnv.gridArray);
         gameEnv.toBottom();
         gameEnv.addAgent(game, AGENT_SPRITE.frontView);
+        bomb.powerW(); 
+
 
         break;
 
@@ -50,6 +54,8 @@ function init() {
         bomb.collectBombPowerUps(gameEnv.agentPosition - 1, gameEnv.gridArray);
         gameEnv.toLeft();
         gameEnv.addAgent(game, AGENT_SPRITE.leftView);
+        bomb.powerW(); 
+
 
         break;
 
@@ -57,6 +63,8 @@ function init() {
         bomb.collectBombPowerUps(gameEnv.agentPosition - 17, gameEnv.gridArray);
         gameEnv.toTop();
         gameEnv.addAgent(game, AGENT_SPRITE.backView);
+        bomb.powerW(); 
+
 
         break;
 

@@ -32,6 +32,7 @@ class Bomb {
     this.bombCount = 3;
     this.bombPowerUpCount = 0;
     this.ups = [];
+    this.pw = false;
   }
 
   bombPlant(agentPositionX, agentPositionY, agentPosition) {
@@ -54,7 +55,9 @@ class Bomb {
 
     this.bombPowerUpInterval = setTimeout(() => {
       this.bombPowerUp.remove();
-    }, 10000);
+      this.pw = false;
+      this.bombPowerUpsExist = false; 
+    }, 5000);
   }
 
   animateBomb() {
@@ -196,10 +199,10 @@ class Bomb {
           ///
           if (this.targetPowerUps[targets]) {
             this.bombPowerUp.style.cssText = `left: ${this.targetPowerUps[targets].position_X}px; top: ${this.targetPowerUps[targets].position_Y}px`;
+            this.gameDiv.append(this.bombPowerUp);
           }
         });
         if (this.bombPowerUpCount <= 2) {
-          this.gameDiv.append(this.bombPowerUp);
           this.bombPowerUpCount++;
           this.bombPowerUpsExist = true;
         }
@@ -238,8 +241,8 @@ class Bomb {
               ] &&
             this.bombPowerUpsExist == true
           ) {
-            this.bombPowerUp.remove();
-            this.bombCount += 3;
+            // this.bombPowerUp.remove();
+            this.pw = true;
           }
         }
       });
@@ -281,6 +284,23 @@ class Bomb {
     });
 
     return this.ups;
+  }
+
+  powerW() {
+    if (this.pw == true) {
+      this.num = this.gameDiv.childNodes.length;
+      console.log(this.num);
+      if (!this.gameDiv.childNodes[this.num]) {
+        this.bombCount += 3;
+        this.bombPowerUp.remove();
+
+        this.bombPowerUpDisplay.innerHTML = `${this.bombCount}`;
+        this.powerUpsBox.append(this.bombPowerUpDisplay);
+        this.pw = false;
+        this.bombPowerUpsExist = false;
+
+      }
+    }
   }
 }
 
