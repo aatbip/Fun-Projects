@@ -41,8 +41,8 @@ class Bomb {
     this.bombPlanted = false;
     this.bombPowerUpsExist = false;
 
-
     clearInterval(this.bombAnimationInterval);
+    clearInterval(this.bombPowerUpInterval);
     if (this.bombCount >= 1) {
       this.newBomb.classList.add("bomb");
       this.newBomb.style.cssText = `top: ${this.agentPositionY}px; left: ${this.agentPositionX}px;`;
@@ -51,6 +51,10 @@ class Bomb {
       this.bombPlanted = true;
       this.firstBombPlant = false;
     }
+
+    this.bombPowerUpInterval = setTimeout(() => {
+      this.bombPowerUp.remove();
+    }, 10000);
   }
 
   animateBomb() {
@@ -154,7 +158,6 @@ class Bomb {
     this.gridArray = gridArray;
     this.posX1 = 50;
     this.widthOfSheet1 = 400;
-
     if (this.bombPlanted == true) {
       this.bombPowerUp.classList.add("bomb-power-up");
       /////////////**************/////////////////
@@ -188,6 +191,8 @@ class Bomb {
       this.targetPowerUps = bombPowerUpAppendPosition();
       setTimeout(() => {
         this.ups.map((targets) => {
+          console.log(this.ups);
+
           ///
           if (this.targetPowerUps[targets]) {
             this.bombPowerUp.style.cssText = `left: ${this.targetPowerUps[targets].position_X}px; top: ${this.targetPowerUps[targets].position_Y}px`;
@@ -235,7 +240,6 @@ class Bomb {
           ) {
             this.bombPowerUp.remove();
             this.bombCount += 3;
-            this.bombPowerUpsExist = false;
           }
         }
       });
