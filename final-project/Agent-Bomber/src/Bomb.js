@@ -41,6 +41,7 @@ class Bomb {
     this.bombPlanted = false;
     this.bombPowerUpsExist = false;
 
+
     clearInterval(this.bombAnimationInterval);
     if (this.bombCount >= 1) {
       this.newBomb.classList.add("bomb");
@@ -48,12 +49,14 @@ class Bomb {
       this.gameDiv.append(this.newBomb);
       this.bombCount = this.bombCount - 1;
       this.bombPlanted = true;
+      this.firstBombPlant = false;
     }
   }
 
   animateBomb() {
     this.posX = 50;
     this.widthOfSheet = 100;
+
     this.bombAnimationInterval = setInterval(() => {
       this.newBomb.style.backgroundPositionX = -this.posX + "px";
       this.newBomb.style.backgroundPositionY = 0 + "px";
@@ -151,6 +154,7 @@ class Bomb {
     this.gridArray = gridArray;
     this.posX1 = 50;
     this.widthOfSheet1 = 400;
+
     if (this.bombPlanted == true) {
       this.bombPowerUp.classList.add("bomb-power-up");
       /////////////**************/////////////////
@@ -186,7 +190,6 @@ class Bomb {
         this.ups.map((targets) => {
           ///
           if (this.targetPowerUps[targets]) {
-            console.log("pwc", this.bombPowerUpCount);
             this.bombPowerUp.style.cssText = `left: ${this.targetPowerUps[targets].position_X}px; top: ${this.targetPowerUps[targets].position_Y}px`;
           }
         });

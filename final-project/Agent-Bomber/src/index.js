@@ -16,58 +16,47 @@ const AGENT_SPRITE = {
 
 //DOM
 const game = document.querySelector("#game");
-const powerUpsBox = document.querySelector("#power-ups-box"); 
+const powerUpsBox = document.querySelector("#power-ups-box");
 
 //import class
 import { GameEnv } from "./GameEnv.js";
 import { Bomb } from "./Bomb.js";
-
 
 //initialize classes
 const gameEnv = new GameEnv(game);
 const bomb = new Bomb(game);
 
 function init() {
+  bomb.bombPowerUpCountDisplay(powerUpsBox);
   gameEnv.createGameEnvironment(ENVIRONMENT);
-  bomb.bombPowerUpCountDisplay(powerUpsBox); 
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
-
   document.addEventListener("keydown", (event) => {
     switch (event.key) {
       case "d":
-        bomb.collectBombPowerUps(gameEnv.agentPosition+1, gameEnv.gridArray); 
+        bomb.collectBombPowerUps(gameEnv.agentPosition + 1, gameEnv.gridArray);
         gameEnv.toRight();
         gameEnv.addAgent(game, AGENT_SPRITE.rightView);
-
 
         break;
 
       case "s":
-
-        bomb.collectBombPowerUps(gameEnv.agentPosition+17, gameEnv.gridArray); 
+        bomb.collectBombPowerUps(gameEnv.agentPosition + 17, gameEnv.gridArray);
         gameEnv.toBottom();
         gameEnv.addAgent(game, AGENT_SPRITE.frontView);
-
-
 
         break;
 
       case "a":
-
-        bomb.collectBombPowerUps(gameEnv.agentPosition-1, gameEnv.gridArray); 
+        bomb.collectBombPowerUps(gameEnv.agentPosition - 1, gameEnv.gridArray);
         gameEnv.toLeft();
         gameEnv.addAgent(game, AGENT_SPRITE.leftView);
-
 
         break;
 
       case "w":
-
-        bomb.collectBombPowerUps(gameEnv.agentPosition-17, gameEnv.gridArray); 
+        bomb.collectBombPowerUps(gameEnv.agentPosition - 17, gameEnv.gridArray);
         gameEnv.toTop();
         gameEnv.addAgent(game, AGENT_SPRITE.backView);
-
-
 
         break;
 
@@ -77,6 +66,7 @@ function init() {
           gameEnv.CURRENT_POSITION_Y,
           gameEnv.agentPosition
         );
+
         bomb.animateBomb();
 
         setTimeout(() => {
@@ -84,9 +74,6 @@ function init() {
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);
-
-        // bomb.collectBombPowerUps(gameEnv.agentPosition, gameEnv.gridArray);
-
         break;
     }
   });
