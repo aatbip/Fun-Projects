@@ -114,29 +114,29 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
 // bomb power-ups append position
 
 const bombPowerUpAppendPosition = () => {
-  const bombPowerUpTargets = [
-    {
+  const targetPowerUps = {
+    19: {
       bombPowerUpPosition: 19,
+
       position_X: 100,
       position_Y: 50,
     },
-    {
+
+    54: {
       bombPowerUpPosition: 54,
+
       position_X: 150,
       position_Y: 150,
     },
-    {
+
+    111: {
       bombPowerUpPosition: 111,
+
       position_X: 450,
       position_Y: 300,
     },
-    {
-      bombPowerUpPosition: 151,
-      position_X: 750,
-      position_Y: 400,
-    },
-  ];
-  return bombPowerUpTargets;
+  };
+  return targetPowerUps;
 };
 
 // Random number generator

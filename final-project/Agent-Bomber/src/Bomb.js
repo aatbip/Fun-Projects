@@ -31,6 +31,7 @@ class Bomb {
 
     this.bombCount = 3;
     this.bombPowerUpCount = 0;
+    this.ups = [];
   }
 
   bombPlant(agentPositionX, agentPositionY, agentPosition) {
@@ -40,6 +41,7 @@ class Bomb {
     this.bombPlanted = false;
     this.bombPowerUpsExist = false;
 
+
     clearInterval(this.bombAnimationInterval);
     if (this.bombCount >= 1) {
       this.newBomb.classList.add("bomb");
@@ -47,12 +49,14 @@ class Bomb {
       this.gameDiv.append(this.newBomb);
       this.bombCount = this.bombCount - 1;
       this.bombPlanted = true;
+      this.firstBombPlant = false;
     }
   }
 
   animateBomb() {
     this.posX = 50;
     this.widthOfSheet = 100;
+
     this.bombAnimationInterval = setInterval(() => {
       this.newBomb.style.backgroundPositionX = -this.posX + "px";
       this.newBomb.style.backgroundPositionY = 0 + "px";
@@ -150,9 +154,9 @@ class Bomb {
     this.gridArray = gridArray;
     this.posX1 = 50;
     this.widthOfSheet1 = 400;
+
     if (this.bombPlanted == true) {
       this.bombPowerUp.classList.add("bomb-power-up");
-
       /////////////**************/////////////////
 
       this._bombBlastTargetsVertical = findBombBlastTargetVertical(
@@ -170,6 +174,7 @@ class Bomb {
         ...new Set(this._bombBlastTargetsHorizontal),
       ];
       this.ups = [];
+
       this.bombBlastTargetsVertical.forEach((targets) => {
         this.ups.push(targets);
       });
@@ -177,74 +182,64 @@ class Bomb {
       this.bombBlastTargetsHorizontal.forEach((targets) => {
         this.ups.push(targets);
       });
-      console.log(this.ups);
-
-      const targetPowerUps = {
-        19: {
-          position_X: 100,
-          position_Y: 50,
-        },
-
-        54: {
-          position_X: 150,
-          position_Y: 150,
-        },
-
-        111: {
-          position_X: 450,
-          position_Y: 300,
-        },
-      };
 
       ///////////////////*************////////////////////
-      this.bombPowerUpTargets1 = bombPowerUpAppendPosition();
+
+      this.targetPowerUps = bombPowerUpAppendPosition();
       setTimeout(() => {
         this.ups.map((targets) => {
-          if (targetPowerUps[targets]) {
-            if (this.bombPowerUpCount <= 2) {
-              this.bombPowerUp.style.cssText = `left: ${targetPowerUps[targets].position_X}px; top: ${targetPowerUps[targets].position_Y}px`;
-              this.gameDiv.append(this.bombPowerUp);
-              this.bombPowerUpCount++;
-              this.bombPowerUpsExist = true;
-            }
+          ///
+          if (this.targetPowerUps[targets]) {
+            this.bombPowerUp.style.cssText = `left: ${this.targetPowerUps[targets].position_X}px; top: ${this.targetPowerUps[targets].position_Y}px`;
           }
         });
-      }, 3000);
-
-      //******animation of bomb power up****////
-      this.bombPowerupIntervalTime = 0;
-      this.bombPowerUpInterval = setInterval(() => {
-        this.bombPowerUp.style.backgroundPositionX = this.posX1 + "px";
-        this.bombPowerUp.style.backgroundPositionY = 0 + "px";
-
-        if (this.posX1 < this.widthOfSheet1) {
-          this.posX1 = this.posX1 + 50;
-          ++this.bombPowerupIntervalTime;
-        } else {
-          this.posX1 = 50;
+        if (this.bombPowerUpCount <= 2) {
+          this.gameDiv.append(this.bombPowerUp);
+          this.bombPowerUpCount++;
+          this.bombPowerUpsExist = true;
         }
-      }, 600);
-
-      ////***************************//////
+      }, 3000);
     }
+
+    //******animation of bomb power up****////
+    this.bombPowerupIntervalTime = 0;
+    this.bombPowerUpInterval = setInterval(() => {
+      this.bombPowerUp.style.backgroundPositionX = this.posX1 + "px";
+      this.bombPowerUp.style.backgroundPositionY = 0 + "px";
+
+      if (this.posX1 < this.widthOfSheet1) {
+        this.posX1 = this.posX1 + 50;
+        ++this.bombPowerupIntervalTime;
+      } else {
+        this.posX1 = 50;
+      }
+    }, 600);
+
+    ////***************************//////
   }
 
   collectBombPowerUps(agentPostion, gridArray) {
     this.agentPosition = agentPostion;
     this.gridArray = gridArray;
-    this.bombPowerUpTargets = bombPowerUpAppendPosition();
-
-    this.bombPowerUpTargets.forEach((targets) => {
-      if (
-        this.gridArray[this.agentPosition] ==
-          this.gameDiv.childNodes[targets.bombPowerUpPosition] &&
-        this.bombPowerUpsExist == true
-      ) {
-        this.bombPowerUp.remove();
-        this.bombCount += 3;
-        this.bombPowerUpsExist = false;
-      }
-    });
+    this.targetPowerUps = bombPowerUpAppendPosition();
+    if (this.bombPlanted == true) {
+      this.ups1 = this.targetVectors();
+      this.ups1.map((targets) => {
+        if (this.targetPowerUps[targets]) {
+          if (
+            this.gridArray[this.agentPosition] ==
+              this.gameDiv.childNodes[
+                this.targetPowerUps[targets].bombPowerUpPosition
+              ] &&
+            this.bombPowerUpsExist == true
+          ) {
+            this.bombPowerUp.remove();
+            this.bombCount += 3;
+            this.bombPowerUpsExist = false;
+          }
+        }
+      });
+    }
 
     this.bombPowerUpDisplay.innerHTML = `${this.bombCount}`;
     this.powerUpsBox.append(this.bombPowerUpDisplay);
@@ -255,6 +250,33 @@ class Bomb {
 
     this.bombPowerUpDisplay.innerHTML = `${this.bombCount}`;
     this.powerUpsBox.append(this.bombPowerUpDisplay);
+  }
+
+  targetVectors() {
+    this.ups1 = [];
+    this._bombBlastTargetsVertical = findBombBlastTargetVertical(
+      this.gridArray,
+      this.bombPlantPosition
+    );
+    this._bombBlastTargetsHorizontal = findBombBlastTargetHorizontal(
+      this.gridArray,
+      this.bombPlantPosition
+    );
+    this.bombBlastTargetsVertical = [
+      ...new Set(this._bombBlastTargetsVertical),
+    ];
+    this.bombBlastTargetsHorizontal = [
+      ...new Set(this._bombBlastTargetsHorizontal),
+    ];
+    this.bombBlastTargetsVertical.forEach((targets) => {
+      this.ups.push(targets);
+    });
+
+    this.bombBlastTargetsHorizontal.forEach((targets) => {
+      this.ups.push(targets);
+    });
+
+    return this.ups;
   }
 }
 
