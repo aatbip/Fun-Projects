@@ -106,7 +106,6 @@ class Enemy {
     console.log("tar", this.targets);
     clearInterval(this.enemyTimerId);
 
-    console.log("fuck", this.gridArray[this.targets]);
     // if (this.gridArray[this.targets].classList.contains("enemy-one")) {
     //   this.gridArray[this.targets].classList.remove("enemy-one");
     // } 

@@ -321,17 +321,19 @@ class Bomb {
     this.verticalTargetEnemy = [...new Set(this._verticalTargetEnemy)];
     this.horizontalTargetEnemy = [...new Set(this._horizontalTargetEnemy)];
 
-    if (this.bombCount > 0) {
+    if (this.bombCount >= 0) {
       this.verticalTargetEnemy.forEach((targets) => {
         if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
           // if (this.gridArray[targets].classList.contains("enemy-one")) {
           this.score += 50;
+          ////**************** */
             const enemy = new Enemy(
             this.agentPosition,
             this.gridArray,
             this.gameDiv
           );
           enemy.removeEnemy(targets);
+          /////****************** */
         }
       });
       this.horizontalTargetEnemy.forEach((targets) => {
@@ -339,12 +341,14 @@ class Bomb {
           // if (this.gridArray[targets].classList.contains("enemy-one")) {
           this.score += 50;
           console.log("enemyH", this.horizontalTargetEnemy);
+          ///*********************** */
           const enemy = new Enemy(
             this.agentPosition,
             this.gridArray,
             this.gameDiv
           );
           enemy.removeEnemy(targets);
+          /////***********//////////////////
         }
       });
       this.displayScore.innerHTML = `${this.score}`;
