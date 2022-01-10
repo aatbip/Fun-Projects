@@ -18,26 +18,42 @@ const AGENT_SPRITE = {
 const game = document.querySelector("#game");
 const powerUpsBox = document.querySelector("#power-ups-box");
 
+//
+import {
+  addEnemy,
+  moveEnemy,
+  getAgentPosition,
+  enemyOneAnimation,
+} from "./Enemies.js";
+//
+
 //import class
 import { GameEnv } from "./GameEnv.js";
 import { Bomb } from "./Bomb.js";
+// import { Enemy  } from "./Enemies.js";
 
 //initialize classes
 const gameEnv = new GameEnv(game);
 const bomb = new Bomb(game);
+// const enemy = new Enemy(game, gameEnv.gridArray);
 
 function init() {
   bomb.bombPowerUpCountDisplay(powerUpsBox);
   gameEnv.createGameEnvironment(ENVIRONMENT);
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
+  // enemy.addEnemy();
+  // enemy.moveEnemy(gameEnv.gridPositions);
+  addEnemy(gameEnv.gridArray);
+  moveEnemy(gameEnv.gridArray);
+
   document.addEventListener("keydown", (event) => {
     switch (event.key) {
       case "d":
         bomb.collectBombPowerUps(gameEnv.agentPosition + 1, gameEnv.gridArray);
         gameEnv.toRight();
         gameEnv.addAgent(game, AGENT_SPRITE.rightView);
-        bomb.powerW(); 
-
+        bomb.powerW();
+        getAgentPosition(gameEnv.agentPosition);
 
         break;
 
@@ -45,8 +61,8 @@ function init() {
         bomb.collectBombPowerUps(gameEnv.agentPosition + 17, gameEnv.gridArray);
         gameEnv.toBottom();
         gameEnv.addAgent(game, AGENT_SPRITE.frontView);
-        bomb.powerW(); 
-
+        bomb.powerW();
+        getAgentPosition(gameEnv.agentPosition);
 
         break;
 
@@ -54,8 +70,8 @@ function init() {
         bomb.collectBombPowerUps(gameEnv.agentPosition - 1, gameEnv.gridArray);
         gameEnv.toLeft();
         gameEnv.addAgent(game, AGENT_SPRITE.leftView);
-        bomb.powerW(); 
-
+        bomb.powerW();
+        getAgentPosition(gameEnv.agentPosition);
 
         break;
 
@@ -63,8 +79,8 @@ function init() {
         bomb.collectBombPowerUps(gameEnv.agentPosition - 17, gameEnv.gridArray);
         gameEnv.toTop();
         gameEnv.addAgent(game, AGENT_SPRITE.backView);
-        bomb.powerW(); 
-
+        bomb.powerW();
+        getAgentPosition(gameEnv.agentPosition);
 
         break;
 
@@ -82,6 +98,7 @@ function init() {
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);
+
         break;
     }
   });
