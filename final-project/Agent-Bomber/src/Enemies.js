@@ -45,7 +45,7 @@ class Enemy {
         this.gridArray[this.enemyOneStartPosition].classList.remove(
           "enemy-one"
         );
-        // this.agentEnemyCollision();
+        this.agentEnemyCollision();
         // //check closer
         const [enemyPosX, enemyPosY] = this.getPositionCoordinates(
           this.enemyOneStartPosition
@@ -91,11 +91,10 @@ class Enemy {
   };
 
   agentEnemyCollision() {
+    console.log("this", this.agentPosition, this.enemyOneStartPosition);
     if (
       this.agentPosition == this.enemyOneStartPosition ||
-      this.gameDiv.childNodes[this.agentPosition].classList.contains(
-        "enemy-one"
-      )
+      this.gridArray[this.agentPosition].classList.contains("enemy-one")
     ) {
       const gameOverScreen = new GameOverScreen();
       gameOverScreen.gameOver(this.gameDiv);
@@ -253,6 +252,14 @@ const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
 const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
   if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
     return true;
+  } else if (
+    detectCollisionToRight(
+      this.enemyOneStartPosition,
+      this.gridArray,
+      this.move
+    )
+  ) {
+    return true;
   } else {
     return false;
   }
@@ -260,6 +267,14 @@ const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
 
 const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
   if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
+    return true;
+  } else if (
+    detectCollisionToRight(
+      this.enemyOneStartPosition,
+      this.gridArray,
+      this.move
+    )
+  ) {
     return true;
   } else {
     return false;
