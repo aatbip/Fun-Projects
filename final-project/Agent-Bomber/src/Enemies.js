@@ -5,6 +5,7 @@ class Enemy {
     this.agentPosition = agentPosition;
     this.gridArray = gridArray;
     this.gameDiv = gameDiv;
+    this.enemyAnimationInterval = 0;
 
     this.width = 17;
     this.enemyOneStartPosition = 114;
@@ -87,11 +88,10 @@ class Enemy {
       } else {
         return;
       }
-    }, 100);
+    }, 300);
   };
 
   agentEnemyCollision() {
-    console.log("this", this.agentPosition, this.enemyOneStartPosition);
     if (
       this.agentPosition == this.enemyOneStartPosition ||
       this.gridArray[this.agentPosition].classList.contains("enemy-one")
@@ -99,6 +99,22 @@ class Enemy {
       const gameOverScreen = new GameOverScreen();
       gameOverScreen.gameOver(this.gameDiv);
     }
+  }
+
+  removeEnemy(targets) {
+    this.targets = targets;
+    console.log("tar", this.targets);
+    clearInterval(this.enemyTimerId);
+
+    console.log("fuck", this.gridArray[this.targets]);
+    // if (this.gridArray[this.targets].classList.contains("enemy-one")) {
+    //   this.gridArray[this.targets].classList.remove("enemy-one");
+    // } 
+
+    // this.gridArray[this.targets[0]].classList.add("background-wall");
+    console.log("hello");
+    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.remove("enemy-one")
+    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.add("background-wall")
   }
 }
 
@@ -252,14 +268,6 @@ const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
 const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
   if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
     return true;
-  } else if (
-    detectCollisionToRight(
-      this.enemyOneStartPosition,
-      this.gridArray,
-      this.move
-    )
-  ) {
-    return true;
   } else {
     return false;
   }
@@ -268,35 +276,10 @@ const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
 const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
   if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
     return true;
-  } else if (
-    detectCollisionToRight(
-      this.enemyOneStartPosition,
-      this.gridArray,
-      this.move
-    )
-  ) {
-    return true;
   } else {
     return false;
   }
 };
-
-// let enemyAnimationInterval = 0;
-// function enemyOneAnimation() {
-//   setInterval(() => {
-//     let posX1 = 50;
-//     let widthOfSheet1 = 200;
-//     enemyOne.style.backgroundPositionX = posX1 + "px";
-//     enemyOne.style.backgroundPositionY = 0 + "px";
-
-//     if (posX1 < widthOfSheet1) {
-//       posX1 = posX1 + 50;
-//       ++enemyAnimationInterval;
-//     } else {
-//       posX1 = 50;
-//     }
-//   }, 100);
-// }
 
 // export { addEnemy, moveEnemy  };
 export { Enemy };

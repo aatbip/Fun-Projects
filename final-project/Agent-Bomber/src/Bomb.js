@@ -10,6 +10,8 @@ import {
   findBombBlastTargetVertical,
   findBombBlastTargetHorizontal,
   bombPowerUpAppendPosition,
+  findVerticalTargetEnemy,
+  findHorizontalTargetEnemy,
   rand,
 } from "./helper.js";
 
@@ -17,6 +19,7 @@ import { GameEnv } from "./GameEnv.js";
 const gameEnv = new GameEnv(game);
 
 import { GameOverScreen } from "./GameOverScreen.js";
+import { Enemy } from "./Enemies.js";
 
 class Bomb {
   constructor(gameDiv) {
@@ -28,8 +31,10 @@ class Bomb {
     this.explosion1 = document.createElement("div");
     this.bombPowerUp = document.createElement("div");
     this.bombPowerUpDisplay = document.createElement("p");
+    this.displayScore = document.createElement("p");
 
     this.bombCount = 3;
+    this.score = 0;
     this.bombPowerUpCount = 0;
     this.ups = [];
     this.pw = false;
@@ -56,7 +61,7 @@ class Bomb {
     this.bombPowerUpInterval = setTimeout(() => {
       this.bombPowerUp.remove();
       this.pw = false;
-      this.bombPowerUpsExist = false; 
+      this.bombPowerUpsExist = false;
     }, 5000);
   }
 
@@ -194,8 +199,6 @@ class Bomb {
       this.targetPowerUps = bombPowerUpAppendPosition();
       setTimeout(() => {
         this.ups.map((targets) => {
-          console.log(this.ups);
-
           ///
           if (this.targetPowerUps[targets]) {
             this.bombPowerUp.style.cssText = `left: ${this.targetPowerUps[targets].position_X}px; top: ${this.targetPowerUps[targets].position_Y}px`;
@@ -298,9 +301,62 @@ class Bomb {
         this.powerUpsBox.append(this.bombPowerUpDisplay);
         this.pw = false;
         this.bombPowerUpsExist = false;
-
       }
     }
+  }
+
+  enemyBombCollision(gridArray) {
+    this.gridArray = gridArray;
+
+    this._verticalTargetEnemy = findVerticalTargetEnemy(
+      this.gridArray,
+      // this.gameDiv,
+      this.bombPlantPosition
+    );
+    this._horizontalTargetEnemy = findHorizontalTargetEnemy(
+      this.gridArray,
+      // this.gameDiv,
+      this.bombPlantPosition
+    );
+    this.verticalTargetEnemy = [...new Set(this._verticalTargetEnemy)];
+    this.horizontalTargetEnemy = [...new Set(this._horizontalTargetEnemy)];
+
+    if (this.bombCount > 0) {
+      this.verticalTargetEnemy.forEach((targets) => {
+        if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
+          // if (this.gridArray[targets].classList.contains("enemy-one")) {
+          this.score += 50;
+            const enemy = new Enemy(
+            this.agentPosition,
+            this.gridArray,
+            this.gameDiv
+          );
+          enemy.removeEnemy(targets);
+        }
+      });
+      this.horizontalTargetEnemy.forEach((targets) => {
+        if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
+          // if (this.gridArray[targets].classList.contains("enemy-one")) {
+          this.score += 50;
+          console.log("enemyH", this.horizontalTargetEnemy);
+          const enemy = new Enemy(
+            this.agentPosition,
+            this.gridArray,
+            this.gameDiv
+          );
+          enemy.removeEnemy(targets);
+        }
+      });
+      this.displayScore.innerHTML = `${this.score}`;
+      this.scoreBox.append(this.displayScore);
+    }
+  }
+
+  scoreDisplay(scoreBox) {
+    this.scoreBox = scoreBox;
+    this.displayScore.innerHTML = `${this.score}`;
+    this.displayScore.classList.add("display-score");
+    this.scoreBox.append(this.displayScore);
   }
 }
 
