@@ -17,6 +17,7 @@ const AGENT_SPRITE = {
 //DOM
 const game = document.querySelector("#game");
 const powerUpsBox = document.querySelector("#power-ups-box");
+const scoreBox = document.querySelector("#score-box");
 
 //
 // import {
@@ -41,6 +42,7 @@ const enemy = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 
 function init() {
   bomb.bombPowerUpCountDisplay(powerUpsBox);
+  bomb.scoreDisplay(scoreBox);
   gameEnv.createGameEnvironment(ENVIRONMENT);
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
   enemy.addEnemy();
@@ -101,6 +103,7 @@ function init() {
 
         setTimeout(() => {
           bomb.bombBlast(gameEnv.gridArray, gameEnv.agentPosition);
+          bomb.enemyBombCollision(gameEnv.gridArray);
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);

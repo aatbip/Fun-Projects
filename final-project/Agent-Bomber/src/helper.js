@@ -2,8 +2,11 @@
 
 let bombBlastTargetsHorizontal = [];
 let bombBlastTargetsVertical = [];
+let verticalTargetEnemy = [];
+let horizontalTargetEnemy = [];
 const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
   bombBlastTargetsHorizontal = [];
+
   if (
     gridArray[bombPlantPosition - 1].classList.contains("metal-wall") &&
     gridArray[bombPlantPosition + 1].classList.contains("metal-wall")
@@ -59,6 +62,7 @@ const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
 
 const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   bombBlastTargetsVertical = [];
+
   if (
     gridArray[bombPlantPosition - 17].classList.contains("metal-wall") &&
     gridArray[bombPlantPosition + 17].classList.contains("metal-wall")
@@ -111,6 +115,45 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   return bombBlastTargetsVertical;
 };
 
+const findVerticalTargetEnemy = (gridArray, bombPlantPosition) => {
+  verticalTargetEnemy = [];
+  // if (gridArray.childNodes[bombPlantPosition + 17].classList.contains("enemy-one")){
+  //   verticalTargetEnemy.push(bombPlantPosition + 17); 
+  // }
+  // if (gridArray.childNodes[bombPlantPosition - 17].classList.contains("enemy-one")){
+  //   verticalTargetEnemy.push(bombPlantPosition - 17); 
+  // }
+
+
+  if (gridArray[bombPlantPosition + 17].classList.contains("enemy-one")) {
+    verticalTargetEnemy.push(bombPlantPosition + 17);
+  }
+
+  if (gridArray[bombPlantPosition - 17].classList.contains("enemy-one")) {
+    verticalTargetEnemy.push(bombPlantPosition - 17);
+  }
+  if (gridArray[bombPlantPosition].classList.contains("enemy-one")) {
+    verticalTargetEnemy.push(bombPlantPosition);
+  }
+  return verticalTargetEnemy;
+};
+
+const findHorizontalTargetEnemy = (gridArray, bombPlantPosition) => {
+  horizontalTargetEnemy = [];
+  if (gridArray[bombPlantPosition + 1].classList.contains("enemy-one")) {
+    horizontalTargetEnemy.push(bombPlantPosition + 1);
+  }
+
+  if (gridArray[bombPlantPosition - 1].classList.contains("enemy-one")) {
+    horizontalTargetEnemy.push(bombPlantPosition - 1);
+  }
+
+  if (gridArray[bombPlantPosition].classList.contains("enemy-one")) {
+    horizontalTargetEnemy.push(bombPlantPosition);
+  }
+  return horizontalTargetEnemy;
+};
+
 // bomb power-ups append position
 
 const bombPowerUpAppendPosition = () => {
@@ -149,5 +192,7 @@ export {
   findBombBlastTargetHorizontal,
   findBombBlastTargetVertical,
   bombPowerUpAppendPosition,
+  findVerticalTargetEnemy,
+  findHorizontalTargetEnemy,
   rand,
 };

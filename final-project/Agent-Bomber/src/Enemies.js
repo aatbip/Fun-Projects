@@ -87,11 +87,10 @@ class Enemy {
       } else {
         return;
       }
-    }, 100);
+    }, 300);
   };
 
   agentEnemyCollision() {
-    console.log("this", this.agentPosition, this.enemyOneStartPosition);
     if (
       this.agentPosition == this.enemyOneStartPosition ||
       this.gridArray[this.agentPosition].classList.contains("enemy-one")
@@ -100,6 +99,13 @@ class Enemy {
       gameOverScreen.gameOver(this.gameDiv);
     }
   }
+
+  // removeEnemy() {
+  //   this.toRemove = new Bomb(this.gameDiv);
+  //   if (this.toRemove.enemyBombCollision(this.gridArray) == true) {
+  //     this.enemyOne.remove();
+  //   }
+  // }
 }
 
 //   addEnemy() {
@@ -252,14 +258,6 @@ const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
 const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
   if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
     return true;
-  } else if (
-    detectCollisionToRight(
-      this.enemyOneStartPosition,
-      this.gridArray,
-      this.move
-    )
-  ) {
-    return true;
   } else {
     return false;
   }
@@ -267,14 +265,6 @@ const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
 
 const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
   if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
-    return true;
-  } else if (
-    detectCollisionToRight(
-      this.enemyOneStartPosition,
-      this.gridArray,
-      this.move
-    )
-  ) {
     return true;
   } else {
     return false;
