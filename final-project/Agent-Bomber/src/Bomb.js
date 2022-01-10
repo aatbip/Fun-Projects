@@ -32,6 +32,7 @@ class Bomb {
     this.bombPowerUpDisplay = document.createElement("p");
     this.displayScore = document.createElement("p");
 
+
     this.bombCount = 3;
     this.score = 0;
     this.bombPowerUpCount = 0;
@@ -325,7 +326,7 @@ class Bomb {
     this.verticalTargetEnemy.forEach((targets) => {
       if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
         // if (this.gridArray[targets].classList.contains("enemy-one")) {
-        this.score += 10;
+        this.score += 50;
 
         console.log("enemyV", this.horizontalTargetEnemy);
       }
@@ -333,7 +334,7 @@ class Bomb {
     this.horizontalTargetEnemy.forEach((targets) => {
       if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
         // if (this.gridArray[targets].classList.contains("enemy-one")) {
-        this.score += 10;
+        this.score += 50;
         console.log("enemyH", this.horizontalTargetEnemy);
       }
     });
@@ -344,6 +345,7 @@ class Bomb {
   scoreDisplay(scoreBox) {
     this.scoreBox = scoreBox;
     this.displayScore.innerHTML = `${this.score}`;
+    this.displayScore.classList.add("display-score"); 
     this.scoreBox.append(this.displayScore);
   }
 }
