@@ -19,6 +19,7 @@ import { GameEnv } from "./GameEnv.js";
 const gameEnv = new GameEnv(game);
 
 import { GameOverScreen } from "./GameOverScreen.js";
+import { Enemy } from "./Enemies.js";
 
 class Bomb {
   constructor(gameDiv) {
@@ -31,7 +32,6 @@ class Bomb {
     this.bombPowerUp = document.createElement("div");
     this.bombPowerUpDisplay = document.createElement("p");
     this.displayScore = document.createElement("p");
-
 
     this.bombCount = 3;
     this.score = 0;
@@ -320,32 +320,42 @@ class Bomb {
     );
     this.verticalTargetEnemy = [...new Set(this._verticalTargetEnemy)];
     this.horizontalTargetEnemy = [...new Set(this._horizontalTargetEnemy)];
-    console.log(this.gridArray[this.horizontalTargetEnemy]);
-    console.log(this.gridArray[this.verticalTargetEnemy]);
 
-    this.verticalTargetEnemy.forEach((targets) => {
-      if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
-        // if (this.gridArray[targets].classList.contains("enemy-one")) {
-        this.score += 50;
-
-        console.log("enemyV", this.horizontalTargetEnemy);
-      }
-    });
-    this.horizontalTargetEnemy.forEach((targets) => {
-      if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
-        // if (this.gridArray[targets].classList.contains("enemy-one")) {
-        this.score += 50;
-        console.log("enemyH", this.horizontalTargetEnemy);
-      }
-    });
-    this.displayScore.innerHTML = `${this.score}`;
-    this.scoreBox.append(this.displayScore);
+    if (this.bombCount > 0) {
+      this.verticalTargetEnemy.forEach((targets) => {
+        if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
+          // if (this.gridArray[targets].classList.contains("enemy-one")) {
+          this.score += 50;
+            const enemy = new Enemy(
+            this.agentPosition,
+            this.gridArray,
+            this.gameDiv
+          );
+          enemy.removeEnemy(targets);
+        }
+      });
+      this.horizontalTargetEnemy.forEach((targets) => {
+        if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
+          // if (this.gridArray[targets].classList.contains("enemy-one")) {
+          this.score += 50;
+          console.log("enemyH", this.horizontalTargetEnemy);
+          const enemy = new Enemy(
+            this.agentPosition,
+            this.gridArray,
+            this.gameDiv
+          );
+          enemy.removeEnemy(targets);
+        }
+      });
+      this.displayScore.innerHTML = `${this.score}`;
+      this.scoreBox.append(this.displayScore);
+    }
   }
 
   scoreDisplay(scoreBox) {
     this.scoreBox = scoreBox;
     this.displayScore.innerHTML = `${this.score}`;
-    this.displayScore.classList.add("display-score"); 
+    this.displayScore.classList.add("display-score");
     this.scoreBox.append(this.displayScore);
   }
 }

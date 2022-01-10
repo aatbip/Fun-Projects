@@ -5,6 +5,7 @@ class Enemy {
     this.agentPosition = agentPosition;
     this.gridArray = gridArray;
     this.gameDiv = gameDiv;
+    this.enemyAnimationInterval = 0;
 
     this.width = 17;
     this.enemyOneStartPosition = 114;
@@ -100,12 +101,21 @@ class Enemy {
     }
   }
 
-  // removeEnemy() {
-  //   this.toRemove = new Bomb(this.gameDiv);
-  //   if (this.toRemove.enemyBombCollision(this.gridArray) == true) {
-  //     this.enemyOne.remove();
-  //   }
-  // }
+  removeEnemy(targets) {
+    this.targets = targets;
+    console.log("tar", this.targets);
+    clearInterval(this.enemyTimerId);
+
+    console.log("fuck", this.gridArray[this.targets]);
+    // if (this.gridArray[this.targets].classList.contains("enemy-one")) {
+    //   this.gridArray[this.targets].classList.remove("enemy-one");
+    // } 
+
+    // this.gridArray[this.targets[0]].classList.add("background-wall");
+    console.log("hello");
+    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.remove("enemy-one")
+    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.add("background-wall")
+  }
 }
 
 //   addEnemy() {
@@ -270,23 +280,6 @@ const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
     return false;
   }
 };
-
-// let enemyAnimationInterval = 0;
-// function enemyOneAnimation() {
-//   setInterval(() => {
-//     let posX1 = 50;
-//     let widthOfSheet1 = 200;
-//     enemyOne.style.backgroundPositionX = posX1 + "px";
-//     enemyOne.style.backgroundPositionY = 0 + "px";
-
-//     if (posX1 < widthOfSheet1) {
-//       posX1 = posX1 + 50;
-//       ++enemyAnimationInterval;
-//     } else {
-//       posX1 = 50;
-//     }
-//   }, 100);
-// }
 
 // export { addEnemy, moveEnemy  };
 export { Enemy };
