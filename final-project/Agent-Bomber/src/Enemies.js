@@ -1,13 +1,107 @@
-// class Enemy {
-//   constructor(gameDiv, gridArray) {
-//     this.gameDiv = gameDiv;
-//     this.gridArray = gridArray;
+import { GameOverScreen } from "./GameOverScreen.js";
 
-//     this.width = 17;
+class Enemy {
+  constructor(agentPosition, gridArray, gameDiv) {
+    this.agentPosition = agentPosition;
+    this.gridArray = gridArray;
+    this.gameDiv = gameDiv;
 
-//     this.enemyOne = document.createElement("div");
-//     // this.moveEnemy = this.moveEnemy.bind(this);
-//   }
+    this.width = 17;
+    this.enemyOneStartPosition = 114;
+
+    this.enemyOne = document.createElement("div");
+  }
+  addEnemy() {
+    this.enemyOne.classList.add("enemy-one");
+    this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
+  }
+
+  getAgentPosition(agentPosition) {
+    this.agentPosition = agentPosition;
+  }
+
+  getPositionCoordinates = (currentGridPosition) => {
+    this.currentGridPosition = currentGridPosition;
+    return [
+      this.currentGridPosition % this.width,
+      Math.floor(this.currentGridPosition / this.width),
+    ];
+  };
+
+  moveEnemy = () => {
+    // gridPositions = gridPositions;
+    // this.gridArray = gridArray;
+    this.directions = [-1, +1, +this.width, -this.width];
+
+    this.enemyTimerId = NaN;
+    this.direction = Math.floor(Math.random() * this.directions.length);
+    this.move = this.directions[this.direction];
+    this.enemyTimerId = setInterval(() => {
+      if (
+        this.gridArray[
+          this.enemyOneStartPosition + this.move
+        ].classList.contains("background-wall")
+      ) {
+        this.gridArray[this.enemyOneStartPosition].classList.remove(
+          "enemy-one"
+        );
+        // this.agentEnemyCollision();
+        // //check closer
+        const [enemyPosX, enemyPosY] = this.getPositionCoordinates(
+          this.enemyOneStartPosition
+        );
+        const [enemyNewPosX, enemyNewPosY] = this.getPositionCoordinates(
+          this.enemyOneStartPosition + this.move
+        );
+        const [agentPosX, agentPosY] = this.getPositionCoordinates(
+          this.agentPosition
+        );
+
+        if (
+          isXcoordinateCloser(enemyNewPosX, agentPosX, enemyPosX) ||
+          isYcoordinateCloser(enemyNewPosY, agentPosY, enemyPosY)
+        ) {
+          this.enemyOneStartPosition += this.move;
+
+          this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
+        } else {
+          this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
+          this.direction = Math.floor(Math.random() * this.directions.length);
+
+          this.move = this.directions[this.direction];
+        }
+
+        // this.enemyOneStartPosition += this.move;
+
+        this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
+      } else if (
+        detectCollisionToRight(
+          this.enemyOneStartPosition,
+          this.gridArray,
+          this.move
+        )
+      ) {
+        this.direction = Math.floor(Math.random() * this.directions.length);
+
+        this.move = this.directions[this.direction];
+      } else {
+        return;
+      }
+    }, 100);
+  };
+
+  agentEnemyCollision() {
+    if (
+      this.agentPosition == this.enemyOneStartPosition ||
+      this.gameDiv.childNodes[this.agentPosition].classList.contains(
+        "enemy-one"
+      )
+    ) {
+      const gameOverScreen = new GameOverScreen();
+      gameOverScreen.gameOver(this.gameDiv);
+    }
+  }
+}
 
 //   addEnemy() {
 //     this.enemyOne.style.cssText = "left: 600px; top: 300px"; //gridArra = 114
@@ -18,7 +112,7 @@
 //   getPositionCoordinates(currentGridPosition) {
 //     return [
 //       currentGridPosition % this.width,
-//       Math.floor(currentGridPosition / this.width),
+//       Math.floor(currentGridPos= [ition / this.width),
 //     ];
 //   }
 
@@ -26,7 +120,7 @@
 //     this.enemyOneStartPosition = 114;
 //     this.gridPositions = gridPositions;
 
-//     this.directions = [
+//     this.directions
 //       [0, 50],
 //       [0, -50],
 //       [50, 0],
@@ -86,56 +180,57 @@
 
 /********************************************************* */
 
-let width = 17;
-let enemyOneStartPosition = 114;
+// let width = 17;
+// let enemyOneStartPosition = 114;
 
-const enemyOne = document.createElement("div");
+// const enemyOne = document.createElement("div");
 
-const addEnemy = (gridArray) => {
-  // enemyOne.style.cssText = "left: 600px ; top: 300px"; //gridArra = 114
-  enemyOne.classList.add("enemy-one");
-  // gameDiv.append(enemyOne);
-  gridArray[enemyOneStartPosition].classList.add("enemy-one");
-  enemyOneAnimation();
+// const addEnemy = (gridArray) => {
+//   // enemyOne.style.cssText = "left: 600px ; top: 300px"; //gridArra = 114
+//   enemyOne.classList.add("enemy-one");
+//   // gameDiv.append(enemyOne);
+//   gridArray[enemyOneStartPosition].classList.add("enemy-one");
+// };
 
-};
+// const getPositionCoordinates = (currentGridPosition) => {
+//   return [currentGridPosition % width, Math.floor(currentGridPosition / width)];
+// };
 
-const getPositionCoordinates = (currentGridPosition) => {
-  return [currentGridPosition % width, Math.floor(currentGridPosition / width)];
-};
+// const moveEnemy = (gridArray) => {
+//   // gridPositions = gridPositions;
+//   let directions = [-1, +1, +width, -width];
 
-const moveEnemy = (gridArray) => {
-  // gridPositions = gridPositions;
-  let directions = [-1, +1, +width, -width];
+//   let enemyTimerId = NaN;
+//   let direction = Math.floor(Math.random() * directions.length);
+//   let move = directions[direction];
+//   enemyTimerId = setInterval(() => {
+//     console.log("classes", gridArray[enemyOneStartPosition + move]);
+//     if (
+//       gridArray[enemyOneStartPosition + move].classList.contains(
+//         "background-wall"
+//       )
+//     ) {
+//       gridArray[enemyOneStartPosition].classList.remove("enemy-one");
 
-  let enemyTimerId = NaN;
-  let direction = Math.floor(Math.random() * directions.length);
-  let move = directions[direction];
-  enemyTimerId = setInterval(() => {
-    console.log("classes", gridArray[enemyOneStartPosition + move]);
-    if (
-      gridArray[enemyOneStartPosition + move].classList.contains(
-        "background-wall"
-      )
-    ) {
-      gridArray[enemyOneStartPosition].classList.remove("enemy-one");
+//       // //check closer
+//       // const [enemyPosX, enemyPosY] = getPositionCoordinates(
+//       //   enemyOneStartPosition
+//       // );
 
-      // //check closer
-      // const [enemyPosX, enemyPosY] = getPositionCoordinates(enemyOneStartPosition);
+//       enemyOneStartPosition += move;
 
-      enemyOneStartPosition += move;
-      gridArray[enemyOneStartPosition].classList.add("enemy-one");
-      console.log("move", move);
-    } else if (detectCollisionToRight(enemyOneStartPosition, gridArray, move)) {
-      direction = Math.floor(Math.random() * directions.length);
+//       gridArray[enemyOneStartPosition].classList.add("enemy-one");
+//       console.log("move", move);
+//     } else if (detectCollisionToRight(enemyOneStartPosition, gridArray, move)) {
+//       direction = Math.floor(Math.random() * directions.length);
 
-      move = directions[direction];
-      console.log("last", move);
-    } else {
-      return;
-    }
-  }, 500);
-};
+//       move = directions[direction];
+//       console.log("last", move);
+//     } else {
+//       return;
+//     }
+//   }, 500);
+// };
 
 const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
   if (gridArray[enemyStartPosition + move].classList.contains("metal-wall")) {
@@ -154,29 +249,39 @@ const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
     return true;
   }
 };
-let ap = [];
-const getAgentPosition = (agentPosition) => {
-  console.log("hello");
-  ap.push(agentPosition);
+
+const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
+  if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
+    return true;
+  } else {
+    return false;
+  }
 };
-console.log("ap", ap);
 
-let enemyAnimationInterval = 0;
-function enemyOneAnimation() {
-  setInterval(() => {
-    let posX1 = 50;
-    let widthOfSheet1 = 200;
-    enemyOne.style.backgroundPositionX = posX1 + "px";
-    enemyOne.style.backgroundPositionY = 0 + "px";
+const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
+  if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-    if (posX1 < widthOfSheet1) {
-      posX1 = posX1 + 50;
-      ++enemyAnimationInterval;
-    } else {
-      posX1 = 50;
-    }
-  }, 100);
-}
+// let enemyAnimationInterval = 0;
+// function enemyOneAnimation() {
+//   setInterval(() => {
+//     let posX1 = 50;
+//     let widthOfSheet1 = 200;
+//     enemyOne.style.backgroundPositionX = posX1 + "px";
+//     enemyOne.style.backgroundPositionY = 0 + "px";
 
-export { addEnemy, moveEnemy, getAgentPosition, enemyOneAnimation };
-// export { Enemy };
+//     if (posX1 < widthOfSheet1) {
+//       posX1 = posX1 + 50;
+//       ++enemyAnimationInterval;
+//     } else {
+//       posX1 = 50;
+//     }
+//   }, 100);
+// }
+
+// export { addEnemy, moveEnemy  };
+export { Enemy };
