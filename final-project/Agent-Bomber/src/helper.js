@@ -117,13 +117,6 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
 
 const findVerticalTargetEnemy = (gridArray, bombPlantPosition) => {
   verticalTargetEnemy = [];
-  // if (gridArray.childNodes[bombPlantPosition + 17].classList.contains("enemy-one")){
-  //   verticalTargetEnemy.push(bombPlantPosition + 17); 
-  // }
-  // if (gridArray.childNodes[bombPlantPosition - 17].classList.contains("enemy-one")){
-  //   verticalTargetEnemy.push(bombPlantPosition - 17); 
-  // }
-
 
   if (gridArray[bombPlantPosition + 17].classList.contains("enemy-one")) {
     verticalTargetEnemy.push(bombPlantPosition + 17);
@@ -182,6 +175,40 @@ const bombPowerUpAppendPosition = () => {
   return targetPowerUps;
 };
 
+const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
+  if (gridArray[enemyStartPosition + move].classList.contains("metal-wall")) {
+    return true;
+  }
+  if (gridArray[enemyStartPosition + move].classList.contains("movable-wall")) {
+    return true;
+  }
+  if (gridArray[enemyStartPosition + move].classList.contains("brick-wall")) {
+    return true;
+  }
+  if (gridArray[enemyStartPosition + move].classList.contains("side-wall")) {
+    return true;
+  }
+  if (gridArray[enemyStartPosition + move].classList.contains("top-wall")) {
+    return true;
+  }
+};
+
+const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
+  if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
+  if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 // Random number generator
 
 const rand = () => {
@@ -194,5 +221,8 @@ export {
   bombPowerUpAppendPosition,
   findVerticalTargetEnemy,
   findHorizontalTargetEnemy,
+  detectCollisionToRight,
+  isXcoordinateCloser,
+  isYcoordinateCloser,
   rand,
 };

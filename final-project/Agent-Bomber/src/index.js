@@ -45,9 +45,7 @@ function init() {
   gameEnv.createGameEnvironment(ENVIRONMENT);
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
   enemy.addEnemy();
-  enemy.moveEnemy(false);
-  // addEnemy(gameEnv.gridArray);
-  // moveEnemy(gameEnv.gridArray);
+  const enemyMovementInterval = setInterval(enemy.moveEnemy, 200);
 
   document.addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -101,8 +99,14 @@ function init() {
         bomb.animateBomb();
 
         setTimeout(() => {
-          bomb.bombBlast(gameEnv.gridArray, gameEnv.agentPosition);
+          const isEnemyDead = bomb.bombBlast(
+            gameEnv.gridArray,
+            gameEnv.agentPosition
+          );
           // bomb.enemyBombCollision(gameEnv.gridArray);
+          if (isEnemyDead) {
+            clearInterval(enemyMovementInterval);
+          }
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);
