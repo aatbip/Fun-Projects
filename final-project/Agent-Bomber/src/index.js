@@ -18,6 +18,7 @@ const AGENT_SPRITE = {
 const game = document.querySelector("#game");
 const powerUpsBox = document.querySelector("#power-ups-box");
 const scoreBox = document.querySelector("#score-box");
+const main = document.querySelector("#main");
 
 //
 // import {
@@ -39,13 +40,13 @@ const bomb = new Bomb(game);
 
 const enemy = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 
-function init() {
+const init = () => {
   bomb.bombPowerUpCountDisplay(powerUpsBox);
   bomb.scoreDisplay(scoreBox);
   gameEnv.createGameEnvironment(ENVIRONMENT);
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
   enemy.addEnemy();
-  const enemyMovementInterval = setInterval(enemy.moveEnemy, 200);
+  const enemyMovementInterval = setInterval(enemy.moveEnemy, 100);
 
   document.addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -86,7 +87,6 @@ function init() {
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
         enemy.agentEnemyCollision();
-
         break;
 
       case " ":
@@ -99,13 +99,17 @@ function init() {
         bomb.animateBomb();
 
         setTimeout(() => {
-          const isEnemyDead = bomb.bombBlast(
+          const { isEnemyDead, isGameOver } = bomb.bombBlast(
             gameEnv.gridArray,
             gameEnv.agentPosition
           );
-          // bomb.enemyBombCollision(gameEnv.gridArray);
           if (isEnemyDead) {
             clearInterval(enemyMovementInterval);
+          }
+
+          if (isGameOver) {
+            gameOverScreen();
+            console.log(isGameOver);
           }
         }, 2000);
 
@@ -114,6 +118,28 @@ function init() {
         break;
     }
   });
-}
+};
+
+const gameOverScreen = () => {
+  const gameOverScreen = document.createElement("div");
+  const displayScore = document.createElement("p");
+  const playAgainButton = document.createElement("button");
+
+  gameOverScreen.classList.add("game-over-screen");
+  main.append(gameOverScreen);
+
+  let score = bomb.returnScore();
+
+  displayScore.classList.add("game-over-screen-score");
+  displayScore.innerHTML = `${score}`;
+  gameOverScreen.appendChild(displayScore);
+
+  playAgainButton.classList.add("play-again-button");
+  gameOverScreen.append(playAgainButton);
+
+  game.remove();
+};
+
+
 
 init();

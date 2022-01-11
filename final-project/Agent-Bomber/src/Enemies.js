@@ -1,4 +1,3 @@
-import { GameOverScreen } from "./GameOverScreen.js";
 
 import {
   detectCollisionToRight,
@@ -12,15 +11,18 @@ class Enemy {
     this.gridArray = gridArray;
     this.gameDiv = gameDiv;
     this.enemyAnimationInterval = 0;
+    this.isGameOver = false; 
 
     this.width = 17;
     this.enemyOneStartPosition = 114;
-
     this.enemyOne = document.createElement("div");
   }
+
   addEnemy() {
     this.enemyOne.classList.add("enemy-one");
     this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
+    this.posX = 50;
+    this.widthOfSheet = 200;
   }
 
   getAgentPosition(agentPosition) {
@@ -37,10 +39,8 @@ class Enemy {
 
   moveEnemy = () => {
     this.directions = [-1, +1, +this.width, -this.width];
-
     this.direction = Math.floor(Math.random() * this.directions.length);
     this.move = this.directions[this.direction];
-    // this.enemyTimerId = setInterval(() => {
     if (
       this.gridArray[this.enemyOneStartPosition + this.move].classList.contains(
         "background-wall"
@@ -48,6 +48,9 @@ class Enemy {
     ) {
       this.gridArray[this.enemyOneStartPosition].classList.remove("enemy-one");
       this.agentEnemyCollision();
+    this.animateEnemy(this.enemyOneStartPosition); 
+
+
       // //check closer
       const [enemyPosX, enemyPosY] = this.getPositionCoordinates(
         this.enemyOneStartPosition
@@ -58,6 +61,7 @@ class Enemy {
       const [agentPosX, agentPosY] = this.getPositionCoordinates(
         this.agentPosition
       );
+      
 
       if (
         isXcoordinateCloser(enemyNewPosX, agentPosX, enemyPosX) ||
@@ -87,10 +91,38 @@ class Enemy {
   agentEnemyCollision() {
     if (this.gridArray[this.agentPosition].classList.contains("enemy-one")) {
       {
-        const gameOverScreen = new GameOverScreen();
-        gameOverScreen.gameOver(this.gameDiv);
+        this.isGameOver = true;
+        console.log(this.isGameOver)
+        // const gameOverScreen = new GameOverScreen();
+        // gameOverScreen.gameOver(this.gameDiv);
+
       }
     }
+  }
+
+  animateEnemy(enemyOneStartPosition) {
+    this.enemyOneStartPosition = enemyOneStartPosition; 
+    // this.move = move; 
+    // this.animateEnemyIntervalTime = 0;
+    this.widthOfSheet = 300;
+    this.posX = 50;
+    this.enemyAnimationInterval = setInterval(() => {
+      this.gridArray[this.enemyOneStartPosition].style.backgroundPositionX =
+        this.posX + "px";
+      this.gridArray[this.enemyOneStartPosition].style.backgroundPositionY =
+        0 + "px";
+        // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionX = 
+        // 0 + "px"; 
+        // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionY = 
+        // 0 + "px"; 
+
+      if (this.posX < this.widthOfSheet) {
+        this.posX = this.posX + 50;
+        // ++this.animateEnemyIntervalTime
+      } else {
+        this.posX = 50;
+      }
+    }, 500);
   }
 }
 

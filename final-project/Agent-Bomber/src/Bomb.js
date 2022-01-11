@@ -10,8 +10,6 @@ import {
 import { GameEnv } from "./GameEnv.js";
 const gameEnv = new GameEnv(game);
 
-import { GameOverScreen } from "./GameOverScreen.js";
-import { Enemy } from "./Enemies.js";
 
 class Bomb {
   constructor(gameDiv) {
@@ -80,6 +78,7 @@ class Bomb {
     this.posX = 50;
     this.widthOfSheet = 550;
     this.isEnemyDead = false;
+    this.isGameOver = false;
 
     if (this.bombPlanted == true) {
       this.explosion.classList.add("left-explosion");
@@ -176,24 +175,42 @@ class Bomb {
         });
         this.displayScore.innerHTML = `${this.score}`;
         this.scoreBox.append(this.displayScore);
-        return this.isEnemyDead;
+
+        //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
+        if (
+          this.bombPlantPosition - 1 == this.agentPosition ||
+          this.bombPlantPosition + 1 == this.agentPosition ||
+          this.bombPlantPosition - 17 == this.agentPosition ||
+          this.bombPlantPosition + 17 == this.agentPosition ||
+          this.bombPlantPosition == this.agentPosition
+        ) {
+          // const gameOverScreen = new GameOverScreen();
+          // gameOverScreen.gameOver(this.gameDiv);
+          this.isGameOver = true;
+        }
+        // return this.isGameOver;
+
+        //******************************************************//
       }
+      return { isEnemyDead: this.isEnemyDead, isGameOver: this.isGameOver };
 
       //////////////////////////////
 
-      //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
-      if (
-        this.bombPlantPosition - 1 == this.agentPosition ||
-        this.bombPlantPosition + 1 == this.agentPosition ||
-        this.bombPlantPosition - 17 == this.agentPosition ||
-        this.bombPlantPosition + 17 == this.agentPosition ||
-        this.bombPlantPosition == this.agentPosition
-      ) {
-        const gameOverScreen = new GameOverScreen();
-        gameOverScreen.gameOver(this.gameDiv);
-      }
+      // //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
+      // if (
+      //   this.bombPlantPosition - 1 == this.agentPosition ||
+      //   this.bombPlantPosition + 1 == this.agentPosition ||
+      //   this.bombPlantPosition - 17 == this.agentPosition ||
+      //   this.bombPlantPosition + 17 == this.agentPosition ||
+      //   this.bombPlantPosition == this.agentPosition
+      // ) {
+      //   // const gameOverScreen = new GameOverScreen();
+      //   // gameOverScreen.gameOver(this.gameDiv);
+      //   this.isGameOver = true;
+      // }
+      // return this.isGameOver;
 
-      //******************************************************//
+      // //******************************************************//
     }
   }
 
@@ -345,6 +362,10 @@ class Bomb {
     this.displayScore.innerHTML = `${this.score}`;
     this.displayScore.classList.add("display-score");
     this.scoreBox.append(this.displayScore);
+  }
+
+  returnScore() {
+    return this.score;
   }
 }
 

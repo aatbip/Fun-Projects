@@ -32,7 +32,7 @@
 }
 
 .background-wall {
-  background-image: url("../images/background-wall.png");
+  background-image: url("../images/background-tile.png");
 }
 
 .metal-wall {
@@ -126,4 +126,32 @@
   font-size: 30px;
   margin-top: 30px;
   margin-left: 15px;
+}
+
+/* Game Over Screen  */
+
+.game-over-screen {
+  background-image: url("../images/gameover-alert.png");
+  width: 850px;
+  height: 550px;
+}
+
+.game-over-screen-score {
+  font-size: 40px;
+  position: absolute; 
+  bottom: 85px; 
+  left: 450px; 
+  color: white; 
+
+}
+
+.play-again-button {
+  background-image: url("../images/playagain-button.png");
+  background-repeat: no-repeat;
+  width: 222px; 
+  height: 44px; 
+  position: absolute; 
+  bottom: 180px; 
+  left: 383px; 
+  border: none;
 }
