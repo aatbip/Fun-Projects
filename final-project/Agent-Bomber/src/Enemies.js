@@ -1,10 +1,10 @@
-import { GameOverScreen } from "./GameOverScreen.js";
-
 import {
-  findVerticalTargetEnemy,
-  findHorizontalTargetEnemy,
-  rand,
+  detectCollisionToRight,
+  isXcoordinateCloser,
+  isYcoordinateCloser,
 } from "./helper.js";
+
+import { gameOverScreen } from "./index.js";
 
 class Enemy {
   constructor(agentPosition, gridArray, gameDiv) {
@@ -12,15 +12,18 @@ class Enemy {
     this.gridArray = gridArray;
     this.gameDiv = gameDiv;
     this.enemyAnimationInterval = 0;
+    this.isGameOver = false;
 
     this.width = 17;
     this.enemyOneStartPosition = 114;
-
     this.enemyOne = document.createElement("div");
   }
+
   addEnemy() {
     this.enemyOne.classList.add("enemy-one");
     this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
+    this.posX = 50;
+    this.widthOfSheet = 200;
   }
 
   getAgentPosition(agentPosition) {
@@ -35,258 +38,124 @@ class Enemy {
     ];
   };
 
-  moveEnemy = (hello) => {
-    // gridPositions = gridPositions;
-    // this.gridArray = gridArray;
-    // if (hello == true) {
-    //   // var that = this;
-    //   clearInterval(this.enemyTimerId);
-    //   console.log("hello world");
-    //   console.log(this.enemyTimerId);
-    //   return; 
-    // }
+  moveEnemy = () => {
     this.directions = [-1, +1, +this.width, -this.width];
-
     this.direction = Math.floor(Math.random() * this.directions.length);
     this.move = this.directions[this.direction];
-    this.enemyTimerId = setInterval(() => {
+    if (
+      this.gridArray[this.enemyOneStartPosition + this.move].classList.contains(
+        "background-wall"
+      )
+    ) {
+      this.gridArray[this.enemyOneStartPosition].classList.remove("enemy-one");
+      this.agentEnemyCollision();
+      this.animateEnemy(this.enemyOneStartPosition);
+
+      // //check closer
+      const [enemyPosX, enemyPosY] = this.getPositionCoordinates(
+        this.enemyOneStartPosition
+      );
+      const [enemyNewPosX, enemyNewPosY] = this.getPositionCoordinates(
+        this.enemyOneStartPosition + this.move
+      );
+      const [agentPosX, agentPosY] = this.getPositionCoordinates(
+        this.agentPosition
+      );
+
       if (
-        this.gridArray[
-          this.enemyOneStartPosition + this.move
-        ].classList.contains("background-wall")
+        isXcoordinateCloser(enemyNewPosX, agentPosX, enemyPosX) ||
+        isYcoordinateCloser(enemyNewPosY, agentPosY, enemyPosY)
       ) {
-        this.gridArray[this.enemyOneStartPosition].classList.remove(
-          "enemy-one"
-        );
-        this.agentEnemyCollision();
-        // //check closer
-        const [enemyPosX, enemyPosY] = this.getPositionCoordinates(
-          this.enemyOneStartPosition
-        );
-        const [enemyNewPosX, enemyNewPosY] = this.getPositionCoordinates(
-          this.enemyOneStartPosition + this.move
-        );
-        const [agentPosX, agentPosY] = this.getPositionCoordinates(
-          this.agentPosition
-        );
-
-        if (
-          isXcoordinateCloser(enemyNewPosX, agentPosX, enemyPosX) ||
-          isYcoordinateCloser(enemyNewPosY, agentPosY, enemyPosY)
-        ) {
-          this.enemyOneStartPosition += this.move;
-
-          this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
-        } else {
-          this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
-          this.direction = Math.floor(Math.random() * this.directions.length);
-
-          this.move = this.directions[this.direction];
-        }
-
-        // this.enemyOneStartPosition += this.move;
-
+        this.enemyOneStartPosition += this.move;
         this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
-      } else if (
-        detectCollisionToRight(
-          this.enemyOneStartPosition,
-          this.gridArray,
-          this.move
-        )
-      ) {
-        this.direction = Math.floor(Math.random() * this.directions.length);
+        this.agentEnemyCollision();
+      }
 
-        this.move = this.directions[this.direction];
-      }
-      else {
-        return;
-      }
-    }, 300);
+      this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
+    } else if (
+      detectCollisionToRight(
+        this.enemyOneStartPosition,
+        this.gridArray,
+        this.move
+      )
+    ) {
+      this.direction = Math.floor(Math.random() * this.directions.length);
+
+      this.move = this.directions[this.direction];
+    } else {
+      return;
+    }
   };
 
   agentEnemyCollision() {
-    if (
-      this.agentPosition == this.enemyOneStartPosition ||
-      this.gridArray[this.agentPosition].classList.contains("enemy-one")
-    ) {
-      const gameOverScreen = new GameOverScreen();
-      gameOverScreen.gameOver(this.gameDiv);
+    if (this.gridArray[this.agentPosition].classList.contains("enemy-one")) {
+      {
+        setTimeout(() => {
+          gameOverScreen();
+        }, 500);
+      }
     }
   }
 
-  removeEnemy() {
-    return true;
+  animateEnemy(enemyOneStartPosition) {
+    this.enemyOneStartPosition = enemyOneStartPosition;
+    // this.move = move;
+    // this.animateEnemyIntervalTime = 0;
+    this.widthOfSheet = 300;
+    this.posX = 50;
+    this.enemyAnimationInterval = setInterval(() => {
+      this.gridArray[this.enemyOneStartPosition].style.backgroundPositionX =
+        this.posX + "px";
+      this.gridArray[this.enemyOneStartPosition].style.backgroundPositionY =
+        0 + "px";
+      // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionX =
+      // 0 + "px";
+      // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionY =
+      // 0 + "px";
 
-    // this.gridArray[this.targets[0]].classList.add("background-wall");
-    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.remove(
-    //   "enemy-one"
-    // );
-    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.add("background-wall")
+      if (this.posX < this.widthOfSheet) {
+        this.posX = this.posX + 50;
+        // ++this.animateEnemyIntervalTime
+      } else {
+        this.posX = 50;
+      }
+    }, 500);
   }
 }
 
-//   addEnemy() {
-//     this.enemyOne.style.cssText = "left: 600px; top: 300px"; //gridArra = 114
-//     this.enemyOne.classList.add("enemy-one");
-//     this.gameDiv.append(this.enemyOne);
+// const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
+//   if (gridArray[enemyStartPosition + move].classList.contains("metal-wall")) {
+//     return true;
 //   }
-
-//   getPositionCoordinates(currentGridPosition) {
-//     return [
-//       currentGridPosition % this.width,
-//       Math.floor(currentGridPos= [ition / this.width),
-//     ];
+//   if (gridArray[enemyStartPosition + move].classList.contains("movable-wall")) {
+//     return true;
 //   }
-
-//   moveEnemy(gridPositions) {
-//     this.enemyOneStartPosition = 114;
-//     this.gridPositions = gridPositions;
-
-//     this.directions
-//       [0, 50],
-//       [0, -50],
-//       [50, 0],
-//       [-50, 0],
-//     ]; //top, left
-
-//     this.direction = Math.floor(Math.random() * this.directions.length);
-//     this.move = this.directions[this.direction - 1];
-
-//     // this.enemyTimerId;
-
-//     setInterval(() => {
-//       if (this.direction === 1) {
-//         if (
-//           this.gridArray[this.enemyOneStartPosition + 1].classList.contains(
-//             "background-wall"
-//           )
-//         ) {
-//           this.enemyOne.style.cssText = `top: ${this.move[0]}; left: ${this.move[1]}`;
-//           this.enemyOneStartPosition += 1;
-//         }
-//       } else if (this.direction === 2) {
-//         if (
-//           this.gridArray[this.enemyOneStartPosition - 1].classList.contains(
-//             "background-wall"
-//           )
-//         ) {
-//           this.enemyOne.style.cssText = `top: ${this.move[0]}; left: ${this.move[1]}`;
-//           this.enemyOneStartPosition -= 1;
-//         }
-//       } else if (this.direction === 3) {
-//         if (
-//           this.gridArray[this.enemyOneStartPosition + 17].classList.contains(
-//             "background-wall"
-//           )
-//         ) {
-//           this.enemyOne.style.cssText = `top: ${this.move[0]}; left: ${this.move[1]}`;
-//           this.enemyOneStartPosition += 17;
-//         }
-//       } else if (this.direction === 4) {
-//         if (
-//           this.gridArray[this.enemyOneStartPosition - 17].classList.contains(
-//             "background-wall"
-//           )
-//         ) {
-//           this.enemyOne.style.cssText = `top: ${this.move[0]}; left: ${this.move[1]}`;
-//           this.enemyOneStartPosition -= 17;
-//         }
-//       } else {
-//         this.direction = Math.floor(Math.random() * this.directions.length);
-
-//         this.move = this.directions[this.direction - 1];
-//       }
-//     }, 300);
+//   if (gridArray[enemyStartPosition + move].classList.contains("brick-wall")) {
+//     return true;
 //   }
-// }
-
-/********************************************************* */
-
-// let width = 17;
-// let enemyOneStartPosition = 114;
-
-// const enemyOne = document.createElement("div");
-
-// const addEnemy = (gridArray) => {
-//   // enemyOne.style.cssText = "left: 600px ; top: 300px"; //gridArra = 114
-//   enemyOne.classList.add("enemy-one");
-//   // gameDiv.append(enemyOne);
-//   gridArray[enemyOneStartPosition].classList.add("enemy-one");
+//   if (gridArray[enemyStartPosition + move].classList.contains("side-wall")) {
+//     return true;
+//   }
+//   if (gridArray[enemyStartPosition + move].classList.contains("top-wall")) {
+//     return true;
+//   }
 // };
 
-// const getPositionCoordinates = (currentGridPosition) => {
-//   return [currentGridPosition % width, Math.floor(currentGridPosition / width)];
+// const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
+//   if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
+//     return true;
+//   } else {
+//     return false;
+//   }
 // };
 
-// const moveEnemy = (gridArray) => {
-//   // gridPositions = gridPositions;
-//   let directions = [-1, +1, +width, -width];
-
-//   let enemyTimerId = NaN;
-//   let direction = Math.floor(Math.random() * directions.length);
-//   let move = directions[direction];
-//   enemyTimerId = setInterval(() => {
-//     console.log("classes", gridArray[enemyOneStartPosition + move]);
-//     if (
-//       gridArray[enemyOneStartPosition + move].classList.contains(
-//         "background-wall"
-//       )
-//     ) {
-//       gridArray[enemyOneStartPosition].classList.remove("enemy-one");
-
-//       // //check closer
-//       // const [enemyPosX, enemyPosY] = getPositionCoordinates(
-//       //   enemyOneStartPosition
-//       // );
-
-//       enemyOneStartPosition += move;
-
-//       gridArray[enemyOneStartPosition].classList.add("enemy-one");
-//       console.log("move", move);
-//     } else if (detectCollisionToRight(enemyOneStartPosition, gridArray, move)) {
-//       direction = Math.floor(Math.random() * directions.length);
-
-//       move = directions[direction];
-//       console.log("last", move);
-//     } else {
-//       return;
-//     }
-//   }, 500);
+// const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
+//   if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
+//     return true;
+//   } else {
+//     return false;
+//   }
 // };
-
-const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
-  if (gridArray[enemyStartPosition + move].classList.contains("metal-wall")) {
-    return true;
-  }
-  if (gridArray[enemyStartPosition + move].classList.contains("movable-wall")) {
-    return true;
-  }
-  if (gridArray[enemyStartPosition + move].classList.contains("brick-wall")) {
-    return true;
-  }
-  if (gridArray[enemyStartPosition + move].classList.contains("side-wall")) {
-    return true;
-  }
-  if (gridArray[enemyStartPosition + move].classList.contains("top-wall")) {
-    return true;
-  }
-};
-
-const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
-  if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
-  if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
-    return true;
-  } else {
-    return false;
-  }
-};
 
 // export { addEnemy, moveEnemy  };
 export { Enemy };

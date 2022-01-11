@@ -1,12 +1,4 @@
 import {
-  TOTAL_GRID,
-  GRID_SIZE,
-  GRID_TYPE,
-  GRID_LIST,
-  ENVIRONMENT,
-} from "./setup.js";
-
-import {
   findBombBlastTargetVertical,
   findBombBlastTargetHorizontal,
   bombPowerUpAppendPosition,
@@ -17,9 +9,6 @@ import {
 
 import { GameEnv } from "./GameEnv.js";
 const gameEnv = new GameEnv(game);
-
-import { GameOverScreen } from "./GameOverScreen.js";
-import { Enemy } from "./Enemies.js";
 
 class Bomb {
   constructor(gameDiv) {
@@ -87,6 +76,8 @@ class Bomb {
     this.gridArray = gridArray;
     this.posX = 50;
     this.widthOfSheet = 550;
+    this.isEnemyDead = false;
+    this.isGameOver = false;
 
     if (this.bombPlanted == true) {
       this.explosion.classList.add("left-explosion");
@@ -167,15 +158,8 @@ class Bomb {
           ) {
             // if (this.gridArray[targets].classList.contains("enemy-one")) {
             this.score += 50;
-            console.log("hello", this.gameDiv.childNodes[targets]);
             this.gameDiv.childNodes[targets].classList.remove("enemy-one");
-            const enemy = new Enemy(
-              this.agentPosition,
-              this.gridArray,
-              this.gameDiv
-            );
-            /////****************** */
-            enemy.moveEnemy(true);
+            this.isEnemyDead = true;
           }
         });
         this.horizontalTargetEnemy.forEach((targets) => {
@@ -184,34 +168,47 @@ class Bomb {
           ) {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-one");
-            const enemy = new Enemy(
-              this.agentPosition,
-              this.gridArray,
-              this.gameDiv
-            );
-            /////****************** */
-            enemy.moveEnemy(true);
+            this.isEnemyDead = true;
           }
         });
         this.displayScore.innerHTML = `${this.score}`;
         this.scoreBox.append(this.displayScore);
+
+        //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
+        if (
+          this.bombPlantPosition - 1 == this.agentPosition ||
+          this.bombPlantPosition + 1 == this.agentPosition ||
+          this.bombPlantPosition - 17 == this.agentPosition ||
+          this.bombPlantPosition + 17 == this.agentPosition ||
+          this.bombPlantPosition == this.agentPosition
+        ) {
+          // const gameOverScreen = new GameOverScreen();
+          // gameOverScreen.gameOver(this.gameDiv);
+          this.isGameOver = true;
+        }
+        // return this.isGameOver;
+
+        //******************************************************//
       }
+      return { isEnemyDead: this.isEnemyDead, isGameOver: this.isGameOver };
 
       //////////////////////////////
 
-      //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
-      if (
-        this.bombPlantPosition - 1 == this.agentPosition ||
-        this.bombPlantPosition + 1 == this.agentPosition ||
-        this.bombPlantPosition - 17 == this.agentPosition ||
-        this.bombPlantPosition + 17 == this.agentPosition ||
-        this.bombPlantPosition == this.agentPosition
-      ) {
-        const gameOverScreen = new GameOverScreen();
-        gameOverScreen.gameOver(this.gameDiv);
-      }
+      // //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
+      // if (
+      //   this.bombPlantPosition - 1 == this.agentPosition ||
+      //   this.bombPlantPosition + 1 == this.agentPosition ||
+      //   this.bombPlantPosition - 17 == this.agentPosition ||
+      //   this.bombPlantPosition + 17 == this.agentPosition ||
+      //   this.bombPlantPosition == this.agentPosition
+      // ) {
+      //   // const gameOverScreen = new GameOverScreen();
+      //   // gameOverScreen.gameOver(this.gameDiv);
+      //   this.isGameOver = true;
+      // }
+      // return this.isGameOver;
 
-      //******************************************************//
+      // //******************************************************//
     }
   }
 
@@ -358,67 +355,15 @@ class Bomb {
     }
   }
 
-  enemyBombCollision(gridArray) {
-    this.gridArray = gridArray;
-
-    this._verticalTargetEnemy = findVerticalTargetEnemy(
-      this.gridArray,
-      // this.gameDiv,
-      this.bombPlantPosition
-    );
-    this._horizontalTargetEnemy = findHorizontalTargetEnemy(
-      this.gridArray,
-      // this.gameDiv,
-      this.bombPlantPosition
-    );
-    this.verticalTargetEnemy = [...new Set(this._verticalTargetEnemy)];
-    this.horizontalTargetEnemy = [...new Set(this._horizontalTargetEnemy)];
-
-    if (this.bombCount >= 0) {
-      this.verticalTargetEnemy.forEach((targets) => {
-        if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
-          // if (this.gridArray[targets].classList.contains("enemy-one")) {
-          this.score += 50;
-          console.log("hello", this.gameDiv.childNodes[targets]);
-          this.gameDiv.childNodes[targets].classList.remove("enemy-one");
-          ////**************** */
-          const enemy = new Enemy(
-            this.agentPosition,
-            this.gridArray,
-            this.gameDiv
-          );
-          /////****************** */
-          enemy.removeEnemy();
-        }
-      });
-      this.horizontalTargetEnemy.forEach((targets) => {
-        if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
-          // if (this.gridArray[targets].classList.contains("enemy-one")) {
-          this.score += 50;
-          // console.log("enemyH", this.horizontalTargetEnemy);
-          // let a = document.querySelectorAll(".enemy-one");
-          // console.log(a);
-          // a.classList.remove("enemy-one");
-          ///*********************** */
-          const enemy = new Enemy(
-            this.agentPosition,
-            this.gridArray,
-            this.gameDiv
-          );
-          /////***********//////////////////
-          enemy.removeEnemy();
-        }
-      });
-      this.displayScore.innerHTML = `${this.score}`;
-      this.scoreBox.append(this.displayScore);
-    }
-  }
-
   scoreDisplay(scoreBox) {
     this.scoreBox = scoreBox;
     this.displayScore.innerHTML = `${this.score}`;
     this.displayScore.classList.add("display-score");
     this.scoreBox.append(this.displayScore);
+  }
+
+  returnScore() {
+    return this.score;
   }
 }
 

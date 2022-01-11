@@ -5,6 +5,9 @@
 }
 
 /* GAME ENVIRONMENT */
+#game {
+  max-width: 100%;
+}
 
 #main {
   position: relative;
@@ -32,7 +35,7 @@
 }
 
 .background-wall {
-  background-image: url("../images/background-wall.png");
+  background-image: url("../images/background-tile.png");
 }
 
 .metal-wall {
@@ -126,4 +129,92 @@
   font-size: 30px;
   margin-top: 30px;
   margin-left: 15px;
+}
+
+/* Game Over Screen  */
+.button-container-last {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.game-over-screen {
+  background-image: url("../images/gameover-alert.png");
+  width: 850px;
+  height: 550px;
+}
+
+.game-over-screen-score {
+  text-align: center;
+  font-size: 40px;
+  color: white;
+}
+
+.play-again-button {
+  background-image: url("../images/playagain-button.png");
+  background-repeat: no-repeat;
+  width: 32%;
+  height: 44px;
+  margin-left: 16em;
+  margin-top: 24em;
+  border: none;
+  cursor: pointer;
+}
+
+.play-again-button:hover {
+  opacity: 0.8;
+}
+
+.score-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 4em;
+}
+
+.high-score-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+.opening-screen {
+  background-image: url("../images/opening-image.png");
+  width: 850px;
+  height: 550px;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0;
+  background-size: contain;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.button-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 27em;
+}
+
+.classic-mode {
+  background-image: url("../images/classicmode-button.png");
+  width: 44%;
+  height: 68px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.classic-mode:hover {
+  opacity: 0.8;
+}
+
+.extreme-mode {
+  background-image: url("../images/extrememode-button.png");
+  width: 44%;
+  height: 68px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  float: right;
+}
+
+.extreme-mode:hover {
+  opacity: 0.8;
 }
