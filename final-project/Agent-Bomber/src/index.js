@@ -32,7 +32,6 @@ import { Enemy } from "./Enemies.js";
 //import class
 import { GameEnv } from "./GameEnv.js";
 import { Bomb } from "./Bomb.js";
-// import { Enemy  } from "./Enemies.js";
 
 //initialize classes
 const gameEnv = new GameEnv(game);
@@ -46,7 +45,7 @@ function init() {
   gameEnv.createGameEnvironment(ENVIRONMENT);
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
   enemy.addEnemy();
-  enemy.moveEnemy(gameEnv.gridArray);
+  enemy.moveEnemy(false);
   // addEnemy(gameEnv.gridArray);
   // moveEnemy(gameEnv.gridArray);
 
@@ -103,7 +102,7 @@ function init() {
 
         setTimeout(() => {
           bomb.bombBlast(gameEnv.gridArray, gameEnv.agentPosition);
-          bomb.enemyBombCollision(gameEnv.gridArray);
+          // bomb.enemyBombCollision(gameEnv.gridArray);
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);

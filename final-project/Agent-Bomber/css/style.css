@@ -119,7 +119,7 @@
 .enemy-one {
   width: 50px;
   height: 50px;
-  background-image: url("../images/enemy-neutron-sprite.png");
+  background-image: url("../images/enemy-one.png");
 }
 
 .display-score {

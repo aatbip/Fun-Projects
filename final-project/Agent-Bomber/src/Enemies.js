@@ -1,5 +1,11 @@
 import { GameOverScreen } from "./GameOverScreen.js";
 
+import {
+  findVerticalTargetEnemy,
+  findHorizontalTargetEnemy,
+  rand,
+} from "./helper.js";
+
 class Enemy {
   constructor(agentPosition, gridArray, gameDiv) {
     this.agentPosition = agentPosition;
@@ -29,12 +35,18 @@ class Enemy {
     ];
   };
 
-  moveEnemy = () => {
+  moveEnemy = (hello) => {
     // gridPositions = gridPositions;
     // this.gridArray = gridArray;
+    // if (hello == true) {
+    //   // var that = this;
+    //   clearInterval(this.enemyTimerId);
+    //   console.log("hello world");
+    //   console.log(this.enemyTimerId);
+    //   return; 
+    // }
     this.directions = [-1, +1, +this.width, -this.width];
 
-    this.enemyTimerId = NaN;
     this.direction = Math.floor(Math.random() * this.directions.length);
     this.move = this.directions[this.direction];
     this.enemyTimerId = setInterval(() => {
@@ -85,7 +97,8 @@ class Enemy {
         this.direction = Math.floor(Math.random() * this.directions.length);
 
         this.move = this.directions[this.direction];
-      } else {
+      }
+      else {
         return;
       }
     }, 300);
@@ -101,18 +114,13 @@ class Enemy {
     }
   }
 
-  removeEnemy(targets) {
-    this.targets = targets;
-    console.log("tar", this.targets);
-    clearInterval(this.enemyTimerId);
-
-    // if (this.gridArray[this.targets].classList.contains("enemy-one")) {
-    //   this.gridArray[this.targets].classList.remove("enemy-one");
-    // } 
+  removeEnemy() {
+    return true;
 
     // this.gridArray[this.targets[0]].classList.add("background-wall");
-    console.log("hello");
-    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.remove("enemy-one")
+    // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.remove(
+    //   "enemy-one"
+    // );
     // this.gameDiv.childNodes[this.enemyOneStartPosition].classList.add("background-wall")
   }
 }

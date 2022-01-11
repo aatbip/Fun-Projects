@@ -146,6 +146,59 @@ class Bomb {
         gameEnv.blastGrid(targets);
       });
 
+      //////////////////////////////
+      this._verticalTargetEnemy = findVerticalTargetEnemy(
+        this.gridArray,
+        // this.gameDiv,
+        this.bombPlantPosition
+      );
+      this._horizontalTargetEnemy = findHorizontalTargetEnemy(
+        this.gridArray,
+        // this.gameDiv,
+        this.bombPlantPosition
+      );
+      this.verticalTargetEnemy = [...new Set(this._verticalTargetEnemy)];
+      this.horizontalTargetEnemy = [...new Set(this._horizontalTargetEnemy)];
+
+      if (this.bombCount >= 0) {
+        this.verticalTargetEnemy.forEach((targets) => {
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("enemy-one")
+          ) {
+            // if (this.gridArray[targets].classList.contains("enemy-one")) {
+            this.score += 50;
+            console.log("hello", this.gameDiv.childNodes[targets]);
+            this.gameDiv.childNodes[targets].classList.remove("enemy-one");
+            const enemy = new Enemy(
+              this.agentPosition,
+              this.gridArray,
+              this.gameDiv
+            );
+            /////****************** */
+            enemy.moveEnemy(true);
+          }
+        });
+        this.horizontalTargetEnemy.forEach((targets) => {
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("enemy-one")
+          ) {
+            this.score += 50;
+            this.gameDiv.childNodes[targets].classList.remove("enemy-one");
+            const enemy = new Enemy(
+              this.agentPosition,
+              this.gridArray,
+              this.gameDiv
+            );
+            /////****************** */
+            enemy.moveEnemy(true);
+          }
+        });
+        this.displayScore.innerHTML = `${this.score}`;
+        this.scoreBox.append(this.displayScore);
+      }
+
+      //////////////////////////////
+
       //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
       if (
         this.bombPlantPosition - 1 == this.agentPosition ||
@@ -326,29 +379,34 @@ class Bomb {
         if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
           // if (this.gridArray[targets].classList.contains("enemy-one")) {
           this.score += 50;
+          console.log("hello", this.gameDiv.childNodes[targets]);
+          this.gameDiv.childNodes[targets].classList.remove("enemy-one");
           ////**************** */
-            const enemy = new Enemy(
+          const enemy = new Enemy(
             this.agentPosition,
             this.gridArray,
             this.gameDiv
           );
-          enemy.removeEnemy(targets);
           /////****************** */
+          enemy.removeEnemy();
         }
       });
       this.horizontalTargetEnemy.forEach((targets) => {
         if (this.gameDiv.childNodes[targets].classList.contains("enemy-one")) {
           // if (this.gridArray[targets].classList.contains("enemy-one")) {
           this.score += 50;
-          console.log("enemyH", this.horizontalTargetEnemy);
+          // console.log("enemyH", this.horizontalTargetEnemy);
+          // let a = document.querySelectorAll(".enemy-one");
+          // console.log(a);
+          // a.classList.remove("enemy-one");
           ///*********************** */
           const enemy = new Enemy(
             this.agentPosition,
             this.gridArray,
             this.gameDiv
           );
-          enemy.removeEnemy(targets);
           /////***********//////////////////
+          enemy.removeEnemy();
         }
       });
       this.displayScore.innerHTML = `${this.score}`;
