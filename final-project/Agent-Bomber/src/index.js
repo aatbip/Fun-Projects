@@ -40,13 +40,13 @@ const bomb = new Bomb(game);
 
 const enemy = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 
-const init = () => {
+const init = (speed) => {
   bomb.bombPowerUpCountDisplay(powerUpsBox);
   bomb.scoreDisplay(scoreBox);
   gameEnv.createGameEnvironment(ENVIRONMENT);
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
   enemy.addEnemy();
-  const enemyMovementInterval = setInterval(enemy.moveEnemy, 100);
+  const enemyMovementInterval = setInterval(enemy.moveEnemy, speed);
 
   document.addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -87,6 +87,7 @@ const init = () => {
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
         enemy.agentEnemyCollision();
+
         break;
 
       case " ":
@@ -107,10 +108,12 @@ const init = () => {
             clearInterval(enemyMovementInterval);
           }
 
-          if (isGameOver) {
-            gameOverScreen();
-            console.log(isGameOver);
-          }
+          setTimeout(() => {
+            if (isGameOver) {
+              gameOverScreen();
+              console.log(isGameOver);
+            }
+          }, 1500);
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);
@@ -120,26 +123,95 @@ const init = () => {
   });
 };
 
+const gameOverScreenDisplay = document.createElement("div");
+
+const openingScreen = document.createElement("div");
+const classicMode = document.createElement("button");
+const extremeMode = document.createElement("button");
+
 const gameOverScreen = () => {
-  const gameOverScreen = document.createElement("div");
+  let score = bomb.returnScore(); //get score
+  let currentHighScore = localStorage.getItem("high-score") || 0;
+
+  if (score > currentHighScore) {
+    window.localStorage.setItem("high-score", score);
+  }
+
+  game.style.display = "none";
+
+  const buttonContainer = document.createElement("div");
+  const scoreContainer = document.createElement("div");
+  const highScoreContainer = document.createElement("div");
+
   const displayScore = document.createElement("p");
+  const displayHighScore = document.createElement("p");
   const playAgainButton = document.createElement("button");
 
-  gameOverScreen.classList.add("game-over-screen");
-  main.append(gameOverScreen);
+  buttonContainer.classList.add("button-container-last");
+  scoreContainer.classList.add("score-container");
+  highScoreContainer.classList.add("high-score-container");
 
-  let score = bomb.returnScore();
-
-  displayScore.classList.add("game-over-screen-score");
-  displayScore.innerHTML = `${score}`;
-  gameOverScreen.appendChild(displayScore);
-
+  gameOverScreenDisplay.classList.add("game-over-screen");
   playAgainButton.classList.add("play-again-button");
-  gameOverScreen.append(playAgainButton);
+  displayScore.classList.add("game-over-screen-score");
+  displayHighScore.classList.add("game-over-screen-score");
 
-  game.remove();
+  main.appendChild(gameOverScreenDisplay);
+
+  gameOverScreenDisplay.append(buttonContainer);
+  buttonContainer.append(playAgainButton);
+
+  gameOverScreenDisplay.append(scoreContainer);
+  scoreContainer.append(displayScore);
+
+  gameOverScreenDisplay.append(highScoreContainer);
+  highScoreContainer.append(displayHighScore);
+
+  playAgainButton.onclick = () => {
+    window.location.reload();
+
+    // gameStartScreen();
+  };
+
+  displayScore.innerHTML = `${score}`;
+  if (score < currentHighScore) {
+    displayHighScore.innerHTML = `${currentHighScore}`;
+  } else if (score > currentHighScore) {
+    displayHighScore.innerHTML = `${score}`;
+  }
 };
 
+const gameStartScreen = () => {
+  // gameOverScreenDisplay.remove();
+  const buttonContainer = document.createElement("div");
 
+  openingScreen.classList.add("opening-screen");
+  buttonContainer.classList.add("button-container");
+  classicMode.classList.add("classic-mode");
+  extremeMode.classList.add("extreme-mode");
 
-init();
+  main.append(openingScreen);
+  openingScreen.appendChild(buttonContainer);
+  buttonContainer.append(classicMode);
+  buttonContainer.append(extremeMode);
+
+  classicMode.onclick = () => {
+    openingScreen.remove();
+    extremeMode.remove();
+    classicMode.remove();
+    init(200);
+  };
+
+  extremeMode.onclick = () => {
+    openingScreen.remove();
+    extremeMode.remove();
+    classicMode.remove();
+    init(100);
+  };
+};
+
+gameStartScreen();
+
+export { gameOverScreen }; 
+
+// init();

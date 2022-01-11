@@ -10,7 +10,6 @@ import {
 import { GameEnv } from "./GameEnv.js";
 const gameEnv = new GameEnv(game);
 
-
 class Bomb {
   constructor(gameDiv) {
     this.gameDiv = gameDiv;
@@ -159,7 +158,6 @@ class Bomb {
           ) {
             // if (this.gridArray[targets].classList.contains("enemy-one")) {
             this.score += 50;
-            console.log("hello", this.gameDiv.childNodes[targets]);
             this.gameDiv.childNodes[targets].classList.remove("enemy-one");
             this.isEnemyDead = true;
           }

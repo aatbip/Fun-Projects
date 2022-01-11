@@ -1,9 +1,10 @@
-
 import {
   detectCollisionToRight,
   isXcoordinateCloser,
   isYcoordinateCloser,
 } from "./helper.js";
+
+import { gameOverScreen } from "./index.js";
 
 class Enemy {
   constructor(agentPosition, gridArray, gameDiv) {
@@ -11,7 +12,7 @@ class Enemy {
     this.gridArray = gridArray;
     this.gameDiv = gameDiv;
     this.enemyAnimationInterval = 0;
-    this.isGameOver = false; 
+    this.isGameOver = false;
 
     this.width = 17;
     this.enemyOneStartPosition = 114;
@@ -48,8 +49,7 @@ class Enemy {
     ) {
       this.gridArray[this.enemyOneStartPosition].classList.remove("enemy-one");
       this.agentEnemyCollision();
-    this.animateEnemy(this.enemyOneStartPosition); 
-
+      this.animateEnemy(this.enemyOneStartPosition);
 
       // //check closer
       const [enemyPosX, enemyPosY] = this.getPositionCoordinates(
@@ -61,7 +61,6 @@ class Enemy {
       const [agentPosX, agentPosY] = this.getPositionCoordinates(
         this.agentPosition
       );
-      
 
       if (
         isXcoordinateCloser(enemyNewPosX, agentPosX, enemyPosX) ||
@@ -91,18 +90,16 @@ class Enemy {
   agentEnemyCollision() {
     if (this.gridArray[this.agentPosition].classList.contains("enemy-one")) {
       {
-        this.isGameOver = true;
-        console.log(this.isGameOver)
-        // const gameOverScreen = new GameOverScreen();
-        // gameOverScreen.gameOver(this.gameDiv);
-
+        setTimeout(() => {
+          gameOverScreen();
+        }, 500);
       }
     }
   }
 
   animateEnemy(enemyOneStartPosition) {
-    this.enemyOneStartPosition = enemyOneStartPosition; 
-    // this.move = move; 
+    this.enemyOneStartPosition = enemyOneStartPosition;
+    // this.move = move;
     // this.animateEnemyIntervalTime = 0;
     this.widthOfSheet = 300;
     this.posX = 50;
@@ -111,10 +108,10 @@ class Enemy {
         this.posX + "px";
       this.gridArray[this.enemyOneStartPosition].style.backgroundPositionY =
         0 + "px";
-        // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionX = 
-        // 0 + "px"; 
-        // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionY = 
-        // 0 + "px"; 
+      // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionX =
+      // 0 + "px";
+      // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionY =
+      // 0 + "px";
 
       if (this.posX < this.widthOfSheet) {
         this.posX = this.posX + 50;

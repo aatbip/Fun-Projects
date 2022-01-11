@@ -5,6 +5,9 @@
 }
 
 /* GAME ENVIRONMENT */
+#game {
+  max-width: 100%;
+}
 
 #main {
   position: relative;
@@ -129,6 +132,10 @@
 }
 
 /* Game Over Screen  */
+.button-container-last {
+  width: 80%;
+  margin: 0 auto;
+}
 
 .game-over-screen {
   background-image: url("../images/gameover-alert.png");
@@ -137,21 +144,77 @@
 }
 
 .game-over-screen-score {
+  text-align: center;
   font-size: 40px;
-  position: absolute; 
-  bottom: 85px; 
-  left: 450px; 
-  color: white; 
-
+  color: white;
 }
 
 .play-again-button {
   background-image: url("../images/playagain-button.png");
   background-repeat: no-repeat;
-  width: 222px; 
-  height: 44px; 
-  position: absolute; 
-  bottom: 180px; 
-  left: 383px; 
+  width: 32%;
+  height: 44px;
+  margin-left: 16em;
+  margin-top: 24em;
   border: none;
+  cursor: pointer;
+}
+
+.play-again-button:hover {
+  opacity: 0.8;
+}
+
+.score-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 4em;
+}
+
+.high-score-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+.opening-screen {
+  background-image: url("../images/opening-image.png");
+  width: 850px;
+  height: 550px;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0;
+  background-size: contain;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.button-container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 27em;
+}
+
+.classic-mode {
+  background-image: url("../images/classicmode-button.png");
+  width: 44%;
+  height: 68px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.classic-mode:hover {
+  opacity: 0.8;
+}
+
+.extreme-mode {
+  background-image: url("../images/extrememode-button.png");
+  width: 44%;
+  height: 68px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  float: right;
+}
+
+.extreme-mode:hover {
+  opacity: 0.8;
 }
