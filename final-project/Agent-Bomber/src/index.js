@@ -48,7 +48,8 @@ const init = (speed) => {
   enemy.addEnemy();
   const enemyMovementInterval = setInterval(enemy.moveEnemy, speed);
 
-  document.addEventListener("keydown", (event) => {
+  // document.addEventListener("keydown", (event) => {
+  const listeners = (event) => {
     switch (event.key) {
       case "d":
         bomb.collectBombPowerUps(gameEnv.agentPosition + 1, gameEnv.gridArray);
@@ -56,7 +57,15 @@ const init = (speed) => {
         gameEnv.addAgent(game, AGENT_SPRITE.rightView);
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
-        enemy.agentEnemyCollision();
+        const { isEnemyCollision1 } = enemy.agentEnemyCollision();
+
+        console.log("enemy coll", isEnemyCollision1);
+        if (isEnemyCollision1) {
+          document.removeEventListener("keydown", listeners);
+          setTimeout(() => {
+            gameOverScreen();
+          }, 1500);
+        }
 
         break;
 
@@ -66,7 +75,15 @@ const init = (speed) => {
         gameEnv.addAgent(game, AGENT_SPRITE.frontView);
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
-        enemy.agentEnemyCollision();
+        const { isEnemyCollision2 } = enemy.agentEnemyCollision();
+
+        console.log("enemy coll", isEnemyCollision2);
+        if (isEnemyCollision2) {
+          document.removeEventListener("keydown", listeners);
+          setTimeout(() => {
+            gameOverScreen();
+          }, 1500);
+        }
 
         break;
 
@@ -76,7 +93,15 @@ const init = (speed) => {
         gameEnv.addAgent(game, AGENT_SPRITE.leftView);
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
-        enemy.agentEnemyCollision();
+        const { isEnemyCollision3 } = enemy.agentEnemyCollision();
+
+        console.log("enemy coll", isEnemyCollision3);
+        if (isEnemyCollision3) {
+          document.removeEventListener("keydown", listeners);
+          setTimeout(() => {
+            gameOverScreen();
+          }, 1500);
+        }
 
         break;
 
@@ -86,7 +111,15 @@ const init = (speed) => {
         gameEnv.addAgent(game, AGENT_SPRITE.backView);
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
-        enemy.agentEnemyCollision();
+        const { isEnemyCollision4 } = enemy.agentEnemyCollision();
+
+        console.log("enemy coll", isEnemyCollision4);
+        if (isEnemyCollision4) {
+          document.removeEventListener("keydown", listeners);
+          setTimeout(() => {
+            gameOverScreen();
+          }, 1500);
+        }
 
         break;
 
@@ -111,6 +144,8 @@ const init = (speed) => {
           setTimeout(() => {
             if (isGameOver) {
               gameOverScreen();
+              document.removeEventListener("keydown", listeners);
+
               console.log(isGameOver);
             }
           }, 1500);
@@ -120,7 +155,10 @@ const init = (speed) => {
 
         break;
     }
-  });
+  }; //
+  document.addEventListener("keydown", listeners);
+
+  // });
 };
 
 const gameOverScreenDisplay = document.createElement("div");
@@ -212,6 +250,6 @@ const gameStartScreen = () => {
 
 gameStartScreen();
 
-export { gameOverScreen }; 
+export { gameOverScreen };
 
 // init();

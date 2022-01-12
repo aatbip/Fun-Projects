@@ -13,6 +13,7 @@ class Enemy {
     this.gameDiv = gameDiv;
     this.enemyAnimationInterval = 0;
     this.isGameOver = false;
+    this.isEnemyCollision = false;
 
     this.width = 17;
     this.enemyOneStartPosition = 114;
@@ -89,12 +90,18 @@ class Enemy {
 
   agentEnemyCollision() {
     if (this.gridArray[this.agentPosition].classList.contains("enemy-one")) {
-      {
-        setTimeout(() => {
-          gameOverScreen();
-        }, 500);
-      }
+      this.isEnemyCollision = true;
+      console.log("enemy stepped");
+      // setTimeout(() => {
+      //   gameOverScreen();
+      // }, 1500);
     }
+    return {
+      isEnemyCollision1: this.isEnemyCollision,
+      isEnemyCollision2: this.isEnemyCollision,
+      isEnemyCollision3: this.isEnemyCollision,
+      isEnemyCollision4: this.isEnemyCollision,
+    };
   }
 
   animateEnemy(enemyOneStartPosition) {
