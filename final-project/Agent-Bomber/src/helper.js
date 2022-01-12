@@ -118,14 +118,26 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
 const findVerticalTargetEnemy = (gridArray, bombPlantPosition) => {
   verticalTargetEnemy = [];
 
-  if (gridArray[bombPlantPosition + 17].classList.contains("enemy-one")) {
+  if (
+    gridArray[bombPlantPosition + 17].classList.contains("enemy-one") ||
+    gridArray[bombPlantPosition + 17].classList.contains("enemy-two") ||
+    gridArray[bombPlantPosition + 17].classList.contains("enemy-three")
+  ) {
     verticalTargetEnemy.push(bombPlantPosition + 17);
   }
 
-  if (gridArray[bombPlantPosition - 17].classList.contains("enemy-one")) {
+  if (
+    gridArray[bombPlantPosition - 17].classList.contains("enemy-one") ||
+    gridArray[bombPlantPosition - 17].classList.contains("enemy-two") ||
+    gridArray[bombPlantPosition - 17].classList.contains("enemy-three")
+  ) {
     verticalTargetEnemy.push(bombPlantPosition - 17);
   }
-  if (gridArray[bombPlantPosition].classList.contains("enemy-one")) {
+  if (
+    gridArray[bombPlantPosition].classList.contains("enemy-one") ||
+    gridArray[bombPlantPosition].classList.contains("enemy-two") ||
+    gridArray[bombPlantPosition].classList.contains("enemy-three")
+  ) {
     verticalTargetEnemy.push(bombPlantPosition);
   }
   return verticalTargetEnemy;
@@ -133,15 +145,27 @@ const findVerticalTargetEnemy = (gridArray, bombPlantPosition) => {
 
 const findHorizontalTargetEnemy = (gridArray, bombPlantPosition) => {
   horizontalTargetEnemy = [];
-  if (gridArray[bombPlantPosition + 1].classList.contains("enemy-one")) {
+  if (
+    gridArray[bombPlantPosition + 1].classList.contains("enemy-one") ||
+    gridArray[bombPlantPosition + 1].classList.contains("enemy-two") ||
+    gridArray[bombPlantPosition + 1].classList.contains("enemy-three")
+  ) {
     horizontalTargetEnemy.push(bombPlantPosition + 1);
   }
 
-  if (gridArray[bombPlantPosition - 1].classList.contains("enemy-one")) {
+  if (
+    gridArray[bombPlantPosition - 1].classList.contains("enemy-one") ||
+    gridArray[bombPlantPosition - 1].classList.contains("enemy-two") ||
+    gridArray[bombPlantPosition - 1].classList.contains("enemy-three")
+  ) {
     horizontalTargetEnemy.push(bombPlantPosition - 1);
   }
 
-  if (gridArray[bombPlantPosition].classList.contains("enemy-one")) {
+  if (
+    gridArray[bombPlantPosition].classList.contains("enemy-one") ||
+    gridArray[bombPlantPosition].classList.contains("enemy-two") ||
+    gridArray[bombPlantPosition].classList.contains("enemy-three")
+  ) {
     horizontalTargetEnemy.push(bombPlantPosition);
   }
   return horizontalTargetEnemy;
@@ -189,6 +213,15 @@ const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
     return true;
   }
   if (gridArray[enemyStartPosition + move].classList.contains("top-wall")) {
+    return true;
+  }
+
+  if (
+    gridArray[enemyStartPosition + move].classList.contains(
+      "enemy-one",
+      "enemy-two"
+    )
+  ) {
     return true;
   }
 };

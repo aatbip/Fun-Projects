@@ -20,6 +20,7 @@ class Bomb {
     this.explosion1 = document.createElement("div");
     this.bombPowerUp = document.createElement("div");
     this.bombPowerUpDisplay = document.createElement("p");
+    this.bombPowerUpDisplay.classList.add("bomb-power-up-count");
     this.displayScore = document.createElement("p");
 
     this.bombCount = 3;
@@ -76,7 +77,9 @@ class Bomb {
     this.gridArray = gridArray;
     this.posX = 50;
     this.widthOfSheet = 550;
-    this.isEnemyDead = false;
+    this.isEnemyOneDead = false;
+    this.isEnemyTwoDead = false;
+    this.isEnemyThreeDead = false; 
     this.isGameOver = false;
 
     if (this.bombPlanted == true) {
@@ -159,7 +162,27 @@ class Bomb {
             // if (this.gridArray[targets].classList.contains("enemy-one")) {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-one");
-            this.isEnemyDead = true;
+            this.isEnemyOneDead = true;
+          }
+
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("enemy-two")
+          ) {
+            // if (this.gridArray[targets].classList.contains("enemy-one")) {
+            this.score += 50;
+            this.gameDiv.childNodes[targets].classList.remove("enemy-two");
+            this.isEnemyTwoDead = true;
+            console.log("enemy 2 shud die");
+          }
+
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("enemy-three")
+          ) {
+            // if (this.gridArray[targets].classList.contains("enemy-one")) {
+            this.score += 50;
+            this.gameDiv.childNodes[targets].classList.remove("enemy-three");
+            this.isEnemyThreeDead = true;
+            console.log("enemy 2 shud die");
           }
         });
         this.horizontalTargetEnemy.forEach((targets) => {
@@ -168,7 +191,25 @@ class Bomb {
           ) {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-one");
-            this.isEnemyDead = true;
+            this.isEnemyOneDead = true;
+          }
+
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("enemy-two")
+          ) {
+            this.score += 50;
+            this.gameDiv.childNodes[targets].classList.remove("enemy-two");
+            this.isEnemyTwoDead = true;
+            console.log("enemy 2 shud die");
+          }
+
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("enemy-three")
+          ) {
+            this.score += 50;
+            this.gameDiv.childNodes[targets].classList.remove("enemy-three");
+            this.isEnemyThreeDead = true;
+            console.log("enemy 2 shud die");
           }
         });
         this.displayScore.innerHTML = `${this.score}`;
@@ -190,7 +231,12 @@ class Bomb {
 
         //******************************************************//
       }
-      return { isEnemyDead: this.isEnemyDead, isGameOver: this.isGameOver };
+      return {
+        isEnemyOneDead: this.isEnemyOneDead,
+        isEnemyTwoDead: this.isEnemyTwoDead,
+        isEnemyThreeDead: this.isEnemyThreeDead,
+        isGameOver: this.isGameOver,
+      };
 
       //////////////////////////////
 

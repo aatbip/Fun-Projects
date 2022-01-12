@@ -33,20 +33,31 @@ import { Enemy } from "./Enemies.js";
 //import class
 import { GameEnv } from "./GameEnv.js";
 import { Bomb } from "./Bomb.js";
+import { BoxPowerUp } from "./BoxPowerUp.js";
 
 //initialize classes
 const gameEnv = new GameEnv(game);
 const bomb = new Bomb(game);
+const boxPowerUp = new BoxPowerUp(gameEnv.gridArray);
 
 const enemy = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
+const enemy2 = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
+const enemy3 = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 
-const init = (speed) => {
+const init = (speed1, speed2, speed3) => {
   bomb.bombPowerUpCountDisplay(powerUpsBox);
+  boxPowerUp.displayBoxPowerUpCount(powerUpsBox);
   bomb.scoreDisplay(scoreBox);
   gameEnv.createGameEnvironment(ENVIRONMENT);
+  boxPowerUp.addBoxPowerUp();
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
+  boxPowerUp.addEvilMachine(); 
   enemy.addEnemy();
-  const enemyMovementInterval = setInterval(enemy.moveEnemy, speed);
+  enemy2.addEnemyTwo();
+  enemy3.addEnemyThree();
+  // const enemyMovementInterval = setInterval(enemy.moveEnemy, speed1);
+  // const enemyMovementIntervalTwo = setInterval(enemy2.moveEnemyTwo, speed2);
+  // const enemyMovementIntervalThree = setInterval(enemy3.moveEnemyThree, speed3);
 
   // document.addEventListener("keydown", (event) => {
   const listeners = (event) => {
@@ -57,7 +68,9 @@ const init = (speed) => {
         gameEnv.addAgent(game, AGENT_SPRITE.rightView);
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
+        enemy2.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision1 } = enemy.agentEnemyCollision();
+        boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
         console.log("enemy coll", isEnemyCollision1);
         if (isEnemyCollision1) {
@@ -75,9 +88,10 @@ const init = (speed) => {
         gameEnv.addAgent(game, AGENT_SPRITE.frontView);
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
+        enemy2.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision2 } = enemy.agentEnemyCollision();
+        boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
-        console.log("enemy coll", isEnemyCollision2);
         if (isEnemyCollision2) {
           document.removeEventListener("keydown", listeners);
           setTimeout(() => {
@@ -91,9 +105,12 @@ const init = (speed) => {
         bomb.collectBombPowerUps(gameEnv.agentPosition - 1, gameEnv.gridArray);
         gameEnv.toLeft();
         gameEnv.addAgent(game, AGENT_SPRITE.leftView);
+        enemy2.getAgentPosition(gameEnv.agentPosition);
+
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision3 } = enemy.agentEnemyCollision();
+        boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
         console.log("enemy coll", isEnemyCollision3);
         if (isEnemyCollision3) {
@@ -109,9 +126,12 @@ const init = (speed) => {
         bomb.collectBombPowerUps(gameEnv.agentPosition - 17, gameEnv.gridArray);
         gameEnv.toTop();
         gameEnv.addAgent(game, AGENT_SPRITE.backView);
+        enemy2.getAgentPosition(gameEnv.agentPosition);
+
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision4 } = enemy.agentEnemyCollision();
+        boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
         console.log("enemy coll", isEnemyCollision4);
         if (isEnemyCollision4) {
@@ -133,12 +153,21 @@ const init = (speed) => {
         bomb.animateBomb();
 
         setTimeout(() => {
-          const { isEnemyDead, isGameOver } = bomb.bombBlast(
-            gameEnv.gridArray,
-            gameEnv.agentPosition
-          );
-          if (isEnemyDead) {
+          const {
+            isEnemyOneDead,
+            isEnemyTwoDead,
+            isEnemyThreeDead,
+            isGameOver,
+          } = bomb.bombBlast(gameEnv.gridArray, gameEnv.agentPosition);
+          console.log(isEnemyOneDead);
+          if (isEnemyOneDead) {
             clearInterval(enemyMovementInterval);
+          }
+          if (isEnemyTwoDead) {
+            clearInterval(enemyMovementIntervalTwo);
+          }
+          if (isEnemyThreeDead) {
+            clearInterval(enemyMovementIntervalThree);
           }
 
           setTimeout(() => {
@@ -148,12 +177,15 @@ const init = (speed) => {
 
               console.log(isGameOver);
             }
-          }, 1500);
+          }, 50);
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);
 
         break;
+
+      case "e":
+        boxPowerUp.addNewBox(gameEnv.gameDiv, gameEnv.agentPosition);
     }
   }; //
   document.addEventListener("keydown", listeners);
@@ -237,14 +269,14 @@ const gameStartScreen = () => {
     openingScreen.remove();
     extremeMode.remove();
     classicMode.remove();
-    init(200);
+    init(150, 250, 150);
   };
 
   extremeMode.onclick = () => {
     openingScreen.remove();
     extremeMode.remove();
     classicMode.remove();
-    init(100);
+    init(100, 200, 100);
   };
 };
 
