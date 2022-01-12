@@ -240,6 +240,8 @@ class Bomb {
           if (
             this.gameDiv.childNodes[targets].classList.contains("evil-machine")
           ) {
+            this.score += 150;
+
             this.gameDiv.childNodes[targets].classList.remove("evil-machine");
             this.isEvilMachineBombed = true;
           }
@@ -249,6 +251,8 @@ class Bomb {
           if (
             this.gameDiv.childNodes[targets].classList.contains("evil-machine")
           ) {
+            this.score += 150;
+
             this.gameDiv.childNodes[targets].classList.remove("evil-machine");
             this.isEvilMachineBombed = true;
           }
