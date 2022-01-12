@@ -80,6 +80,8 @@ class BoxPowerUp {
           "movable-wall"
         );
         this.boxPowerUpCount -= 1;
+        this.boxPowerUpCountDisplay.innerHTML = `${this.boxPowerUpCount}`;
+        this.powerUpsBox.append(this.boxPowerUpCountDisplay);
       }
     }
   }
