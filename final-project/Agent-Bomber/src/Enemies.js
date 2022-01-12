@@ -1,5 +1,5 @@
 import {
-  detectCollisionToRight,
+  detectEnemyWallCollision,
   isXcoordinateCloser,
   isYcoordinateCloser,
 } from "./helper.js";
@@ -45,7 +45,7 @@ class Enemy {
 
   getAgentPosition(agentPosition) {
     this.agentPosition = agentPosition;
-    console.log("w", this.agentPosition);   
+    console.log("w", this.agentPosition);
   }
 
   getPositionCoordinates = (currentGridPosition) => {
@@ -99,7 +99,7 @@ class Enemy {
 
       this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
     } else if (
-      detectCollisionToRight(
+      detectEnemyWallCollision(
         this.enemyOneStartPosition,
         this.gridArray,
         this.move
@@ -114,7 +114,7 @@ class Enemy {
   };
 
   moveEnemyTwo = () => {
-    this.directions = [+1, -1, -this.width, +this.width];
+    this.directions = [-1, +1, +this.width, -this.width];
     this.direction = Math.floor(Math.random() * this.directions.length);
     this.move = this.directions[this.direction];
     if (
@@ -123,7 +123,7 @@ class Enemy {
       )
     ) {
       this.gridArray[this.enemyTwoStartPosition].classList.remove("enemy-two");
-      this.agentEnemyCollision();
+      this.agentEnemyCollisionTwo();
       this.animateEnemy(this.enemyTwoStartPosition);
 
       // //check closer
@@ -143,12 +143,12 @@ class Enemy {
       ) {
         this.enemyTwoStartPosition += this.move;
         this.gridArray[this.enemyTwoStartPosition].classList.add("enemy-two");
-        this.agentEnemyCollision();
+        this.agentEnemyCollisionTwo();
       }
 
       this.gridArray[this.enemyTwoStartPosition].classList.add("enemy-two");
     } else if (
-      detectCollisionToRight(
+      detectEnemyWallCollision(
         this.enemyTwoStartPosition,
         this.gridArray,
         this.move
@@ -163,7 +163,7 @@ class Enemy {
   };
 
   moveEnemyThree = () => {
-    this.directions = [+1, -1, -this.width, +this.width];
+    this.directions = [-1, +1, +this.width, -this.width];
     this.direction = Math.floor(Math.random() * this.directions.length);
     this.move = this.directions[this.direction];
     if (
@@ -175,7 +175,7 @@ class Enemy {
         "enemy-three"
       );
       this.enemyThreeStartPosition += this.move;
-      this.agentEnemyCollision();
+      this.agentEnemyCollisionThree();
       this.animateEnemy(this.enemyThreeStartPosition);
       this.gridArray[this.enemyThreeStartPosition].classList.add("enemy-three");
       // //check closer
@@ -201,7 +201,7 @@ class Enemy {
 
       // this.gridArray[this.enemyThreeStartPosition].classList.add("enemy-three");
     } else if (
-      detectCollisionToRight(
+      detectEnemyWallCollision(
         this.enemyThreeStartPosition,
         this.gridArray,
         this.move
@@ -222,7 +222,7 @@ class Enemy {
       this.gridArray[this.agentPosition].classList.contains("enemy-three")
     ) {
       this.isEnemyCollision = true;
-      console.log("enemy stepped");
+      // console.log("enemy stepped");
       // setTimeout(() => {
       //   gameOverScreen();
       // }, 1500);
@@ -232,6 +232,46 @@ class Enemy {
       isEnemyCollision2: this.isEnemyCollision,
       isEnemyCollision3: this.isEnemyCollision,
       isEnemyCollision4: this.isEnemyCollision,
+    };
+  }
+
+  agentEnemyCollisionTwo() {
+    if (
+      this.gridArray[this.agentPosition].classList.contains("enemy-one") ||
+      this.gridArray[this.agentPosition].classList.contains("enemy-two") ||
+      this.gridArray[this.agentPosition].classList.contains("enemy-three")
+    ) {
+      this.isEnemyCollision = true;
+      // console.log("enemy stepped");
+      // setTimeout(() => {
+      //   gameOverScreen();
+      // }, 1500);
+    }
+    return {
+      isEnemyCollision5: this.isEnemyCollision,
+      isEnemyCollision6: this.isEnemyCollision,
+      isEnemyCollision7: this.isEnemyCollision,
+      isEnemyCollision8: this.isEnemyCollision,
+    };
+  }
+
+  agentEnemyCollisionThree() {
+    if (
+      this.gridArray[this.agentPosition].classList.contains("enemy-one") ||
+      this.gridArray[this.agentPosition].classList.contains("enemy-two") ||
+      this.gridArray[this.agentPosition].classList.contains("enemy-three")
+    ) {
+      this.isEnemyCollision = true;
+      // console.log("enemy stepped");
+      // setTimeout(() => {
+      //   gameOverScreen();
+      // }, 1500);
+    }
+    return {
+      isEnemyCollision9: this.isEnemyCollision,
+      isEnemyCollision10: this.isEnemyCollision,
+      isEnemyCollision11: this.isEnemyCollision,
+      isEnemyCollision12: this.isEnemyCollision,
     };
   }
 

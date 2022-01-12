@@ -217,6 +217,12 @@ body {
   margin: 0 auto;
 }
 
+.game-win-screen {
+  background-image: url("../images/gamewin-alert.png");
+  width: 850px;
+  height: 550px;
+}
+
 .button-container {
   width: 80%;
   margin: 0 auto;

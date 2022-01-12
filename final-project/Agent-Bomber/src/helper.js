@@ -4,6 +4,8 @@ let bombBlastTargetsHorizontal = [];
 let bombBlastTargetsVertical = [];
 let verticalTargetEnemy = [];
 let horizontalTargetEnemy = [];
+let horizontalTargetEvilMachine = [];
+let verticalTargetEvilMachine = [];
 const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
   bombBlastTargetsHorizontal = [];
 
@@ -171,6 +173,32 @@ const findHorizontalTargetEnemy = (gridArray, bombPlantPosition) => {
   return horizontalTargetEnemy;
 };
 
+const findHorizontalTargetEvilMachine = (gridArray, bombPlantPosition) => {
+  horizontalTargetEvilMachine = [];
+
+  if (gridArray[bombPlantPosition + 1].classList.contains("evil-machine")) {
+    horizontalTargetEvilMachine.push(bombPlantPosition + 1);
+  }
+
+  if (gridArray[bombPlantPosition - 1].classList.contains("evil-machine")) {
+    horizontalTargetEvilMachine.push(bombPlantPosition + 1);
+  }
+  return horizontalTargetEvilMachine; 
+};
+
+const findVerticalTargetEvilMachine = (gridArray, bombPlantPosition) => {
+  verticalTargetEvilMachine = [];
+
+  if (gridArray[bombPlantPosition + 17].classList.contains("evil-machine")) {
+    verticalTargetEvilMachine.push(bombPlantPosition + 1);
+  }
+
+  if (gridArray[bombPlantPosition - 17].classList.contains("evil-machine")) {
+    verticalTargetEvilMachine.push(bombPlantPosition + 1);
+  }
+  return verticalTargetEvilMachine; 
+};
+
 // bomb power-ups append position
 
 const bombPowerUpAppendPosition = () => {
@@ -199,7 +227,7 @@ const bombPowerUpAppendPosition = () => {
   return targetPowerUps;
 };
 
-const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
+const detectEnemyWallCollision = (enemyStartPosition, gridArray, move) => {
   if (gridArray[enemyStartPosition + move].classList.contains("metal-wall")) {
     return true;
   }
@@ -254,7 +282,9 @@ export {
   bombPowerUpAppendPosition,
   findVerticalTargetEnemy,
   findHorizontalTargetEnemy,
-  detectCollisionToRight,
+  findHorizontalTargetEvilMachine,
+  findVerticalTargetEvilMachine,
+  detectEnemyWallCollision,
   isXcoordinateCloser,
   isYcoordinateCloser,
   rand,

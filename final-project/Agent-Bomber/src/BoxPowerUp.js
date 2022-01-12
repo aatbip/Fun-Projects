@@ -38,6 +38,8 @@ class BoxPowerUp {
     if (
       this.gridArray[this.agentPosition].classList.contains("box-power-up-one")
     ) {
+      const wallPowerUpAudio = new Audio("./audios/gainpowerup.wav");
+      wallPowerUpAudio.play();
       this.gameDiv.childNodes[this.boxPowerUpOnePosition].classList.remove(
         "box-power-up-one"
       );
@@ -48,6 +50,8 @@ class BoxPowerUp {
     } else if (
       this.gridArray[this.agentPosition].classList.contains("box-power-up-two")
     ) {
+      const wallPowerUpAudio = new Audio("./audios/gainpowerup.wav");
+      wallPowerUpAudio.play();
       this.gameDiv.childNodes[this.boxPowerUpTwoPosition].classList.remove(
         "box-power-up-two"
       );
@@ -129,9 +133,6 @@ class BoxPowerUp {
     this.evilMachineBox = document.createElement("div");
     this.evilMachineBox.classList.add("evil-machine");
 
-    this.gridArray[this.evilMachinePosition].classList.remove(
-      "background-wall"
-    );
     this.gridArray[this.evilMachinePosition].classList.add("evil-machine");
   }
 }

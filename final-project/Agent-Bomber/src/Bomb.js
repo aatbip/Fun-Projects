@@ -4,6 +4,8 @@ import {
   bombPowerUpAppendPosition,
   findVerticalTargetEnemy,
   findHorizontalTargetEnemy,
+  findVerticalTargetEvilMachine,
+  findHorizontalTargetEvilMachine,
   rand,
 } from "./helper.js";
 
@@ -28,6 +30,11 @@ class Bomb {
     this.bombPowerUpCount = 0;
     this.ups = [];
     this.pw = false;
+
+    this.isEnemyOneDead = false;
+    this.isEnemyTwoDead = false;
+    this.isEnemyThreeDead = false;
+    this.isEvilMachineBombed = false;
   }
 
   bombPlant(agentPositionX, agentPositionY, agentPosition) {
@@ -40,6 +47,8 @@ class Bomb {
     clearInterval(this.bombAnimationInterval);
     clearInterval(this.bombPowerUpInterval);
     if (this.bombCount >= 1) {
+      const bombPlantAudio = new Audio("./audios/plantbomb.wav");
+      bombPlantAudio.play();
       this.newBomb.classList.add("bomb");
       this.newBomb.style.cssText = `top: ${this.agentPositionY}px; left: ${this.agentPositionX}px;`;
       this.gameDiv.append(this.newBomb);
@@ -77,12 +86,15 @@ class Bomb {
     this.gridArray = gridArray;
     this.posX = 50;
     this.widthOfSheet = 550;
-    this.isEnemyOneDead = false;
-    this.isEnemyTwoDead = false;
-    this.isEnemyThreeDead = false; 
+    // this.isEnemyOneDead = false;
+    // this.isEnemyTwoDead = false;
+    // this.isEnemyThreeDead = false;
+    // this.isEvilMachineBombed = false;
     this.isGameOver = false;
 
     if (this.bombPlanted == true) {
+      const bombBlastAudio = new Audio("./audios/explosion.wav");
+      bombBlastAudio.play();
       this.explosion.classList.add("left-explosion");
       this.explosion.style.cssText = `top: ${this.agentPositionY}px; left: ${
         this.agentPositionX - 50
@@ -154,6 +166,17 @@ class Bomb {
       this.verticalTargetEnemy = [...new Set(this._verticalTargetEnemy)];
       this.horizontalTargetEnemy = [...new Set(this._horizontalTargetEnemy)];
 
+      this.verticalTargetEvilMachine = findVerticalTargetEvilMachine(
+        this.gridArray,
+        // this.gameDiv,
+        this.bombPlantPosition
+      );
+      this.horizontalTargetEvilMachine = findHorizontalTargetEvilMachine(
+        this.gridArray,
+        // this.gameDiv,
+        this.bombPlantPosition
+      );
+
       if (this.bombCount >= 0) {
         this.verticalTargetEnemy.forEach((targets) => {
           if (
@@ -212,6 +235,25 @@ class Bomb {
             console.log("enemy 2 shud die");
           }
         });
+
+        this.verticalTargetEvilMachine.forEach((targets) => {
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("evil-machine")
+          ) {
+            this.gameDiv.childNodes[targets].classList.remove("evil-machine");
+            this.isEvilMachineBombed = true;
+          }
+        });
+
+        this.horizontalTargetEvilMachine.forEach((targets) => {
+          if (
+            this.gameDiv.childNodes[targets].classList.contains("evil-machine")
+          ) {
+            this.gameDiv.childNodes[targets].classList.remove("evil-machine");
+            this.isEvilMachineBombed = true;
+          }
+        });
+
         this.displayScore.innerHTML = `${this.score}`;
         this.scoreBox.append(this.displayScore);
 
@@ -225,6 +267,7 @@ class Bomb {
         ) {
           // const gameOverScreen = new GameOverScreen();
           // gameOverScreen.gameOver(this.gameDiv);
+
           this.isGameOver = true;
         }
         // return this.isGameOver;
@@ -235,6 +278,7 @@ class Bomb {
         isEnemyOneDead: this.isEnemyOneDead,
         isEnemyTwoDead: this.isEnemyTwoDead,
         isEnemyThreeDead: this.isEnemyThreeDead,
+        isEvilMachineBombed: this.isEvilMachineBombed,
         isGameOver: this.isGameOver,
       };
 
@@ -340,6 +384,8 @@ class Bomb {
               ] &&
             this.bombPowerUpsExist == true
           ) {
+            const bombPowerUpAudio = new Audio("./audios/gainpowerup.wav");
+            bombPowerUpAudio.play();
             // this.bombPowerUp.remove();
             this.pw = true;
           }

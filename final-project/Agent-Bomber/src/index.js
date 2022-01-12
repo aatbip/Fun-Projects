@@ -45,19 +45,23 @@ const enemy2 = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 const enemy3 = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 
 const init = (speed1, speed2, speed3) => {
+  const startScreenAudio = new Audio("./audios/background.wav");
+  startScreenAudio.play();
+  startScreenAudio.loop;
+
   bomb.bombPowerUpCountDisplay(powerUpsBox);
   boxPowerUp.displayBoxPowerUpCount(powerUpsBox);
   bomb.scoreDisplay(scoreBox);
   gameEnv.createGameEnvironment(ENVIRONMENT);
   boxPowerUp.addBoxPowerUp();
   gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
-  boxPowerUp.addEvilMachine(); 
+  boxPowerUp.addEvilMachine();
   enemy.addEnemy();
   enemy2.addEnemyTwo();
   enemy3.addEnemyThree();
-  // const enemyMovementInterval = setInterval(enemy.moveEnemy, speed1);
-  // const enemyMovementIntervalTwo = setInterval(enemy2.moveEnemyTwo, speed2);
-  // const enemyMovementIntervalThree = setInterval(enemy3.moveEnemyThree, speed3);
+  const enemyMovementInterval = setInterval(enemy.moveEnemy, speed1);
+  const enemyMovementIntervalTwo = setInterval(enemy2.moveEnemyTwo, speed2);
+  const enemyMovementIntervalThree = setInterval(enemy3.moveEnemyThree, speed3);
 
   // document.addEventListener("keydown", (event) => {
   const listeners = (event) => {
@@ -70,10 +74,13 @@ const init = (speed1, speed2, speed3) => {
         enemy.getAgentPosition(gameEnv.agentPosition);
         enemy2.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision1 } = enemy.agentEnemyCollision();
+        const { isEnemyCollision5 } = enemy2.agentEnemyCollisionTwo();
+        const { isEnemyCollision9 } = enemy3.agentEnemyCollisionThree();
+
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
         console.log("enemy coll", isEnemyCollision1);
-        if (isEnemyCollision1) {
+        if (isEnemyCollision1 || isEnemyCollision5 || isEnemyCollision9) {
           document.removeEventListener("keydown", listeners);
           setTimeout(() => {
             gameOverScreen();
@@ -90,9 +97,12 @@ const init = (speed1, speed2, speed3) => {
         enemy.getAgentPosition(gameEnv.agentPosition);
         enemy2.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision2 } = enemy.agentEnemyCollision();
+        const { isEnemyCollision6 } = enemy2.agentEnemyCollisionTwo();
+        const { isEnemyCollision10 } = enemy3.agentEnemyCollisionThree();
+
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
-        if (isEnemyCollision2) {
+        if (isEnemyCollision2 || isEnemyCollision6 || isEnemyCollision10) {
           document.removeEventListener("keydown", listeners);
           setTimeout(() => {
             gameOverScreen();
@@ -110,10 +120,13 @@ const init = (speed1, speed2, speed3) => {
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision3 } = enemy.agentEnemyCollision();
+        const { isEnemyCollision7 } = enemy2.agentEnemyCollisionTwo();
+        const { isEnemyCollision11 } = enemy3.agentEnemyCollisionThree();
+
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
         console.log("enemy coll", isEnemyCollision3);
-        if (isEnemyCollision3) {
+        if (isEnemyCollision3 || isEnemyCollision7 || isEnemyCollision11) {
           document.removeEventListener("keydown", listeners);
           setTimeout(() => {
             gameOverScreen();
@@ -131,10 +144,13 @@ const init = (speed1, speed2, speed3) => {
         bomb.powerW();
         enemy.getAgentPosition(gameEnv.agentPosition);
         const { isEnemyCollision4 } = enemy.agentEnemyCollision();
+        const { isEnemyCollision8 } = enemy2.agentEnemyCollisionTwo();
+        const { isEnemyCollision12 } = enemy3.agentEnemyCollisionThree();
+
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
         console.log("enemy coll", isEnemyCollision4);
-        if (isEnemyCollision4) {
+        if (isEnemyCollision4 || isEnemyCollision8 || isEnemyCollision12) {
           document.removeEventListener("keydown", listeners);
           setTimeout(() => {
             gameOverScreen();
@@ -157,9 +173,23 @@ const init = (speed1, speed2, speed3) => {
             isEnemyOneDead,
             isEnemyTwoDead,
             isEnemyThreeDead,
+            isEvilMachineBombed,
             isGameOver,
           } = bomb.bombBlast(gameEnv.gridArray, gameEnv.agentPosition);
-          console.log(isEnemyOneDead);
+          console.log("e1", isEnemyOneDead);
+          console.log("e2", isEnemyTwoDead);
+          console.log("e3", isEnemyThreeDead);
+          console.log("evil", isEvilMachineBombed);
+          if (
+            isEnemyOneDead == true &&
+            isEnemyTwoDead == true &&
+            isEnemyThreeDead == true &&
+            isEvilMachineBombed == true
+          ) {
+            gameWinScreen();
+            document.removeEventListener("keydown", listeners);
+          }
+
           if (isEnemyOneDead) {
             clearInterval(enemyMovementInterval);
           }
@@ -170,14 +200,15 @@ const init = (speed1, speed2, speed3) => {
             clearInterval(enemyMovementIntervalThree);
           }
 
-          setTimeout(() => {
-            if (isGameOver) {
+          if (isGameOver) {
+            document.removeEventListener("keydown", listeners);
+            setTimeout(() => {
+              startScreenAudio.pause();
               gameOverScreen();
-              document.removeEventListener("keydown", listeners);
 
               console.log(isGameOver);
-            }
-          }, 50);
+            }, 50);
+          }
         }, 2000);
 
         bomb.bombPowerUps(gameEnv.gridArray);
@@ -185,6 +216,9 @@ const init = (speed1, speed2, speed3) => {
         break;
 
       case "e":
+        const addWallAudio = new Audio("./audios/addwall.wav");
+        addWallAudio.play();
+
         boxPowerUp.addNewBox(gameEnv.gameDiv, gameEnv.agentPosition);
     }
   }; //
@@ -200,6 +234,9 @@ const classicMode = document.createElement("button");
 const extremeMode = document.createElement("button");
 
 const gameOverScreen = () => {
+  const gameOverScreenAudio = new Audio("./audios/gameover.wav");
+  gameOverScreenAudio.play();
+
   let score = bomb.returnScore(); //get score
   let currentHighScore = localStorage.getItem("high-score") || 0;
 
@@ -251,8 +288,67 @@ const gameOverScreen = () => {
   }
 };
 
+const gameWinScreen = () => {
+  const gameWinScreenAudio = new Audio("./audios/gamewin.wav");
+  gameWinScreenAudio.play();
+  let score = bomb.returnScore(); //get score
+  let currentHighScore = localStorage.getItem("high-score") || 0;
+
+  if (score > currentHighScore) {
+    window.localStorage.setItem("high-score", score);
+  }
+
+  game.style.display = "none";
+
+  const gameWinScreenDisplay = document.createElement("div");
+
+  const buttonContainer = document.createElement("div");
+  const scoreContainer = document.createElement("div");
+  const highScoreContainer = document.createElement("div");
+
+  const displayScore = document.createElement("p");
+  const displayHighScore = document.createElement("p");
+  const playAgainButton = document.createElement("button");
+
+  buttonContainer.classList.add("button-container-last");
+  scoreContainer.classList.add("score-container");
+  highScoreContainer.classList.add("high-score-container");
+
+  gameWinScreenDisplay.classList.add("game-win-screen");
+  playAgainButton.classList.add("play-again-button");
+  displayScore.classList.add("game-over-screen-score");
+  displayHighScore.classList.add("game-over-screen-score");
+
+  main.appendChild(gameWinScreenDisplay);
+
+  gameWinScreenDisplay.append(buttonContainer);
+  buttonContainer.append(playAgainButton);
+
+  gameWinScreenDisplay.append(scoreContainer);
+  scoreContainer.append(displayScore);
+
+  gameWinScreenDisplay.append(highScoreContainer);
+  highScoreContainer.append(displayHighScore);
+
+  playAgainButton.onclick = () => {
+    window.location.reload();
+
+    // gameStartScreen();
+  };
+
+  displayScore.innerHTML = `${score}`;
+  if (score < currentHighScore) {
+    displayHighScore.innerHTML = `${currentHighScore}`;
+  } else if (score > currentHighScore) {
+    displayHighScore.innerHTML = `${score}`;
+  }
+};
+
 const gameStartScreen = () => {
-  // gameOverScreenDisplay.remove();
+  const startScreenAudio = new Audio("./audios/gameopening.wav");
+  startScreenAudio.play();
+  startScreenAudio.muted = false;
+
   const buttonContainer = document.createElement("div");
 
   openingScreen.classList.add("opening-screen");
@@ -266,22 +362,26 @@ const gameStartScreen = () => {
   buttonContainer.append(extremeMode);
 
   classicMode.onclick = () => {
+    startScreenAudio.pause();
+    startScreenAudio.currentTime = 0;
     openingScreen.remove();
     extremeMode.remove();
     classicMode.remove();
-    init(150, 250, 150);
+    init(100, 150, 150);
   };
 
   extremeMode.onclick = () => {
+    startScreenAudio.pause();
+    startScreenAudio.currentTime = 0;
     openingScreen.remove();
     extremeMode.remove();
     classicMode.remove();
-    init(100, 200, 100);
+    init(80, 120, 100);
   };
 };
 
 gameStartScreen();
-
+// gameWinScreen();
 export { gameOverScreen };
 
 // init();
