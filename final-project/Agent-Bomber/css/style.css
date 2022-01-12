@@ -4,6 +4,10 @@
   font-family: "Press Start 2P", cursive;
 }
 
+body {
+  background-image: url("../images/agentbomber-backdrop.png");
+}
+
 /* GAME ENVIRONMENT */
 #game {
   max-width: 100%;
@@ -71,9 +75,14 @@
 }
 
 #power-ups-box {
-  flex: 70%;
+  flex: 45%;
   padding: 10px;
   background-image: url("../images/powerupboard.png");
+}
+
+.power-up-images {
+  margin-left: 10px;
+  margin-right: 90px;
 }
 
 /* pacman */
@@ -117,6 +126,13 @@
   background-image: url("../images/bomb-power-up.png");
 }
 
+.bomb-power-up-count {
+  position: absolute;
+  margin-left: 3em;
+  top: 75px;
+  font-size: 30px;
+}
+
 /* enemies  */
 
 .enemy-one {
@@ -129,6 +145,19 @@
   font-size: 30px;
   margin-top: 30px;
   margin-left: 15px;
+}
+
+.enemy-two {
+  width: 50px;
+  height: 50px;
+  background-image: url("../images/enemy-medusa.png");
+}
+
+/* random movement  */
+.enemy-three {
+  width: 50px;
+  height: 50px;
+  background-image: url("../images/enemy-annihilator-sprite.png");
 }
 
 /* Game Over Screen  */
@@ -188,6 +217,12 @@
   margin: 0 auto;
 }
 
+.game-win-screen {
+  background-image: url("../images/gamewin-alert.png");
+  width: 850px;
+  height: 550px;
+}
+
 .button-container {
   width: 80%;
   margin: 0 auto;
@@ -197,8 +232,9 @@
 .classic-mode {
   background-image: url("../images/classicmode-button.png");
   width: 44%;
-  height: 68px;
+  height: 51px;
   background-repeat: no-repeat;
+  border: none;
   cursor: pointer;
 }
 
@@ -209,12 +245,42 @@
 .extreme-mode {
   background-image: url("../images/extrememode-button.png");
   width: 44%;
-  height: 68px;
+  height: 51px;
   background-repeat: no-repeat;
+  border: none;
   cursor: pointer;
   float: right;
 }
 
 .extreme-mode:hover {
   opacity: 0.8;
+}
+
+/* Box power up  */
+
+.box-power-up-one {
+  height: 50px;
+  width: 50px;
+  background-image: url("../images/boxPowerUp.png");
+}
+
+.box-power-up-two {
+  height: 50px;
+  width: 50px;
+  background-image: url("../images/boxPowerUp.png");
+}
+
+.box-power-up-count {
+  font-size: 30px;
+  position: absolute;
+  top: 75px;
+  margin-left: 9em;
+}
+
+/* Evil Machine  */
+
+.evil-machine {
+  height: 50px;
+  width: 50px;
+  background-image: url("../images/agentbomber-evilmachine.png");
 }

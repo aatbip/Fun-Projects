@@ -30,7 +30,6 @@ class GameEnv {
       [154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167 ,168]
     ]
 
- 
     this.agentPosX = 0;
     this.agentPosY = 0;
     this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
