@@ -6,12 +6,14 @@ import {
   ENVIRONMENT,
 } from "./setup.js";
 
+/**
+ * Define Game Environment class
+ */
 class GameEnv {
   constructor(gameDiv) {
     this.gameDiv = gameDiv;
     this.gridArray = [];
 
-    ///from agent///
     this.agent = document.createElement("div");
     this.CURRENT_POSITION_X = 50; //left: 750px max
     this.CURRENT_POSITION_Y = 50;
@@ -35,8 +37,12 @@ class GameEnv {
     this.agentPosition = this.gridPositions[this.agentPosX][this.agentPosY];
   }
 
+  /**
+   * Method to create the game environment blocks
+   *
+   * @param {Array} environment
+   */
   createGameEnvironment(environment) {
-    // this.gridArray = [];
     this.gameDiv.innerHTML = "";
     this.gameDiv.style.cssText = `grid-template-columns: repeat(${TOTAL_GRID}, ${GRID_SIZE}px)`;
 
@@ -49,6 +55,11 @@ class GameEnv {
     });
   }
 
+  /**
+   * Method to blast the target walls
+   *
+   * @param {Array} gridsToBlast
+   */
   blastGrid(gridsToBlast) {
     this.gridsToBlast = gridsToBlast;
     this.toRemove = this.gameDiv.childNodes[this.gridsToBlast];
@@ -57,13 +68,22 @@ class GameEnv {
     this.toRemove.classList.add(`${GRID_TYPE.backgroundWall}`);
   }
 
+  /**
+   * Method to add the agent
+   *
+   * @param {Array} gameDiv
+   * @param {Number} agentView
+   */
   addAgent(gameDiv, agentView) {
     this.gameDiv = gameDiv;
-    // const agent = document.createElement("div");
     this.agent.style.cssText = `top: ${this.CURRENT_POSITION_Y}px; left: ${this.CURRENT_POSITION_X}px; background-position: 0px -${agentView}px`;
     this.agent.classList.add(`${GRID_TYPE.agent}`);
     this.gameDiv.append(this.agent);
   }
+
+  /**
+   * Method to move agent towards bottom
+   */
 
   toBottom() {
     this.CURRENT_POSITION_Y += 50;
@@ -90,6 +110,9 @@ class GameEnv {
     }
   }
 
+  /**
+   * Method to move agent towards top
+   */
   toTop() {
     this.CURRENT_POSITION_Y -= 50;
     this.agentPosX--;
@@ -113,6 +136,9 @@ class GameEnv {
     }
   }
 
+  /**
+   * Method to move agent towards right
+   */
   toRight() {
     this.CURRENT_POSITION_X += 50;
     this.agentPosY++;
@@ -135,6 +161,9 @@ class GameEnv {
     }
   }
 
+  /**
+   * Method to move agent towards left
+   */
   toLeft() {
     this.CURRENT_POSITION_X -= 50;
     this.agentPosY--;
@@ -159,7 +188,6 @@ class GameEnv {
 
   static gameEnvStatic(gameDiv, environment) {
     const _gameEnv = new this(gameDiv);
-    // _gameEnv.createGameEnvironment(environment);
     return _gameEnv;
   }
 }

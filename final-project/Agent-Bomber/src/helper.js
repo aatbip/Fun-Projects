@@ -1,11 +1,17 @@
-// bomb-blast target grid
-
 let bombBlastTargetsHorizontal = [];
 let bombBlastTargetsVertical = [];
 let verticalTargetEnemy = [];
 let horizontalTargetEnemy = [];
 let horizontalTargetEvilMachine = [];
 let verticalTargetEvilMachine = [];
+
+/**
+ * Helper function to find the target array to blast the bomb
+ *
+ * @param {Array} gridArray
+ * @param {Number} bombPlantPosition
+ * @returns {Array}
+ */
 const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
   bombBlastTargetsHorizontal = [];
 
@@ -62,6 +68,14 @@ const findBombBlastTargetHorizontal = (gridArray, bombPlantPosition) => {
   return bombBlastTargetsHorizontal;
 };
 
+/**
+ * Function to find the vertical targets to plant the bomb
+ *
+ * @param {Array} gridArray
+ * @param {Number} bombPlantPosition
+ * @returns {Array}
+ */
+
 const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   bombBlastTargetsVertical = [];
 
@@ -117,6 +131,14 @@ const findBombBlastTargetVertical = (gridArray, bombPlantPosition) => {
   return bombBlastTargetsVertical;
 };
 
+/**
+ * Function to find the vertical targets to blast the enemy
+ *
+ * @param {Array} gridArray
+ * @param {Number} bombPlantPosition
+ * @returns {Array}
+ */
+
 const findVerticalTargetEnemy = (gridArray, bombPlantPosition) => {
   verticalTargetEnemy = [];
 
@@ -144,6 +166,14 @@ const findVerticalTargetEnemy = (gridArray, bombPlantPosition) => {
   }
   return verticalTargetEnemy;
 };
+
+/**
+ * Function to find the horizontal targets to blast the enemy
+ *
+ * @param {Array} gridArray
+ * @param {Number} bombPlantPosition
+ * @returns {Array}
+ */
 
 const findHorizontalTargetEnemy = (gridArray, bombPlantPosition) => {
   horizontalTargetEnemy = [];
@@ -173,6 +203,14 @@ const findHorizontalTargetEnemy = (gridArray, bombPlantPosition) => {
   return horizontalTargetEnemy;
 };
 
+/**
+ * Method to find the horizontal targets to blast the evil machine
+ *
+ * @param {Array} gridArray
+ * @param {Number} bombPlantPosition
+ * @returns {Array}
+ */
+
 const findHorizontalTargetEvilMachine = (gridArray, bombPlantPosition) => {
   horizontalTargetEvilMachine = [];
 
@@ -183,8 +221,16 @@ const findHorizontalTargetEvilMachine = (gridArray, bombPlantPosition) => {
   if (gridArray[bombPlantPosition - 1].classList.contains("evil-machine")) {
     horizontalTargetEvilMachine.push(bombPlantPosition + 1);
   }
-  return horizontalTargetEvilMachine; 
+  return horizontalTargetEvilMachine;
 };
+
+/**
+ * Method to find the vertical targets to blast the evil machine
+ *
+ * @param {Array} gridArray
+ * @param {Number} bombPlantPosition
+ * @returns {Array}
+ */
 
 const findVerticalTargetEvilMachine = (gridArray, bombPlantPosition) => {
   verticalTargetEvilMachine = [];
@@ -196,10 +242,14 @@ const findVerticalTargetEvilMachine = (gridArray, bombPlantPosition) => {
   if (gridArray[bombPlantPosition - 17].classList.contains("evil-machine")) {
     verticalTargetEvilMachine.push(bombPlantPosition + 1);
   }
-  return verticalTargetEvilMachine; 
+  return verticalTargetEvilMachine;
 };
 
-// bomb power-ups append position
+/**
+ * Positions to append the bomb power ups
+ *
+ * @returns {Object}
+ */
 
 const bombPowerUpAppendPosition = () => {
   const targetPowerUps = {
@@ -227,6 +277,14 @@ const bombPowerUpAppendPosition = () => {
   return targetPowerUps;
 };
 
+/**
+ * Function to detect the collision between enemies and walls
+ *
+ * @param {Number} enemyStartPosition
+ * @param {Array} gridArray
+ * @param {Number} move
+ * @returns {Boolean}
+ */
 const detectEnemyWallCollision = (enemyStartPosition, gridArray, move) => {
   if (gridArray[enemyStartPosition + move].classList.contains("metal-wall")) {
     return true;
@@ -254,6 +312,15 @@ const detectEnemyWallCollision = (enemyStartPosition, gridArray, move) => {
   }
 };
 
+/**
+ * Function to determine if Y coordinate between enemies and the agent is closer or not
+ *
+ * @param {Number} enemyNewPosX
+ * @param {Number} agentPosX
+ * @param {Number} enemyPosX
+ * @returns {Boolean}
+ */
+
 const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
   if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
     return true;
@@ -262,18 +329,21 @@ const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
   }
 };
 
+/**
+ * Function to determine if Y coordinate between enemies and the agent is closer or not
+ *
+ * @param {Number} enemyNewPosY
+ * @param {Number} agentPosY
+ * @param {Number} enemyPosY
+ * @returns {Boolean}
+ */
+
 const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
   if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
     return true;
   } else {
     return false;
   }
-};
-
-// Random number generator
-
-const rand = () => {
-  return Math.random();
 };
 
 export {
@@ -287,5 +357,4 @@ export {
   detectEnemyWallCollision,
   isXcoordinateCloser,
   isYcoordinateCloser,
-  rand,
 };

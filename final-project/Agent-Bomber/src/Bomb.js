@@ -1,3 +1,7 @@
+/**
+ * Import functions which returns targets in the array which will be destroyed by the bomb.
+ */
+
 import {
   findBombBlastTargetVertical,
   findBombBlastTargetHorizontal,
@@ -6,12 +10,23 @@ import {
   findHorizontalTargetEnemy,
   findVerticalTargetEvilMachine,
   findHorizontalTargetEvilMachine,
-  rand,
 } from "./helper.js";
 
+import { bombBlastAudio, bombPlantAudio, bombPowerUpAudio } from "./audios.js";
+
+/**
+ * Import class
+ */
 import { GameEnv } from "./GameEnv.js";
+
+/**
+ * Initialize class
+ */
 const gameEnv = new GameEnv(game);
 
+/**
+ * Define the constructor
+ */
 class Bomb {
   constructor(gameDiv) {
     this.gameDiv = gameDiv;
@@ -25,11 +40,11 @@ class Bomb {
     this.bombPowerUpDisplay.classList.add("bomb-power-up-count");
     this.displayScore = document.createElement("p");
 
-    this.bombCount = 3;
+    this.bombCount = 6;
     this.score = 0;
     this.bombPowerUpCount = 0;
-    this.ups = [];
-    this.pw = false;
+    this.bombPlantTargets = [];
+    this.isPowerUp = false;
 
     this.isEnemyOneDead = false;
     this.isEnemyTwoDead = false;
@@ -37,21 +52,31 @@ class Bomb {
     this.isEvilMachineBombed = false;
   }
 
+  /**
+   * Method to plant the bomb
+   *
+   * @param {Number} agentPositionX
+   * @param {Number} agentPositionY
+   * @param {Number} agentPosition
+   */
   bombPlant(agentPositionX, agentPositionY, agentPosition) {
     this.agentPositionX = agentPositionX;
     this.agentPositionY = agentPositionY;
     this.bombPlantPosition = agentPosition;
+
     this.bombPlanted = false;
     this.bombPowerUpsExist = false;
 
     clearInterval(this.bombAnimationInterval);
     clearInterval(this.bombPowerUpInterval);
+
     if (this.bombCount >= 1) {
-      const bombPlantAudio = new Audio("./audios/plantbomb.wav");
-      bombPlantAudio.play();
+      bombPlantAudio();
+
       this.newBomb.classList.add("bomb");
       this.newBomb.style.cssText = `top: ${this.agentPositionY}px; left: ${this.agentPositionX}px;`;
       this.gameDiv.append(this.newBomb);
+
       this.bombCount = this.bombCount - 1;
       this.bombPlanted = true;
       this.firstBombPlant = false;
@@ -59,11 +84,14 @@ class Bomb {
 
     this.bombPowerUpInterval = setTimeout(() => {
       this.bombPowerUp.remove();
-      this.pw = false;
+      this.isPowerUp = false;
       this.bombPowerUpsExist = false;
     }, 5000);
   }
 
+  /**
+   * Method to use animation sprite to animate the planted bomb
+   */
   animateBomb() {
     this.posX = 50;
     this.widthOfSheet = 100;
@@ -80,21 +108,28 @@ class Bomb {
     }, 100);
   }
 
+  /**
+   * Method to blast the bomb and find the bomb blast directions
+   *
+   * @param {Array} gridArray
+   * @param {Number} agentPosition
+   * @returns {Object}
+   */
+
   bombBlast(gridArray, agentPosition) {
     this.agentPosition = agentPosition;
     this.newBomb.remove();
+
     this.gridArray = gridArray;
+
     this.posX = 50;
     this.widthOfSheet = 550;
-    // this.isEnemyOneDead = false;
-    // this.isEnemyTwoDead = false;
-    // this.isEnemyThreeDead = false;
-    // this.isEvilMachineBombed = false;
+
     this.isGameOver = false;
 
     if (this.bombPlanted == true) {
-      const bombBlastAudio = new Audio("./audios/explosion.wav");
-      bombBlastAudio.play();
+      bombBlastAudio();
+
       this.explosion.classList.add("left-explosion");
       this.explosion.style.cssText = `top: ${this.agentPositionY}px; left: ${
         this.agentPositionX - 50
@@ -104,11 +139,12 @@ class Bomb {
         this.agentPositionX - 50
       }px;`;
 
-      // this.gameDiv.append(this.explosion1);
-
       this.gameDiv.append(this.explosion);
       this.gameDiv.append(this.explosion1);
 
+      /**
+       * Animate bomb blast explosion
+       */
       this.intervalTime = 0;
       this.bombBlastInterval = setInterval(() => {
         this.explosion.style.backgroundPositionX = this.posX + "px";
@@ -128,6 +164,10 @@ class Bomb {
           this.explosion1.remove();
         }
       }, 400);
+
+      /**
+       * Call the functions to find the bomb blast target vectors vertical and horizontal
+       */
 
       this._bombBlastTargetsVertical = findBombBlastTargetVertical(
         this.gridArray,
@@ -152,37 +192,41 @@ class Bomb {
         gameEnv.blastGrid(targets);
       });
 
-      //////////////////////////////
+      /**
+       * Call function to find the blast enemy target vectors to horizontal and vertical
+       */
       this._verticalTargetEnemy = findVerticalTargetEnemy(
         this.gridArray,
-        // this.gameDiv,
         this.bombPlantPosition
       );
       this._horizontalTargetEnemy = findHorizontalTargetEnemy(
         this.gridArray,
-        // this.gameDiv,
         this.bombPlantPosition
       );
+
       this.verticalTargetEnemy = [...new Set(this._verticalTargetEnemy)];
       this.horizontalTargetEnemy = [...new Set(this._horizontalTargetEnemy)];
 
+      /**
+       * Call function to find the evil machine target vectors
+       */
       this.verticalTargetEvilMachine = findVerticalTargetEvilMachine(
         this.gridArray,
-        // this.gameDiv,
         this.bombPlantPosition
       );
       this.horizontalTargetEvilMachine = findHorizontalTargetEvilMachine(
         this.gridArray,
-        // this.gameDiv,
         this.bombPlantPosition
       );
 
+      /**
+       * Blast the enemies and evil machine to the target vectors
+       */
       if (this.bombCount >= 0) {
         this.verticalTargetEnemy.forEach((targets) => {
           if (
             this.gameDiv.childNodes[targets].classList.contains("enemy-one")
           ) {
-            // if (this.gridArray[targets].classList.contains("enemy-one")) {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-one");
             this.isEnemyOneDead = true;
@@ -191,21 +235,17 @@ class Bomb {
           if (
             this.gameDiv.childNodes[targets].classList.contains("enemy-two")
           ) {
-            // if (this.gridArray[targets].classList.contains("enemy-one")) {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-two");
             this.isEnemyTwoDead = true;
-            console.log("enemy 2 shud die");
           }
 
           if (
             this.gameDiv.childNodes[targets].classList.contains("enemy-three")
           ) {
-            // if (this.gridArray[targets].classList.contains("enemy-one")) {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-three");
             this.isEnemyThreeDead = true;
-            console.log("enemy 2 shud die");
           }
         });
         this.horizontalTargetEnemy.forEach((targets) => {
@@ -223,7 +263,6 @@ class Bomb {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-two");
             this.isEnemyTwoDead = true;
-            console.log("enemy 2 shud die");
           }
 
           if (
@@ -232,7 +271,6 @@ class Bomb {
             this.score += 50;
             this.gameDiv.childNodes[targets].classList.remove("enemy-three");
             this.isEnemyThreeDead = true;
-            console.log("enemy 2 shud die");
           }
         });
 
@@ -261,7 +299,10 @@ class Bomb {
         this.displayScore.innerHTML = `${this.score}`;
         this.scoreBox.append(this.displayScore);
 
-        //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
+        /**
+         * Condition to check if player remains in the bomb blast position
+         */
+
         if (
           this.bombPlantPosition - 1 == this.agentPosition ||
           this.bombPlantPosition + 1 == this.agentPosition ||
@@ -269,14 +310,8 @@ class Bomb {
           this.bombPlantPosition + 17 == this.agentPosition ||
           this.bombPlantPosition == this.agentPosition
         ) {
-          // const gameOverScreen = new GameOverScreen();
-          // gameOverScreen.gameOver(this.gameDiv);
-
           this.isGameOver = true;
         }
-        // return this.isGameOver;
-
-        //******************************************************//
       }
       return {
         isEnemyOneDead: this.isEnemyOneDead,
@@ -285,26 +320,14 @@ class Bomb {
         isEvilMachineBombed: this.isEvilMachineBombed,
         isGameOver: this.isGameOver,
       };
-
-      //////////////////////////////
-
-      // //*******GAME-OVER SCREEN TO BE REFACTORED LATORR ******//
-      // if (
-      //   this.bombPlantPosition - 1 == this.agentPosition ||
-      //   this.bombPlantPosition + 1 == this.agentPosition ||
-      //   this.bombPlantPosition - 17 == this.agentPosition ||
-      //   this.bombPlantPosition + 17 == this.agentPosition ||
-      //   this.bombPlantPosition == this.agentPosition
-      // ) {
-      //   // const gameOverScreen = new GameOverScreen();
-      //   // gameOverScreen.gameOver(this.gameDiv);
-      //   this.isGameOver = true;
-      // }
-      // return this.isGameOver;
-
-      // //******************************************************//
     }
   }
+
+  /**
+   * Method to put the bomb power ups
+   *
+   * @param {Array} gridArray
+   */
 
   bombPowerUps(gridArray) {
     this.gridArray = gridArray;
@@ -312,7 +335,6 @@ class Bomb {
     this.widthOfSheet1 = 400;
     if (this.bombPlanted == true) {
       this.bombPowerUp.classList.add("bomb-power-up");
-      /////////////**************/////////////////
 
       this._bombBlastTargetsVertical = findBombBlastTargetVertical(
         this.gridArray,
@@ -328,22 +350,19 @@ class Bomb {
       this.bombBlastTargetsHorizontal = [
         ...new Set(this._bombBlastTargetsHorizontal),
       ];
-      this.ups = [];
+      this.bombPlantTargets = [];
 
       this.bombBlastTargetsVertical.forEach((targets) => {
-        this.ups.push(targets);
+        this.bombPlantTargets.push(targets);
       });
 
       this.bombBlastTargetsHorizontal.forEach((targets) => {
-        this.ups.push(targets);
+        this.bombPlantTargets.push(targets);
       });
-
-      ///////////////////*************////////////////////
 
       this.targetPowerUps = bombPowerUpAppendPosition();
       setTimeout(() => {
-        this.ups.map((targets) => {
-          ///
+        this.bombPlantTargets.map((targets) => {
           if (this.targetPowerUps[targets]) {
             this.bombPowerUp.style.cssText = `left: ${this.targetPowerUps[targets].position_X}px; top: ${this.targetPowerUps[targets].position_Y}px`;
             this.gameDiv.append(this.bombPowerUp);
@@ -356,7 +375,9 @@ class Bomb {
       }, 3000);
     }
 
-    //******animation of bomb power up****////
+    /**
+     * Animated the bomb power ups using sprite
+     */
     this.bombPowerupIntervalTime = 0;
     this.bombPowerUpInterval = setInterval(() => {
       this.bombPowerUp.style.backgroundPositionX = this.posX1 + "px";
@@ -369,17 +390,24 @@ class Bomb {
         this.posX1 = 50;
       }
     }, 600);
-
-    ////***************************//////
   }
+
+  /**
+   * Method to collect the bomb power ups when enemy steps on its position
+   *
+   * @param {Number} agentPostion
+   * @param {Array} gridArray
+   */
 
   collectBombPowerUps(agentPostion, gridArray) {
     this.agentPosition = agentPostion;
     this.gridArray = gridArray;
+
     this.targetPowerUps = bombPowerUpAppendPosition();
+
     if (this.bombPlanted == true) {
-      this.ups1 = this.targetVectors();
-      this.ups1.map((targets) => {
+      this.bombPlantTargets1 = this.targetVectors();
+      this.bombPlantTargets1.map((targets) => {
         if (this.targetPowerUps[targets]) {
           if (
             this.gridArray[this.agentPosition] ==
@@ -388,10 +416,8 @@ class Bomb {
               ] &&
             this.bombPowerUpsExist == true
           ) {
-            const bombPowerUpAudio = new Audio("./audios/gainpowerup.wav");
-            bombPowerUpAudio.play();
-            // this.bombPowerUp.remove();
-            this.pw = true;
+            bombPowerUpAudio();
+            this.isPowerUp = true;
           }
         }
       });
@@ -401,6 +427,11 @@ class Bomb {
     this.powerUpsBox.append(this.bombPowerUpDisplay);
   }
 
+  /**
+   * Method to display bomb count on the display board
+   *
+   * @param {String} powerUpsBox
+   */
   bombPowerUpCountDisplay(powerUpsBox) {
     this.powerUpsBox = powerUpsBox;
 
@@ -408,8 +439,13 @@ class Bomb {
     this.powerUpsBox.append(this.bombPowerUpDisplay);
   }
 
+  /**
+   * Return target vectors for the bomb plant positions
+   *
+   * @returns {Array}
+   */
   targetVectors() {
-    this.ups1 = [];
+    this.bombPlantTargets1 = [];
     this._bombBlastTargetsVertical = findBombBlastTargetVertical(
       this.gridArray,
       this.bombPlantPosition
@@ -425,31 +461,39 @@ class Bomb {
       ...new Set(this._bombBlastTargetsHorizontal),
     ];
     this.bombBlastTargetsVertical.forEach((targets) => {
-      this.ups.push(targets);
+      this.bombPlantTargets.push(targets);
     });
 
     this.bombBlastTargetsHorizontal.forEach((targets) => {
-      this.ups.push(targets);
+      this.bombPlantTargets.push(targets);
     });
 
-    return this.ups;
+    return this.bombPlantTargets;
   }
 
-  powerW() {
-    if (this.pw == true) {
+  /**
+   * Method to remove bomb power ups
+   */
+  removeBomb() {
+    if (this.isPowerUp == true) {
       this.num = this.gameDiv.childNodes.length;
-      console.log(this.num);
       if (!this.gameDiv.childNodes[this.num]) {
         this.bombCount += 3;
         this.bombPowerUp.remove();
 
         this.bombPowerUpDisplay.innerHTML = `${this.bombCount}`;
         this.powerUpsBox.append(this.bombPowerUpDisplay);
-        this.pw = false;
+        this.isPowerUp = false;
         this.bombPowerUpsExist = false;
       }
     }
   }
+
+  /**
+   * Method to display score
+   *
+   * @param {String} scoreBox
+   */
 
   scoreDisplay(scoreBox) {
     this.scoreBox = scoreBox;
@@ -458,6 +502,11 @@ class Bomb {
     this.scoreBox.append(this.displayScore);
   }
 
+  /**
+   * Method to return the score
+   *
+   * @returns {Number}
+   */
   returnScore() {
     return this.score;
   }

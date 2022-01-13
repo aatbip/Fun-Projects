@@ -1,41 +1,49 @@
+/**
+ * Import constants
+ */
+
+import { AGENT_SPRITE } from "./constants.js";
+import { KEYBOARD_INPUTS } from "./constants.js";
+
+/**
+ * Import functions
+ */
+import { ENVIRONMENT } from "./setup.js";
+
 import {
-  TOTAL_GRID,
-  GRID_SIZE,
-  GRID_TYPE,
-  GRID_LIST,
-  ENVIRONMENT,
-} from "./setup.js";
+  startScreenAudio,
+  addwallAudio,
+  gameOverScreenAudio,
+  gameWinScreenAudio,
+  gameStartScreenAudio,
+  buttonClickAudio,
+} from "./audios.js";
 
-//constants
-const AGENT_SPRITE = {
-  frontView: 0,
-  leftView: 50,
-  rightView: 100,
-  backView: 150,
-};
-
-//DOM
-const game = document.querySelector("#game");
-const powerUpsBox = document.querySelector("#power-ups-box");
-const scoreBox = document.querySelector("#score-box");
+/**
+ * Get IDs from HTML
+ */
 const main = document.querySelector("#main");
+const game = document.querySelector("#game");
+const scoreBox = document.querySelector("#score-box");
+const powerUpsBox = document.querySelector("#power-ups-box");
 
-//
-// import {
-//   addEnemy,
-//   moveEnemy,
-//   GetAP
+/**
+ * Define constants
+ */
 
-// } from "./Enemies.js";
-import { Enemy } from "./Enemies.js";
-//
+const WIDTH = 17;
 
-//import class
-import { GameEnv } from "./GameEnv.js";
+/**
+ * Import Classes
+ */
 import { Bomb } from "./Bomb.js";
+import { Enemy } from "./Enemies.js";
+import { GameEnv } from "./GameEnv.js";
 import { BoxPowerUp } from "./BoxPowerUp.js";
 
-//initialize classes
+/**
+ * Initialize classes
+ */
 const gameEnv = new GameEnv(game);
 const bomb = new Bomb(game);
 const boxPowerUp = new BoxPowerUp(gameEnv.gridArray);
@@ -44,58 +52,82 @@ const enemy = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 const enemy2 = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 const enemy3 = new Enemy(gameEnv.agentPosition, gameEnv.gridArray, game);
 
-const init = (speed1, speed2, speed3) => {
-  const startScreenAudio = new Audio("./audios/background.wav");
-  startScreenAudio.play();
-  startScreenAudio.loop;
+/**
+ *Game Initialization function where all the game environment and key control methods are operating.
+ *
+ * @param {Number} speed1
+ * @param {Number} speed2
+ * @param {Number} speed3
+ */
+
+const gameInitialization = (speed1, speed2, speed3) => {
+  startScreenAudio();
 
   bomb.bombPowerUpCountDisplay(powerUpsBox);
   boxPowerUp.displayBoxPowerUpCount(powerUpsBox);
   bomb.scoreDisplay(scoreBox);
+
   gameEnv.createGameEnvironment(ENVIRONMENT);
+
   boxPowerUp.addBoxPowerUp();
-  gameEnv.addAgent(game, AGENT_SPRITE.frontView); //add agent to its initial position
   boxPowerUp.addEvilMachine();
+
+  gameEnv.addAgent(game, AGENT_SPRITE.frontView);
+
   enemy.addEnemy();
   enemy2.addEnemyTwo();
   enemy3.addEnemyThree();
+
   const enemyMovementInterval = setInterval(enemy.moveEnemy, speed1);
   const enemyMovementIntervalTwo = setInterval(enemy2.moveEnemyTwo, speed2);
   const enemyMovementIntervalThree = setInterval(enemy3.moveEnemyThree, speed3);
 
-  // document.addEventListener("keydown", (event) => {
-  const listeners = (event) => {
+  /**
+   * Function to handle keyboard switch press
+   *
+   * @param {Object} event
+   */
+
+  const keyboardSwitchHandlers = (event) => {
     switch (event.key) {
-      case "d":
+      case KEYBOARD_INPUTS.right:
         bomb.collectBombPowerUps(gameEnv.agentPosition + 1, gameEnv.gridArray);
+
         gameEnv.toRight();
         gameEnv.addAgent(game, AGENT_SPRITE.rightView);
-        bomb.powerW();
+
+        bomb.removeBomb();
+
         enemy.getAgentPosition(gameEnv.agentPosition);
         enemy2.getAgentPosition(gameEnv.agentPosition);
+
         const { isEnemyCollision1 } = enemy.agentEnemyCollision();
         const { isEnemyCollision5 } = enemy2.agentEnemyCollisionTwo();
         const { isEnemyCollision9 } = enemy3.agentEnemyCollisionThree();
 
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
-        console.log("enemy coll", isEnemyCollision1);
         if (isEnemyCollision1 || isEnemyCollision5 || isEnemyCollision9) {
-          document.removeEventListener("keydown", listeners);
-          setTimeout(() => {
-            gameOverScreen();
-          }, 1500);
+          document.removeEventListener("keydown", keyboardSwitchHandlers);
+          setTimeout(gameOverScreen, 1500);
         }
 
         break;
 
-      case "s":
-        bomb.collectBombPowerUps(gameEnv.agentPosition + 17, gameEnv.gridArray);
+      case KEYBOARD_INPUTS.down:
+        bomb.collectBombPowerUps(
+          gameEnv.agentPosition + WIDTH,
+          gameEnv.gridArray
+        );
+
         gameEnv.toBottom();
         gameEnv.addAgent(game, AGENT_SPRITE.frontView);
-        bomb.powerW();
+
+        bomb.removeBomb();
+
         enemy.getAgentPosition(gameEnv.agentPosition);
         enemy2.getAgentPosition(gameEnv.agentPosition);
+
         const { isEnemyCollision2 } = enemy.agentEnemyCollision();
         const { isEnemyCollision6 } = enemy2.agentEnemyCollisionTwo();
         const { isEnemyCollision10 } = enemy3.agentEnemyCollisionThree();
@@ -103,63 +135,64 @@ const init = (speed1, speed2, speed3) => {
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
         if (isEnemyCollision2 || isEnemyCollision6 || isEnemyCollision10) {
-          document.removeEventListener("keydown", listeners);
-          setTimeout(() => {
-            gameOverScreen();
-          }, 1500);
+          document.removeEventListener("keydown", keyboardSwitchHandlers);
+          setTimeout(gameOverScreen, 1500);
         }
 
         break;
 
-      case "a":
+      case KEYBOARD_INPUTS.left:
         bomb.collectBombPowerUps(gameEnv.agentPosition - 1, gameEnv.gridArray);
         gameEnv.toLeft();
+
         gameEnv.addAgent(game, AGENT_SPRITE.leftView);
         enemy2.getAgentPosition(gameEnv.agentPosition);
 
-        bomb.powerW();
+        bomb.removeBomb();
         enemy.getAgentPosition(gameEnv.agentPosition);
+
         const { isEnemyCollision3 } = enemy.agentEnemyCollision();
         const { isEnemyCollision7 } = enemy2.agentEnemyCollisionTwo();
         const { isEnemyCollision11 } = enemy3.agentEnemyCollisionThree();
 
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
-        console.log("enemy coll", isEnemyCollision3);
         if (isEnemyCollision3 || isEnemyCollision7 || isEnemyCollision11) {
-          document.removeEventListener("keydown", listeners);
-          setTimeout(() => {
-            gameOverScreen();
-          }, 1500);
+          document.removeEventListener("keydown", keyboardSwitchHandlers);
+          setTimeout(gameOverScreen, 1500);
         }
 
         break;
 
-      case "w":
-        bomb.collectBombPowerUps(gameEnv.agentPosition - 17, gameEnv.gridArray);
+      case KEYBOARD_INPUTS.up:
+        bomb.collectBombPowerUps(
+          gameEnv.agentPosition - WIDTH,
+          gameEnv.gridArray
+        );
+
         gameEnv.toTop();
         gameEnv.addAgent(game, AGENT_SPRITE.backView);
+
         enemy2.getAgentPosition(gameEnv.agentPosition);
 
-        bomb.powerW();
+        bomb.removeBomb();
+
         enemy.getAgentPosition(gameEnv.agentPosition);
+
         const { isEnemyCollision4 } = enemy.agentEnemyCollision();
         const { isEnemyCollision8 } = enemy2.agentEnemyCollisionTwo();
         const { isEnemyCollision12 } = enemy3.agentEnemyCollisionThree();
 
         boxPowerUp.collectBoxPowerUp(gameEnv.gameDiv, gameEnv.agentPosition);
 
-        console.log("enemy coll", isEnemyCollision4);
         if (isEnemyCollision4 || isEnemyCollision8 || isEnemyCollision12) {
-          document.removeEventListener("keydown", listeners);
-          setTimeout(() => {
-            gameOverScreen();
-          }, 1500);
+          document.removeEventListener("keydown", keyboardSwitchHandlers);
+          setTimeout(gameOverScreen, 1500);
         }
 
         break;
 
-      case " ":
+      case KEYBOARD_INPUTS.spaceKey:
         bomb.bombPlant(
           gameEnv.CURRENT_POSITION_X,
           gameEnv.CURRENT_POSITION_Y,
@@ -176,10 +209,7 @@ const init = (speed1, speed2, speed3) => {
             isEvilMachineBombed,
             isGameOver,
           } = bomb.bombBlast(gameEnv.gridArray, gameEnv.agentPosition);
-          console.log("e1", isEnemyOneDead);
-          console.log("e2", isEnemyTwoDead);
-          console.log("e3", isEnemyThreeDead);
-          console.log("evil", isEvilMachineBombed);
+
           if (
             isEnemyOneDead == true &&
             isEnemyTwoDead == true &&
@@ -187,7 +217,7 @@ const init = (speed1, speed2, speed3) => {
             isEvilMachineBombed == true
           ) {
             gameWinScreen();
-            document.removeEventListener("keydown", listeners);
+            document.removeEventListener("keydown", keyboardSwitchHandlers);
           }
 
           if (isEnemyOneDead) {
@@ -201,13 +231,8 @@ const init = (speed1, speed2, speed3) => {
           }
 
           if (isGameOver) {
-            document.removeEventListener("keydown", listeners);
-            setTimeout(() => {
-              startScreenAudio.pause();
-              gameOverScreen();
-
-              console.log(isGameOver);
-            }, 50);
+            document.removeEventListener("keydown", keyboardSwitchHandlers);
+            setTimeout(gameOverScreen, 50);
           }
         }, 2000);
 
@@ -215,29 +240,25 @@ const init = (speed1, speed2, speed3) => {
 
         break;
 
-      case "e":
-        const addWallAudio = new Audio("./audios/addwall.wav");
-        addWallAudio.play();
+      case KEYBOARD_INPUTS.eKey:
+        addwallAudio();
 
         boxPowerUp.addNewBox(gameEnv.gameDiv, gameEnv.agentPosition);
     }
-  }; //
-  document.addEventListener("keydown", listeners);
-
-  // });
+  };
+  document.addEventListener("keydown", keyboardSwitchHandlers);
 };
+
+/**
+ * Screen to display after the game is over
+ */
 
 const gameOverScreenDisplay = document.createElement("div");
 
-const openingScreen = document.createElement("div");
-const classicMode = document.createElement("button");
-const extremeMode = document.createElement("button");
-
 const gameOverScreen = () => {
-  const gameOverScreenAudio = new Audio("./audios/gameover.wav");
-  gameOverScreenAudio.play();
+  gameOverScreenAudio();
 
-  let score = bomb.returnScore(); //get score
+  let score = bomb.returnScore();
   let currentHighScore = localStorage.getItem("high-score") || 0;
 
   if (score > currentHighScore) {
@@ -274,10 +295,13 @@ const gameOverScreen = () => {
   gameOverScreenDisplay.append(highScoreContainer);
   highScoreContainer.append(displayHighScore);
 
-  playAgainButton.onclick = () => {
-    window.location.reload();
+  playAgainButton.onmouseenter = () => {
+    buttonClickAudio();
+  };
 
-    // gameStartScreen();
+  playAgainButton.onclick = () => {
+    buttonClickAudio();
+    window.location.reload();
   };
 
   displayScore.innerHTML = `${score}`;
@@ -285,13 +309,19 @@ const gameOverScreen = () => {
     displayHighScore.innerHTML = `${currentHighScore}`;
   } else if (score > currentHighScore) {
     displayHighScore.innerHTML = `${score}`;
+  } else {
+    displayHighScore.innerHTML = `${currentHighScore}`;
   }
 };
 
+/**
+ * Screen to display after the game is won
+ */
 const gameWinScreen = () => {
-  const gameWinScreenAudio = new Audio("./audios/gamewin.wav");
-  gameWinScreenAudio.play();
-  let score = bomb.returnScore(); //get score
+  gameWinScreenAudio();
+
+  let score = bomb.returnScore();
+
   let currentHighScore = localStorage.getItem("high-score") || 0;
 
   if (score > currentHighScore) {
@@ -330,10 +360,14 @@ const gameWinScreen = () => {
   gameWinScreenDisplay.append(highScoreContainer);
   highScoreContainer.append(displayHighScore);
 
-  playAgainButton.onclick = () => {
-    window.location.reload();
+  playAgainButton.onmouseenter = () => {
+    buttonClickAudio();
+  };
 
-    // gameStartScreen();
+  playAgainButton.onclick = () => {
+    buttonClickAudio();
+
+    window.location.reload();
   };
 
   displayScore.innerHTML = `${score}`;
@@ -341,47 +375,81 @@ const gameWinScreen = () => {
     displayHighScore.innerHTML = `${currentHighScore}`;
   } else if (score > currentHighScore) {
     displayHighScore.innerHTML = `${score}`;
+  } else {
+    displayHighScore.innerHTML = `${currentHighScore}`;
   }
 };
 
+/**
+ * Screen to display at the beginning of the game
+ */
 const gameStartScreen = () => {
-  const startScreenAudio = new Audio("./audios/gameopening.wav");
-  startScreenAudio.play();
-  startScreenAudio.muted = false;
+  gameStartScreenAudio();
+
+  const openingScreen = document.createElement("div");
+  const manualScreen = document.createElement("div");
+  const classicMode = document.createElement("button");
+  const extremeMode = document.createElement("button");
+  const practiceMode = document.createElement("button");
+  const showManualButton = document.createElement("button");
 
   const buttonContainer = document.createElement("div");
+  const manualContainer = document.createElement("div");
 
   openingScreen.classList.add("opening-screen");
+  manualScreen.classList.add("manual-screen");
   buttonContainer.classList.add("button-container");
+  manualContainer.classList.add("manual-container");
   classicMode.classList.add("classic-mode");
   extremeMode.classList.add("extreme-mode");
+  practiceMode.classList.add("practice-mode");
+  showManualButton.classList.add("show-manual");
 
   main.append(openingScreen);
+  openingScreen.appendChild(manualContainer);
   openingScreen.appendChild(buttonContainer);
   buttonContainer.append(classicMode);
   buttonContainer.append(extremeMode);
+  buttonContainer.append(practiceMode);
+  manualContainer.append(showManualButton);
+  manualContainer.append(manualScreen);
+
+  classicMode.onmouseenter = () => {
+    buttonClickAudio();
+  };
+  extremeMode.onmouseenter = () => {
+    buttonClickAudio();
+  };
+  practiceMode.onmouseenter = () => {
+    buttonClickAudio();
+  };
 
   classicMode.onclick = () => {
-    startScreenAudio.pause();
-    startScreenAudio.currentTime = 0;
+    buttonClickAudio();
+
     openingScreen.remove();
     extremeMode.remove();
     classicMode.remove();
-    init(100, 150, 150);
+    gameInitialization(100, 150, 120);
   };
 
   extremeMode.onclick = () => {
-    startScreenAudio.pause();
-    startScreenAudio.currentTime = 0;
+    buttonClickAudio();
+
     openingScreen.remove();
     extremeMode.remove();
     classicMode.remove();
-    init(80, 120, 100);
+    gameInitialization(80, 120, 100);
+  };
+
+  practiceMode.onclick = () => {
+    buttonClickAudio();
+
+    openingScreen.remove();
+    extremeMode.remove();
+    classicMode.remove();
+    gameInitialization(280, 330, 280);
   };
 };
 
 gameStartScreen();
-// gameWinScreen();
-export { gameOverScreen };
-
-// init();
