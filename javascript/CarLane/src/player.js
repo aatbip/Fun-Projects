@@ -30,7 +30,6 @@ Player.prototype.draw = function (area) {
 
 Player.prototype.toLeft = function () {
   if (this.index <= 0) {
-    console.log("collapse");
   } else {
     this.index--;
   }
