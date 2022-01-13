@@ -4,6 +4,9 @@ import {
   isYcoordinateCloser,
 } from "./helper.js";
 
+/**
+ * Define class Enemy
+ */
 class Enemy {
   constructor(agentPosition, gridArray, gameDiv) {
     this.agentPosition = agentPosition;
@@ -16,12 +19,15 @@ class Enemy {
     this.width = 17;
     this.enemyOneStartPosition = 114;
     this.enemyTwoStartPosition = 168;
-    this.enemyThreeStartPosition = 93; //random movement
+    this.enemyThreeStartPosition = 93; //random movement enemy
     this.enemyOne = document.createElement("div");
     this.enemyTwo = document.createElement("div");
     this.enemyThree = document.createElement("div");
   }
 
+  /**
+   * Method to add the first enemy to its initial position
+   */
   addEnemy() {
     this.enemyOne.classList.add("enemy-one");
     this.gridArray[this.enemyOneStartPosition].classList.add("enemy-one");
@@ -29,6 +35,9 @@ class Enemy {
     this.widthOfSheet = 200;
   }
 
+  /**
+   * Method to add the second enemy to its initial position
+   */
   addEnemyTwo() {
     this.enemyOne.classList.add("enemy-two");
     this.gridArray[this.enemyTwoStartPosition].classList.add("enemy-two");
@@ -36,6 +45,9 @@ class Enemy {
     this.widthOfSheet = 200;
   }
 
+  /**
+   * Method to add the third enemy to its initial position
+   */
   addEnemyThree() {
     this.enemyOne.classList.add("enemy-three");
     this.gridArray[this.enemyThreeStartPosition].classList.add("enemy-three");
@@ -43,11 +55,21 @@ class Enemy {
     this.widthOfSheet = 200;
   }
 
+  /**
+   * Method to get the current agent position
+   *
+   * @param {Number} agentPosition
+   */
   getAgentPosition(agentPosition) {
     this.agentPosition = agentPosition;
-    console.log("w", this.agentPosition);
   }
 
+  /**
+   * Method to get the current coordinates in the grid array
+   *
+   * @param {Number} currentGridPosition
+   * @returns {Array}
+   */
   getPositionCoordinates = (currentGridPosition) => {
     this.currentGridPosition = currentGridPosition;
     return [
@@ -64,6 +86,10 @@ class Enemy {
     ];
   };
 
+  /**
+   *
+   * Method to move the first enemy to follow the agent
+   */
   moveEnemy = () => {
     this.directions = [-1, +1, +this.width, -this.width];
     this.direction = Math.floor(Math.random() * this.directions.length);
@@ -77,7 +103,6 @@ class Enemy {
       this.agentEnemyCollision();
       this.animateEnemy(this.enemyOneStartPosition);
 
-      // //check closer
       const [enemyPosX, enemyPosY] = this.getPositionCoordinates(
         this.enemyOneStartPosition
       );
@@ -113,6 +138,10 @@ class Enemy {
     }
   };
 
+  /**
+   * Method to move the second enemy to follow the agent
+   *
+   */
   moveEnemyTwo = () => {
     this.directions = [-1, +1, +this.width, -this.width];
     this.direction = Math.floor(Math.random() * this.directions.length);
@@ -126,7 +155,6 @@ class Enemy {
       this.agentEnemyCollisionTwo();
       this.animateEnemy(this.enemyTwoStartPosition);
 
-      // //check closer
       const [enemyPosX, enemyPosY] = this.getPositionCoordinatesOne(
         this.enemyTwoStartPosition
       );
@@ -162,6 +190,10 @@ class Enemy {
     }
   };
 
+  /**
+   * Method to move the third enemy. This enemy's movement is random.
+   *
+   */
   moveEnemyThree = () => {
     this.directions = [-1, +1, +this.width, -this.width];
     this.direction = Math.floor(Math.random() * this.directions.length);
@@ -178,28 +210,6 @@ class Enemy {
       this.agentEnemyCollisionThree();
       this.animateEnemy(this.enemyThreeStartPosition);
       this.gridArray[this.enemyThreeStartPosition].classList.add("enemy-three");
-      // //check closer
-      // const [enemyPosX, enemyPosY] = this.getPositionCoordinatesOne(
-      //   this.enemyThreeStartPosition
-      // );
-      // const [enemyNewPosX, enemyNewPosY] = this.getPositionCoordinatesOne(
-      //   this.enemyThreeStartPosition + this.move
-      // );
-      // const [agentPosX, agentPosY] = this.getPositionCoordinatesOne(
-      //   this.agentPosition
-      // );
-      // console.log("from e2", this.agentPosition);
-
-      // if (
-      //   isXcoordinateCloser(enemyNewPosX, agentPosX, enemyPosX) ||
-      //   isYcoordinateCloser(enemyNewPosY, agentPosY, enemyPosY)
-      // ) {
-      //   this.enemyThreeStartPosition += this.move;
-      //   this.gridArray[this.enemyThreeStartPosition].classList.add("enemy-three");
-      //   this.agentEnemyCollision();
-      // }
-
-      // this.gridArray[this.enemyThreeStartPosition].classList.add("enemy-three");
     } else if (
       detectEnemyWallCollision(
         this.enemyThreeStartPosition,
@@ -215,6 +225,12 @@ class Enemy {
     }
   };
 
+  /**
+   * Method to determine the collision between enemy and agent
+   *
+   * @returns {Object}
+   */
+
   agentEnemyCollision() {
     if (
       this.gridArray[this.agentPosition].classList.contains("enemy-one") ||
@@ -222,10 +238,6 @@ class Enemy {
       this.gridArray[this.agentPosition].classList.contains("enemy-three")
     ) {
       this.isEnemyCollision = true;
-      // console.log("enemy stepped");
-      // setTimeout(() => {
-      //   gameOverScreen();
-      // }, 1500);
     }
     return {
       isEnemyCollision1: this.isEnemyCollision,
@@ -242,10 +254,6 @@ class Enemy {
       this.gridArray[this.agentPosition].classList.contains("enemy-three")
     ) {
       this.isEnemyCollision = true;
-      // console.log("enemy stepped");
-      // setTimeout(() => {
-      //   gameOverScreen();
-      // }, 1500);
     }
     return {
       isEnemyCollision5: this.isEnemyCollision,
@@ -262,10 +270,6 @@ class Enemy {
       this.gridArray[this.agentPosition].classList.contains("enemy-three")
     ) {
       this.isEnemyCollision = true;
-      // console.log("enemy stepped");
-      // setTimeout(() => {
-      //   gameOverScreen();
-      // }, 1500);
     }
     return {
       isEnemyCollision9: this.isEnemyCollision,
@@ -275,10 +279,13 @@ class Enemy {
     };
   }
 
+  /**
+   * Method to animate the enemy using sprite image
+   *
+   * @param {Number} enemyStartPosition
+   */
   animateEnemy(enemyStartPosition) {
     this.enemyStartPosition = enemyStartPosition;
-    // this.move = move;
-    // this.animateEnemyIntervalTime = 0;
     this.widthOfSheet = 300;
     this.posX = 50;
     this.enemyAnimationInterval = setInterval(() => {
@@ -286,14 +293,9 @@ class Enemy {
         this.posX + "px";
       this.gridArray[this.enemyStartPosition].style.backgroundPositionY =
         0 + "px";
-      // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionX =
-      // 0 + "px";
-      // this.gridArray[this.enemyOneStartPosition - this.move].style.backgroundPositionY =
-      // 0 + "px";
 
       if (this.posX < this.widthOfSheet) {
         this.posX = this.posX + 50;
-        // ++this.animateEnemyIntervalTime
       } else {
         this.posX = 50;
       }
@@ -301,39 +303,4 @@ class Enemy {
   }
 }
 
-// const detectCollisionToRight = (enemyStartPosition, gridArray, move) => {
-//   if (gridArray[enemyStartPosition + move].classList.contains("metal-wall")) {
-//     return true;
-//   }
-//   if (gridArray[enemyStartPosition + move].classList.contains("movable-wall")) {
-//     return true;
-//   }
-//   if (gridArray[enemyStartPosition + move].classList.contains("brick-wall")) {
-//     return true;
-//   }
-//   if (gridArray[enemyStartPosition + move].classList.contains("side-wall")) {
-//     return true;
-//   }
-//   if (gridArray[enemyStartPosition + move].classList.contains("top-wall")) {
-//     return true;
-//   }
-// };
-
-// const isXcoordinateCloser = (enemyNewPosX, agentPosX, enemyPosX) => {
-//   if (Math.abs(enemyNewPosX - agentPosX) < Math.abs(enemyPosX - agentPosX)) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// };
-
-// const isYcoordinateCloser = (enemyNewPosY, agentPosY, enemyPosY) => {
-//   if (Math.abs(enemyNewPosY - agentPosY) < Math.abs(enemyPosY - agentPosY)) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// };
-
-// export { addEnemy, moveEnemy  };
 export { Enemy };

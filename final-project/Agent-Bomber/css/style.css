@@ -9,6 +9,10 @@ body {
 }
 
 /* GAME ENVIRONMENT */
+.wrapper {
+  max-width: 100%;
+}
+
 #game {
   max-width: 100%;
 }
@@ -25,6 +29,7 @@ body {
 #game {
   position: relative;
   display: inline-grid;
+  overflow: hidden;
 }
 
 .grid {
@@ -63,14 +68,13 @@ body {
   margin-bottom: 10px;
   display: flex;
   width: 40em;
+  overflow: hidden;
 }
 
 #score-box {
   flex: 15%;
-  /* height: 60px; */
   padding: 10px;
   margin-right: 30px;
-  /* background-color: #c9cacc; */
   background-repeat: no-repeat;
   background-image: url("../images/scoreboard.png");
 }
@@ -171,6 +175,8 @@ body {
   background-image: url("../images/gameover-alert.png");
   width: 850px;
   height: 550px;
+  display: block;
+  overflow: hidden;
 }
 
 .game-over-screen-score {
@@ -218,6 +224,42 @@ body {
   margin: 0 auto;
 }
 
+.manual-screen {
+  background-image: url("../images/manual-screen.png");
+  width: 800px;
+  height: 420px;
+  background-repeat: no-repeat;
+  background-position-x: 0px;
+  background-position-y: 0px;
+  background-size: contain;
+  display: inline-block;
+  margin: 0 auto;
+  display: none;
+}
+
+.manual-container {
+  width: 100%;
+  padding: 10px;
+}
+
+.show-manual {
+  background-image: url("../images/show-manual-button.png");
+  width: 150px;
+  height: 90px;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  margin-right: 10em;
+}
+
+.show-manual:hover {
+  opacity: 0.8;
+}
+
+.show-manual:hover + .manual-screen {
+  display: block;
+}
+
 .game-win-screen {
   background-image: url("../images/gamewin-alert.png");
   width: 850px;
@@ -227,13 +269,13 @@ body {
 .button-container {
   width: 80%;
   margin: 0 auto;
-  margin-top: 27em;
+  margin-top: 18em;
 }
 
 .classic-mode {
   background-image: url("../images/classicmode-button.png");
   width: 44%;
-  height: 51px;
+  height: 50px;
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
@@ -246,7 +288,7 @@ body {
 .extreme-mode {
   background-image: url("../images/extrememode-button.png");
   width: 44%;
-  height: 51px;
+  height: 50px;
   background-repeat: no-repeat;
   border: none;
   cursor: pointer;
@@ -254,6 +296,21 @@ body {
 }
 
 .extreme-mode:hover {
+  opacity: 0.8;
+}
+
+.practice-mode {
+  background-image: url("../images/practice-mode-button.png");
+  width: 44%;
+  height: 50px;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  margin-left: 15em;
+  margin-top: 10px;
+}
+
+.practice-mode:hover {
   opacity: 0.8;
 }
 

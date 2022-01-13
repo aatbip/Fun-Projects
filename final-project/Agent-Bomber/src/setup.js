@@ -1,6 +1,16 @@
-const TOTAL_GRID = 17; //total number of grids in a row
-const GRID_SIZE = 50; //size of each grid in pixel
+/**
+ * Total number of grids in a row
+ */
+const TOTAL_GRID = 17;
 
+/**
+ * Size of each grid in pixel
+ */
+const GRID_SIZE = 50;
+
+/**
+ * Type of the grids in the game environment
+ */
 const GRID_TYPE = {
   topWall: "top-wall",
   sideWall: "side-wall",
@@ -21,24 +31,24 @@ const GRID_LIST = [
   GRID_TYPE.agent,
 ];
 
+/**
+ * Array that defines the placement of each grids in the game environment
+ */
+
 //prettier-ignore
 const ENVIRONMENT = [
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     1, 2, 4, 2, 5, 4, 2, 2, 4, 2, 2, 2, 5, 2, 2, 2, 1, 
     1, 2, 3, 5, 3, 2, 2, 2, 4, 2, 3, 2, 3, 2, 3, 4, 1, 
-    1, 2, 2, 4, 2, 2, 4, 2, 2, 4, 2, 2, 4, 4, 2, 2, 1, 
+    1, 2, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 4, 4, 2, 2, 1, 
     1, 4, 2, 2, 2, 2, 3, 4, 2, 2, 3, 2, 3, 5, 3, 2, 1, 
-    1, 4, 2, 5, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 5, 4, 1, 
+    1, 2, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 4, 1, 
     1, 2, 3, 4, 3, 2, 3, 4, 3, 5, 2, 2, 2, 2, 2, 4, 1, 
     1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 1, 
     1, 4, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 1,
-    1, 2, 4, 4, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 1, 
+    1, 2, 2, 4, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 1, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
-
-
-
-
 
 // const ENVIRONMENT = [
 //   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,

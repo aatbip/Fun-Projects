@@ -1,19 +1,25 @@
+/**
+ * BoxPowerUp class
+ */
+
 class BoxPowerUp {
   constructor(gridArray) {
     this.gridArray = gridArray;
     this.boxPowerUpCountDisplay = document.createElement("p");
     this.boxPowerUpCountDisplay.classList.add("box-power-up-count");
-    // this.agentPosition = agentPosition;
 
     this.boxPowerUpCount = 0;
     this.boxPowerUpExist = false;
 
-    this.boxPowerUpOnePosition = 30;
+    this.boxPowerUpOnePosition = 56;
     this.boxPowerUpTwoPosition = 163;
 
     this.evilMachinePosition = 66;
   }
 
+  /**
+   * Class to add new box power up
+   */
   addBoxPowerUp() {
     const boxPowerUpOne = document.createElement("div");
     const boxPowerUpTwo = document.createElement("div");
@@ -31,6 +37,12 @@ class BoxPowerUp {
     this.animateBoxPowerUpTwo();
   }
 
+  /**
+   * Method to collect box power up
+   * 
+   * @param {Array} gameDiv 
+   * @param {Number} agentPosition 
+   */
   collectBoxPowerUp(gameDiv, agentPosition) {
     this.gameDiv = gameDiv;
     this.agentPosition = agentPosition;
@@ -38,12 +50,13 @@ class BoxPowerUp {
     if (
       this.gridArray[this.agentPosition].classList.contains("box-power-up-one")
     ) {
+
       const wallPowerUpAudio = new Audio("./audios/gainpowerup.wav");
       wallPowerUpAudio.play();
+
       this.gameDiv.childNodes[this.boxPowerUpOnePosition].classList.remove(
         "box-power-up-one"
       );
-      console.log(this.boxPowerUpCount);
       this.boxPowerUpCount++;
       this.boxPowerUpCountDisplay.innerHTML = `${this.boxPowerUpCount}`;
       this.powerUpsBox.append(this.boxPowerUpCountDisplay);
@@ -56,11 +69,17 @@ class BoxPowerUp {
         "box-power-up-two"
       );
       this.boxPowerUpCount++;
-      console.log(this.boxPowerUpCount);
       this.boxPowerUpCountDisplay.innerHTML = `${this.boxPowerUpCount}`;
       this.powerUpsBox.append(this.boxPowerUpCountDisplay);
     }
   }
+
+  /**
+   * Method to plant a new box
+   * 
+   * @param {Array} gameDiv 
+   * @param {Number} agentPosition 
+   */
 
   addNewBox(gameDiv, agentPosition) {
     this.gameDiv = gameDiv;
@@ -86,12 +105,21 @@ class BoxPowerUp {
     }
   }
 
+  /**
+   * Method to display the box power up count
+   * 
+   * @param {String} powerUpsBox 
+   */
   displayBoxPowerUpCount(powerUpsBox) {
     this.powerUpsBox = powerUpsBox;
 
     this.boxPowerUpCountDisplay.innerHTML = `${this.boxPowerUpCount}`;
     this.powerUpsBox.append(this.boxPowerUpCountDisplay);
   }
+
+  /**
+   * Method to animate the boxes
+   */
 
   animateBoxPowerUpOne() {
     this.animateEnemyIntervalTime = 0;
@@ -131,6 +159,9 @@ class BoxPowerUp {
     }, 150);
   }
 
+  /**
+   * Method to add the evil machine
+   */
   addEvilMachine() {
     this.evilMachineBox = document.createElement("div");
     this.evilMachineBox.classList.add("evil-machine");
